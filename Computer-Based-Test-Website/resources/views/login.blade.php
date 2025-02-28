@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - QuizHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Impor font Poppins dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Terapkan font Poppins ke seluruh halaman -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-900 to-purple-900">
 
@@ -26,14 +34,14 @@
         <form action="{{ route('login') }}" method="POST" class="mt-4">
             @csrf
             <div class="mb-4">
-                <input type="text" name="username" placeholder="USERNAME" required 
+                <input type="text" name="username" placeholder="Username" required 
                     class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             <div class="mb-4">
-                <input type="password" name="password" placeholder="PASSWORD" required 
+                <input type="password" name="password" placeholder="Password" required 
                     class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <button type="submit" class="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800">LOGIN</button>
+            <button type="submit" class="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800">Login</button>
         </form>
     </div>
 
