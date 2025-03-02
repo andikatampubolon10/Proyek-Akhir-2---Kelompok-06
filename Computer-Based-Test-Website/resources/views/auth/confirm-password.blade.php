@@ -5,6 +5,11 @@
 
     <form method="POST" action="{{ route('password.confirm') }}">
         @csrf
+<<<<<<< HEAD
+=======
+
+        <!-- Password -->
+>>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
         <div>
             <x-input-label for="password" :value="__('Password')" />
 
@@ -18,6 +23,10 @@
 
         <div class="flex justify-end mt-4">
             <x-primary-button>
+<<<<<<< HEAD
+=======
+                {{ __('Confirm') }}
+>>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
             </x-primary-button>
         </div>
     </form>

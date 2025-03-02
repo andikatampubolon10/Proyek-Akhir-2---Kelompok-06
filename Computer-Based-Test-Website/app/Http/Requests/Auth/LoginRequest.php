@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Hash;
+=======
+>>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
 
 class LoginRequest extends FormRequest
 {
@@ -41,8 +44,13 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+<<<<<<< HEAD
         $credentials = $this->only('email', 'password');
         if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+=======
+
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+>>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
