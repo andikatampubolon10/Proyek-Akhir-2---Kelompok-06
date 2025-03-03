@@ -3,30 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-class AuthenticatedSessionController extends Controller
-{
-    public function create()
-    {
-        return view('auth.login'); 
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('admin.listOperator');
-        }
-
-        return back()->withErrors(['password' => 'Login gagal, periksa email dan password Anda.']);
-=======
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,6 +13,8 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
+     *
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -45,28 +23,36 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
+     *
+     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
+            $request->session()->regenerate();
 
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->route('admin.listOperator');
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'email' => trans('auth.failed'),
+            ])->withInput();
+        }
     }
 
     /**
      * Destroy an authenticated session.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
->>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
     }
 }

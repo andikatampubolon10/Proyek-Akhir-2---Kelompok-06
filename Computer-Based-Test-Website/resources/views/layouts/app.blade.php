@@ -15,13 +15,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-<<<<<<< HEAD
         <!-- Header dan Konten Utama -->
 
         <main>
             @yield('content') <!-- Tempat konten spesifik view akan ditampilkan -->
         </main>
-=======
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
@@ -34,10 +32,6 @@
                 </header>
             @endisset
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
         </div>
 >>>>>>> 27ad573461cbc468f7e72f20298adef52d4924f4
     </body>
