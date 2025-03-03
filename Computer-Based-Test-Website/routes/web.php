@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+<<<<<<< HEAD
 use App\Http\Controllers\OperatorController;
+=======
+use Illuminate\Support\Facades\Route;
+>>>>>>> f0d37db9d1379e4199b5213ffedaf6e6e3f9ca36
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BisnisOperatorController;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+<<<<<<< HEAD
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('operators', [OperatorController::class, 'index'])->name('listOperator');
@@ -23,6 +28,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('bisnis/{bisnis}', [BisnisOperatorController::class, 'destroy'])->name('deleteBisnis');
     });
 });
+=======
+>>>>>>> f0d37db9d1379e4199b5213ffedaf6e6e3f9ca36
 
 Route::get('/dashboard', function () {
     return view('dashboard');
