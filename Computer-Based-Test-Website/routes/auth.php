@@ -1,8 +1,6 @@
 <?php
 
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
-=======
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -10,24 +8,9 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
->>>>>>> f0d37db9d1379e4199b5213ffedaf6e6e3f9ca36
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\PasswordController;
 
 Route::middleware('guest')->group(function () {
-    // Registration Routes
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
-    // Login Routes
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
@@ -67,8 +50,4 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> f0d37db9d1379e4199b5213ffedaf6e6e3f9ca36
