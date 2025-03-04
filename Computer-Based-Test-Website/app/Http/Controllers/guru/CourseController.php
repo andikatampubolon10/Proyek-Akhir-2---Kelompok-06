@@ -5,33 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 
-class CourseController extends Controller
+class CourseController extends Controller {
+  public function index()
 {
-    public function index()
-    {
-        $courses = Course::all();
-        return view('courses.index', compact('courses'));
-    }
+    $courses = Course::all(); // Ambil semua data course dari database
+    return view('dashboard', compact('courses'));
+}
 
     public function create()
     {
-        return view('courses.create');
+        return view('course.create-course'); // Sesuaikan dengan nama file
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'title' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'name' => 'required',
+            'password' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $imagePath = $request->file('image')->store('courses', 'public');
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('courses', 'public');
+        }
 
         Course::create([
-            'title' => $request->title,
-            'image' => $imagePath,
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'image' => $imagePath
         ]);
+        
 
-        return redirect()->route('courses.index');
+        return redirect()->route('dashboard')->with('success', 'Course berhasil ditambahkan');
     }
 }
