@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('jawaban');
             $table->string('image');
             $table->string('password');
-            $table->
+            $table->foreign('id_course')->constrained()->onDelete('cascade');
+            $table->foreign('id_guru')->constrained()->onDelete('cascade');
+            $table->date('waktu_mulai');
+            $table->date('waktu_selesai');
+            $table->integer('total_nilai');
             $table->timestamps();
         });
     }
