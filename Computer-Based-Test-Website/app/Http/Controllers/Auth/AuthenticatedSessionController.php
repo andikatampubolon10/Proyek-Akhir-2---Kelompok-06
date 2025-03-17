@@ -13,8 +13,6 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
-     *
-     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -23,34 +21,30 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request): RedirectResponse
-    {
-        try {
-            $request->authenticate();
-            $request->session()->regenerate();
+{
+    $request->authenticate();
 
-            return redirect()->route('admin.listOperator');
-        } catch (\Exception $e) {
-            return back()->withErrors([
-                'email' => trans('auth.failed'),
-            ])->withInput();
-        }
+    $request->session()->regenerate();
+
+    // Debugging tambahan
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    } else {
+        return back()->withErrors(['login' => 'Login gagal, cek kembali email dan password!']);
     }
+}
 
     /**
      * Destroy an authenticated session.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
+
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
         return redirect('/');
