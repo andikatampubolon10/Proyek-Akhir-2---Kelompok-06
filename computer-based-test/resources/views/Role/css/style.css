@@ -1,0 +1,276 @@
+/* Manage Topic Form Styles */
+
+
+
+/* Hover effect for form container */
+/* .manage-topic-form:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+} */
+
+/* Form Title */
+.manage-topic-form h2 {
+    font-size: 2rem; /* Increase font size for the title */
+    font-weight: 700;
+    color: #1F2937; /* Dark gray */
+    margin-bottom: 1.5rem;
+}
+
+/* Label Styles */
+.manage-topic-form label {
+    font-weight: 600;
+    color: #4b5563; /* Dark gray */
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Input and Textarea Styles */
+.manage-topic-form input,
+.manage-topic-form textarea {
+    width: 50%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #D1D5DB; /* Light gray border */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focused input and textarea */
+.manage-topic-form input:focus,
+.manage-topic-form textarea:focus {
+    outline: none;
+    border-color: #34D399; /* Green-teal border */
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2);
+}
+
+/* Button Styles */
+.manage-topic-form button {
+    padding: 12px 24px;
+    background-color: #34D399; /* Teal Green */
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    display: inline-flex;
+    align-items: center; /* Centering icon and text in button */
+    gap: 8px; /* Adding space between icon and text */
+}
+
+/* Button Hover effect */
+.manage-topic-form button:hover {
+    background-color: #10B981; /* Darker Teal Green */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+}
+
+/* Icon Style in the Button */
+.manage-topic-form button i {
+    font-size: 16px;
+}
+
+/* Margin for form elements */
+.manage-topic-form .mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Right-aligned button */
+.manage-topic-form .text-right {
+    text-align: right;
+}
+
+
+
+
+
+/* General styling for the page */
+
+
+/* Daftar Topic section */
+.daftar-topic {
+    margin-top: auto;
+}
+
+.daftar-topic h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1F2937;
+    margin-bottom: 20px;
+}
+
+.add-activity-btn {
+    width: 25%;
+    padding: 8px 16px;
+    font-weight: bold;
+    color: #14b8a6; /* Teal */
+    border: 2px solid #14b8a6;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    
+}
+
+.add-activity-btn:hover {
+    background-color: #14b8a6;
+    color: white;
+}
+
+
+
+
+/* Styling for the page */
+/* .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+} */
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+.add-activity-btn {
+    /* display: inline-flex; */
+    width: 25%;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: #14A098;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.add-activity-btn:hover {
+    background-color: #00796B;
+}
+
+/* Styling for list of topics */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+li:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for topic name */
+.topic-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Styling for delete button */
+.delete-btn {
+    padding: 8px 16px;
+    background-color: #D32F2F;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #9C2717;
+}
+
+
+
+
+/* Add this inside <style> in app.blade.php or directly in index.blade.php */
+
+/* General container styling */
+.container {
+    max-width: auto;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styles */
+h1 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-size: 36px;
+    font-weight: 600;
+    border-bottom: 4px solid #3498db; /* Blue border */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Description Box Styling */
+div.flex {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    font-size: 18px;
+    color: #333;
+    flex: 1; /* Ensure description takes up remaining space */
+}
+
+i.fas {
+    font-size: 24px;
+    color: #6c757d;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px; /* Add padding around icons */
+}
+
+i.fas:hover {
+    color: #333; /* Darker color on hover */
+}
+
+
+
+/* Upload Button Styling */
+button {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px;
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Align Upload Button to the right */
+.text-right {
+    text-align: right;
+}
