@@ -13,8 +13,7 @@ class OperatorController extends Controller
     public function index()
     {
         $operators = Operator::all();
-        $users = auth()->user();
-    
+        $users = auth()->user(); 
         return view('Role.Admin.Akun.index', compact('operators', 'users'));
     }
 
@@ -68,7 +67,7 @@ class OperatorController extends Controller
     public function show(string $id)
     {
         $operator = Operator::findOrFail($id);
-        return view('Role.Admin.Akun.indexA', compact('operator'));
+        return view('Role.Admin.Akun.show', compact('operator'));
     }
 
     public function edit($user)

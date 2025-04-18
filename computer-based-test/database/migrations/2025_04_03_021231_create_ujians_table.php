@@ -17,6 +17,8 @@ return new class extends Migration
             $table->enum('acak', ['Aktif', 'Tidak Aktif'])->default('Aktif');
             $table->enum('status_jawaban', ['Aktif', 'Tidak Aktif'])->default('Aktif');
             $table->float('grade');
+            $table->integer('week')->default(1);
+            $table->string('password');
             $table->unsignedBigInteger('id_kursus');
             $table->unsignedBigInteger('id_guru');
             $table->unsignedBigInteger('id_tipe_ujian');

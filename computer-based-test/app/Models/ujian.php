@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ujian extends Model
+class Ujian extends Model
 {
-
     protected $table = 'ujian'; 
 
     protected $primaryKey = 'id_ujian';
@@ -17,24 +16,30 @@ class ujian extends Model
         'acak',
         'status_jawaban',
         'grade',
+        'week',
+        'password',
         'id_kursus',
         'id_guru',
         'id_tipe_ujian',
     ];
 
-    public function kursus(){
-        return $this->belongsTo(kursus::class, 'id_kursus', 'id_kursus');
+    public function kursus()
+    {
+        return $this->belongsTo(Kursus::class, 'id_kursus', 'id_kursus','id_kursus');
     }
 
-    public function guru(){
-        return $this->belongsTo(guru::class, 'id_guru');
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru');
     }
 
-    public function tipe_ujian(){
+    public function tipe_ujian()
+    {
         return $this->belongsTo(tipe_ujian::class, 'id_tipe_ujian');
     }
 
-    public function soal(){
-        return $this->hasMany(soal::class);
+    public function soal()
+    {
+        return $this->hasMany(Soal::class);
     }
 }
