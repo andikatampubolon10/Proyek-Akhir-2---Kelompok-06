@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('nilai', function (Blueprint $table) {
             $table->id('id_nilai');
+            $table->decimal('nilai_kuis', 5, 2)->default(0.00);
+            $table->decimal('nilai_UTS', 5, 2)->default(0.00); 
+            $table->decimal('nilai_UAS', 5, 2)->default(0.00);
+            $table->decimal('nilai_total', 5, 2)->default(0.00);
             $table->unsignedBigInteger('id_kursus');
             $table->unsignedBigInteger('id_siswa');
-            $table->decimal('nilai_kuis', 5, 2)->default(0.00);
-            $table->decimal('nilai_ujian', 5, 2)->default(0.00);
-            $table->decimal('nilai_total', 5, 2)->default(0.00);
             $table->foreign('id_kursus')->references('id_kursus')->on('kursus')->onDelete('cascade');
             $table->foreign('id_siswa')->references('id_siswa')->on('siswa')->onDelete('cascade');
             $table->timestamps();
-        });
+        });        
     }
 
     /**

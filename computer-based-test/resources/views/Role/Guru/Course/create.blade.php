@@ -77,10 +77,40 @@
                     <label for="nama_ujian" class="block font-bold mb-2">Judul Ujian</label>
                     <input type="text" name="nama_ujian" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
+            
                 <div class="mb-4">
-                    <label for="nama_ujian" class="block font-bold mb-2">Password</label>
+                    <label for="password" class="block font-bold mb-2">Password</label>
                     <input type="password" name="password" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>  
+                </div>
+            
+                <div class="mb-4">
+                    <label for="kursus" class="block font-bold mb-2">Pilih Kursus</label>
+                    <select name="id_kursus" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                        <option value="" disabled selected>Pilih kursus</option>
+                        @foreach ($kursus as $k)
+                            <option value="{{ $k->id_kursus }}">{{ $k->nama_kursus }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            
+                <div class="mb-4">
+                    <label for="tipe_ujian" class="block font-bold mb-2">Tipe Ujian</label>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="id_tipe_ujian" value="1" class="form-radio text-green-500" required>
+                            <span class="ml-2">Kuis</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="id_tipe_ujian" value="2" class="form-radio text-green-500" required>
+                            <span class="ml-2">Ujian Tengah Semester</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="id_tipe_ujian" value="3" class="form-radio text-green-500" required>
+                            <span class="ml-2">Ujian Akhir Semester</span>
+                        </label>
+                    </div>
+                </div>
+            
                 <div class="mb-4">
                     <label for="acak" class="block font-bold mb-2">Acak Soal dan Pilihan</label>
                     <select name="acak" class="block w-full p-2 border border-gray-300 rounded-md" required>
@@ -92,7 +122,7 @@
             
                 <div class="mb-4">
                     <label for="status_jawaban" class="block font-bold mb-2">Status Jawaban</label>
-                    <select name="status_jawaban"class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    <select name="status_jawaban" class="block w-full p-2 border border-gray-300 rounded-md" required>
                         <option value="" disabled selected>Pilih opsi</option>
                         <option value="Aktif">Aktif</option>
                         <option value="Tidak Aktif">Tidak Aktif</option>
@@ -101,23 +131,24 @@
             
                 <div class="mb-4">
                     <label for="grade" class="block font-bold mb-2">Grade</label>
-                    <input type="number" name="grade"class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    <input type="number" name="grade" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
             
                 <div class="mb-4">
                     <label for="Waktu_Mulai" class="block font-bold mb-2">Waktu Mulai</label>
-                    <input type="datetime-local" name="Waktu_Mulai"  class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    <input type="datetime-local" name="Waktu_Mulai" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
             
                 <div class="mb-4">
                     <label for="Waktu_Selesai" class="block font-bold mb-2">Waktu Selesai</label>
-                    <input type="datetime-local" name="Waktu_Selesai"  class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    <input type="datetime-local" name="Waktu_Selesai" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
+            
                 <div class="flex justify-end mt-4">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                         <span>Simpan</span>
                         <i class="fas fa-check ml-2"></i>
                     </button>
                 </div>
-            </form>
+            </form>            
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Operator;
+use App\Models\mata_pelajaran;
 use App\Imports\GuruImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -48,12 +49,13 @@ class GuruController extends Controller
 
     public function create()
     {
+        $mataPelajaran = mata_pelajaran::all();
         $user = auth()->user();
 
         if (!$user) {
             return redirect()->route('login');
         }
-        return view('Role.Operator.Guru.create',compact('user'));
+        return view('Role.Operator.Guru.create',compact('user','mataPelajaran'));
     }
 
 
@@ -66,6 +68,7 @@ class GuruController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6',
                 'status' => 'in:Aktif,Tidak Aktif',
+                'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran', // Validasi untuk mata pelajaran
             ]);
     
             $user = User::create([
@@ -73,7 +76,7 @@ class GuruController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-
+    
             $user->assignRole('Guru');
     
             $idUser   = auth()->user()->id;
@@ -84,14 +87,15 @@ class GuruController extends Controller
                 return redirect()->back()->withErrors('ID Operator tidak ditemukan. Pastikan pengguna memiliki ID Operator yang valid.');
             }
     
+            // Simpan guru dengan mata pelajaran
             Guru::create([
                 'nama_guru' => $request->name,
                 'nip' => $request->nip,
                 'id_user' => $user->id,
                 'id_operator' => $operator->id_operator,
                 'status' => $request->status ?? 'Aktif',
+                'id_mata_pelajaran' => $request->mata_pelajaran, // Menyimpan mata pelajaran
             ]);
-
     
             return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil ditambahkan.');
         } catch (\Exception $e) {
@@ -102,7 +106,7 @@ class GuruController extends Controller
             return redirect()->back()->withErrors('Terjadi kesalahan saat menambahkan guru.');
         }
     }
-
+    
     public function show(string $id)
     {
         $guru = Guru::with('user')->findOrFail($id);
@@ -111,9 +115,10 @@ class GuruController extends Controller
 
     public function edit(string $id)
     {
+        $mataPelajaran = MataPelajaran::all();
         $guru = Guru::with('user')->findOrFail($id);
         $user = auth()->user();
-        return view('Role.Operator.Guru.edit', compact('guru', 'user'));
+        return view('Role.Operator.Guru.edit', compact('guru', 'user','mataPelajaran'));
     }
 
     public function update(Request $request, string $id)
@@ -123,21 +128,24 @@ class GuruController extends Controller
             'nip' => 'required|string|max:255|unique:gurus,nip,' . $id,
             'password' => 'nullable|string|min:6',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran', // Validasi mata pelajaran
         ]);
-
+    
         $guru = Guru::findOrFail($id);
         $guru->nama_guru = $request->name;
         $guru->nip = $request->nip;
-        $guru->nip = $request->status;
-
+        $guru->status = $request->status;
+        $guru->id_mata_pelajaran = $request->mata_pelajaran; // Update mata pelajaran
+    
         if ($request->filled('password')) {
             $guru->password = bcrypt($request->password);
         }
-
+    
         $guru->save();
-
+    
         return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil diperbarui.');
     }
+    
 
     public function destroy(string $id)
     {

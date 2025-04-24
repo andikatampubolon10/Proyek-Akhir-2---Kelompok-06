@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul_materi');
             $table->string('deskripsi')->nullable();
             $table->string('file');
-            $table->integer('week')->default(1);
+            $table->timestamp('tanggal_materi');
             $table->unsignedBigInteger('id_kursus');
             $table->unsignedBigInteger('id_guru');
             $table->foreign('id_kursus')->references('id_kursus')->on('kursus')->onDelete('cascade');

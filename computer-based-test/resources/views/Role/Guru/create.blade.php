@@ -90,14 +90,6 @@
                     <label for="image" class="block font-bold mb-2">Pilih Gambar</label>
                     <input type="file" name="image" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
-                <div class="mb-4">
-                    <label for="persentase_kuis" class="block font-bold mb-2">Persentase Kuis (%)</label>
-                    <input type="number" name="persentase_kuis" class="block w-full p-2 border border-gray-300 rounded-md" min="0" max="100" required>
-                </div>
-                <div class="mb-4">
-                    <label for="persentase_ujian" class="block font-bold mb-2">Persentase Ujian (%)</label>
-                    <input type="number" name="persentase_ujian" class="block w-full p-2 border border-gray-300 rounded-md" min="0" max="100" required>
-                </div>
                 <div class="flex justify-end mt-4">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                         <span>Simpan</span>

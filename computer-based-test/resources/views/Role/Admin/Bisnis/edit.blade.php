@@ -48,16 +48,12 @@
             </div>
             <!-- Main Content -->
             <div class="w-full md:w-3/4 p-8">
-                <form action="{{ route('Admin.Bisnis.update', $bisnis->id) }}" method="POST" class="space-y-6">
+                <form action="{{ route('Admin.Bisnis.update', ['id_bisnis' => $bisnis->id_bisnis]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div>
                         <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input name="nama" value="{{ $bisnis->nama }}" type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2">Email<span class="text-red-500">*</span></label>
-                        <input name="username" value="{{ $bisnis->username }}" type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        <input name="nama" value="{{ $bisnis->nama_sekolah }}" type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span class="text-red-500">*</span></label>

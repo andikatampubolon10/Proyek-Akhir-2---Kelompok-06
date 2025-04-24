@@ -49,19 +49,19 @@
             </div>
             <!-- Main Content -->
             <div class="w-full md:w-3/4 p-8">
-                <form action="{{ route('Admin.Bisnis.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('Admin.Bisnis.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                     @csrf
                     <div>
                         <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input type="text" name="nama" class="w-full border border-gray-400 p-2 rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2">Email<span class="text-red-500">*</span></label>
-                        <input type="text" name="username" class="w-full border border-gray-400 p-2 rounded-lg">
+                        <input type="text" name="nama_sekolah" class="w-full border border-gray-400 p-2 rounded-lg" required>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span class="text-red-500">*</span></label>
-                        <input type="text" name="jumlah_pendapatan" class="w-full border border-gray-400 p-2 rounded-lg">
+                        <input type="text" name="jumlah_pendapatan" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-2">Upload Perjanjian<span class="text-red-500">*</span></label>
+                        <input type="file" name="perjanjian" class="w-full border border-gray-400 p-2 rounded-lg" accept=".pdf,.doc,.docx" required>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
@@ -70,7 +70,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div>            
         </div>
     </div>
     <script>

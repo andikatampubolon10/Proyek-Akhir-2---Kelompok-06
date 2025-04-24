@@ -11,10 +11,11 @@ class Soal extends Model {
         'id_ujian',
         'id_tipe_soal',
         'id_latihan',
+        'nilai_per_soal',
     ];
 
     public function ujian() {
-        return $this->belongsTo(Ujian::class, 'id_ujian');
+        return $this->belongsTo(Ujian::class, 'id_ujian', 'id_ujian');
     }
 
     public function latihan() {
@@ -23,11 +24,11 @@ class Soal extends Model {
 
     public function jawaban_soal()
     {
-        return $this->hasMany(jawaban_soal::class, 'id_soal');
+        return $this->hasMany(jawaban_soal::class, 'id_soal' , 'id_soal', 'id_jawaban_soal');
     }
 
     public function tipe_soal() {
-        return $this->belongsTo(tipe_soal::class, 'id_tipe_soal');
+        return $this->belongsTo(tipe_soal::class, 'id_tipe_soal', 'id_tipe_soal', 'id_tipe_soal');
     }
 
     public function jawaban_siswa() {

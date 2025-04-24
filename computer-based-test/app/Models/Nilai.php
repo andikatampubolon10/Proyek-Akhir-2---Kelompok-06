@@ -9,35 +9,18 @@ class Nilai extends Model
 {
     use HasFactory;
 
-    protected $table = 'nilai'; 
+    protected $table = 'nilai';
 
     protected $primaryKey = 'id_nilai';
 
     protected $fillable = [
-        'id_nilai',
         'id_kursus',
         'id_siswa',
         'nilai_kuis',
-        'nilai_ujian',
+        'nilai_UTS',
+        'nilai_UAS',
         'nilai_total',
     ];
-
-    protected $guarded = ['id_nilai'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function quiz()
-    {
-        return $this->belongsTo(Quiz::class);
-    }
-
-    public function ujian()
-    {
-        return $this->belongsTo(Ujian::class);
-    }
 
     public function kursus()
     {
@@ -48,5 +31,18 @@ class Nilai extends Model
     {
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
     }
-    
+
+    public function hitungNilaiTotal()
+    {
+        // Ambil persentase yang sesuai berdasarkan kursus dan tipe ujian
+        $persentase = $this->kursus->persentase()->where('id_kursus', $this->id_kursus)->first();
+
+        // Hitung nilai total berdasarkan persentase
+        $nilaiTotal = ($this->nilai_kuis * $persentase->persentase_kuis / 100) +
+                      ($this->nilai_UTS * $persentase->persentase_UTS / 100) +
+                      ($this->nilai_UAS * $persentase->persentase_UAS / 100);
+
+        $this->nilai_total = $nilaiTotal;
+        $this->save();
+    }
 }

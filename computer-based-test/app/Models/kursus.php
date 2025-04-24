@@ -16,8 +16,6 @@ class Kursus extends Model
         'password',
         'id_guru',
         'image',
-        'persentase_kuis',
-        'persentase_ujian',
     ];
 
     public function guru()
@@ -25,19 +23,24 @@ class Kursus extends Model
         return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
 
-    public function kursus_siswa()
+    public function kursusSiswa()
     {
         return $this->hasMany(KursusSiswa::class);
     }
 
     public function ujian()
     {
-        return $this->hasMany(Ujian::class, 'id_kursus', 'id_kursus', 'id_kursus');
+        return $this->hasMany(Ujian::class, 'id_kursus', 'id_kursus');
     }
 
     public function nilai()
     {
         return $this->hasMany(Nilai::class, 'id_kursus', 'id_kursus');
+    }
+
+    public function persentase()
+    {
+        return $this->hasMany(Persentase::class, 'id_kursus', 'id_kursus');
     }
 
     public function materi()

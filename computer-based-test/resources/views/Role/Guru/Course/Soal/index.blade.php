@@ -96,29 +96,43 @@
                 <div class="space-y-4">
                     <!-- Question 1 -->
                     @foreach ($soals as $soal)
-                    <div class="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center">
-                        <div>
-                            <h3 class="text-lg font-semibold mb-2">{{ $soal->soal }} </h3>
-                            <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }} </p>
+                        <div class="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">{{ $soal->soal }} </h3>
+                                <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }} </p>
+                            </div>
+
+                            <div class="flex space-x-5 justify-end">
+                                <form action="{{ route('Guru.Soal.destroy', $soal->id_ujian) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" class="text-red-500 flex items-center hover:text-red-700">
+                                        <i class="fas fa-trash-alt mr-1"></i> DELETE
+                                    </button>
+                                </form>
+                                <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET">
+                                    <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700" data-id="{{ $soal->id_soal }}">
+                                        <i class="fas fa-edit mr-1"></i> EDIT
+                                    </button>
+                                </form>                                
+                            </div>
                         </div>
-                    </div>                        
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
-
     <script>
         document.getElementById('profileDropdown').addEventListener('click', function() {
             document.getElementById('logoutDropdown').classList.toggle('hidden');
         });
 
-        // Fungsi untuk menampilkan modal
         function showTipeSoalModal() {
             document.getElementById('tipeSoalModal').classList.remove('hidden');
         }
 
-        // Fungsi untuk menutup modal
         function closeTipeSoalModal() {
             document.getElementById('tipeSoalModal').classList.add('hidden');
         }
@@ -131,7 +145,6 @@
                 confirmButtonText: 'OK'
             }).then(() => {
                 closeTipeSoalModal();
-                // Redirect ke halaman yang sesuai
                 if (tipe === 'pilgan') {
                     window.location.href = "{{ route('Guru.Soal.create', ['type' => 'pilgan']) }}";
                 } else if (tipe === 'truefalse') {
@@ -142,6 +155,7 @@
             });
         }
     </script>
+
 </body>
 
 </html>

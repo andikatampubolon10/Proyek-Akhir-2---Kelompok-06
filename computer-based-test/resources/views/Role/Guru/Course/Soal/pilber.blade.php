@@ -16,7 +16,7 @@
             <div class="flex items-center cursor-pointer" id="profileDropdown">
                 <div class="flex flex-col items-center">
                     <span class="text-white">Welcome, Admin</span>
-                    <span class="text-white font-semibold">{{ $user->name }}</span>
+                    <span class="text-white font-semibold">{{ $users->name }}</span>
                 </div>
                 <img alt="Profile picture" class="rounded-full ml-4" height="40" src="https://storage.googleapis.com/a1aa/image/KO6yf8wvxyOnH9pvZuXN0ujQxQrH2zDDdLtZaIA-KQ8.jpg" width="40" />
             </div>

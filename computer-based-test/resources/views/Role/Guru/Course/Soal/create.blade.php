@@ -77,7 +77,7 @@
                     <label for="nama_ujian" class="block font-bold mb-2">Judul Ujian</label>
                     <input type="text" name="nama_ujian" class="block w-full p-2 border border-gray-300 rounded-md" required>
                 </div>
-
+            
                 <div class="mb-6">
                     <label class="block text-lg font-semibold mb-2">Tipe Ujian</label>
                     <div class="flex items-center space-x-4">
@@ -90,16 +90,6 @@
                             <span class="ml-2">Ujian</span>
                         </label>
                     </div>
-                </div>
-
-                <div class="mb-4">
-                    <label for="week" class="block font-bold mb-2">Week</label>
-                    <select name="week" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                        <option value="" disabled selected>Pilih Week</option>
-                        @for ($i = 1; $i <= 26; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
                 </div>
             
                 <div class="mb-4">

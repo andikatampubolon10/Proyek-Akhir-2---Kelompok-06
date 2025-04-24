@@ -30,15 +30,7 @@ class CourseController extends Controller
                 "nama_kursus" => 'required|string|max:255|unique:kursus',
                 "password" => 'required|string|min:8|confirmed',
                 "image" => 'required|image|mimes:jpeg,png,jpg,gif|max:40960',
-                "persentase_kuis" => 'required|numeric|min:0|max:100',
-                "persentase_ujian" => 'required|numeric|min:0|max:100',
             ]);
-    
-            $totalPersentase = $validated['persentase_kuis'] + $validated['persentase_ujian'];
-    
-            if ($totalPersentase > 100) {
-                return redirect()->back()->withErrors(['error' => 'Total persentase kuis dan ujian tidak boleh lebih dari 100%.']);
-            }
     
             $idUser   = auth()->user()->id;
             $guru = Guru::where('id_user', $idUser )->first();
@@ -64,8 +56,6 @@ class CourseController extends Controller
                 'password' => Hash::make($validated['password']),
                 'id_guru' => $guru->id_guru,
                 'image' => $imageName,
-                'persentase_kuis' => $validated['persentase_kuis'],
-                'persentase_ujian' => $validated['persentase_ujian'],
             ]);
     
             return redirect()->route('Guru.Course.index')->with('success', 'Course created successfully.');
@@ -83,36 +73,36 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         $course = kursus::findOrFail($id);
-        return view('Role.Guru.edit', compact('course'));
+        $user = auth()->user();
+        return view('Role.Guru.edit', compact('user','course'));
     }
     
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id_kursus)
     {
         $validated = $request->validate([
-            "nama_kursus" => 'required|string|max:255|unique:kursus,nama_kursus,' . $id,
-            "password" => 'nullable|string|min:8|confirmed',
-            "persentase_kuis" => 'required|numeric|min:0|max:100',
-            "persentase_ujian" => 'required|numeric|min:0|max:100',
+            "nama_kursus" => 'required|string|max:255|unique:kursus,nama_kursus,' . $id_kursus . ',id_kursus',
+            "image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:40960', // Validasi untuk gambar
         ]);
     
-        $totalPersentase = $validated['persentase_kuis'] + $validated['persentase_ujian'];
+        $course = Kursus::findOrFail($id_kursus);
     
-        if ($totalPersentase > 100) {
-            return redirect()->back()->withErrors(['error' => 'Total persentase kuis dan ujian tidak boleh lebih dari 100%.']);
-        }
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = public_path('images');
+            if (!is_dir($imagePath)) {
+                mkdir($imagePath, 0755, true);
+            }
     
-        $course = Kursus::findOrFail($id);
+            $imageName = time() . '.' . $request->image->extension();
+            
+            $request->image->move($imagePath, $imageName);
     
-        if ($request->filled('password')) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
+            $validated['image'] = $imageName;
         }
     
         $course->update($validated);
     
         return redirect()->route('Guru.Course.index')->with('success', 'Course updated successfully.');
-    }
+    }    
 
     public function destroy(string $id)
     {

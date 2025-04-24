@@ -16,7 +16,6 @@ class Ujian extends Model
         'acak',
         'status_jawaban',
         'grade',
-        'week',
         'password',
         'id_kursus',
         'id_guru',
@@ -27,7 +26,7 @@ class Ujian extends Model
     {
         return $this->belongsTo(Kursus::class, 'id_kursus', 'id_kursus','id_kursus');
     }
-
+    
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'id_guru');

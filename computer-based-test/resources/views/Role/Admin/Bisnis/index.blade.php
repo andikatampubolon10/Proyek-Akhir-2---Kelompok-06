@@ -64,12 +64,12 @@
                     <div class="bg-gray-100 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
                         <div class="mb-4 md:mb-0">
                             <h3 class="font-bold text-blue-600">{{ $bisnis->name }}</h3>
-                            <p class="text-gray-600">Nama Sekolah: {{ $bisnis ->nama }}</p>
+                            <p class="text-gray-600">Nama Sekolah: {{ $bisnis ->nama_sekolah }}</p>
                             <p class="text-gray-600">Jumlah Pendapatan : {{ $bisnis->jumlah_pendapatan }}</p>
                         </div>
                         <div class="flex space-x-5">
                             <div>
-                                <form action="{{ route('Admin.Bisnis.destroy', $bisnis->id) }}" method="POST"
+                                <form action="{{ route('Admin.Bisnis.destroy', $bisnis->id_bisnis) }}" method="POST"
                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
                                     @csrf
                                     @method('DELETE')
@@ -79,7 +79,7 @@
                                 </form>
                             </div>
                             <div>
-                                <form action="{{ route('Admin.Bisnis.edit', $bisnis->id) }}" method="GET">
+                                <form action="{{ route('Admin.Bisnis.edit', $bisnis->id_bisnis) }}" method="GET">
                                     <button type="submit" class="text-blue-500 flex items-center">
                                         <i class="fas fa-edit mr-1"></i> EDIT
                                     </button>

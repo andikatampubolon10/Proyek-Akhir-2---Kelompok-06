@@ -9,19 +9,18 @@ use Illuminate\Http\Request;
 
 class NilaiController extends Controller
 {
-    // Menampilkan daftar nilai
     public function index()
     {
-        $nilai = Nilai::with(['kursus', 'siswa'])->get();
-        return view('nilai.index', compact('nilai'));
+        $courses = kursus::with('guru')->get();
+        $user = auth()->user();
+        return view('Role.Guru.Nilai.index', compact('courses', 'user'));
     }
 
     // Menampilkan form untuk membuat nilai baru
     public function create()
     {
-        $kursus = Kursus::all();
-        $siswa = Siswa::all();
-        return view('nilai.create', compact('kursus', 'siswa'));
+        $user = auth()->user();
+        return view('Role.Guru.Nilai.create', compact('user'));
     }
 
     // Menyimpan nilai baru

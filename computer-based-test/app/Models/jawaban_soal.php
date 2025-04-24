@@ -21,12 +21,12 @@ class jawaban_soal extends Model
 
     public function soal()
     {
-        return $this->belongsTo(Soal::class, 'id_soal');
+        return $this->belongsTo(Soal::class, 'id_soal' ,'id_soal');
     }
 
     public function tipe_soal()
     {
-        return $this->belongsTo(TipeSoal::class, 'id_tipe_soal');
+        return $this->belongsTo(TipeSoal::class, 'id_tipe_soal', 'id_tipe_soal');
     }
 
 

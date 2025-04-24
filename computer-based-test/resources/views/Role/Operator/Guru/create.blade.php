@@ -106,6 +106,15 @@
                         <input type="email" name="email" class="block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
+                        <label for="mata_pelajaran" class="block font-bold mb-2">Mata Pelajaran</label>
+                        <select id="mata_pelajaran" name="mata_pelajaran" class="block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+                            <option value="">Pilih Mata Pelajaran</option>
+                            @foreach($mataPelajaran as $mataPelajaran)
+                                <option value="{{ $mataPelajaran->id_mata_pelajaran }}">{{ $mataPelajaran->nama_mata_pelajaran }}</option>
+                            @endforeach
+                        </select>
+                    </div>                    
+                    <div class="mb-4">
                         <label class="block font-bold mb-2">Password</label>
                         <input type="password" name="password" class="block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>

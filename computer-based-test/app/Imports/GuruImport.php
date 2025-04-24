@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Operator;
+use App\Models\MataPelajaran;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -40,12 +41,19 @@ class GuruImport implements ToModel, WithStartRow, WithValidation
 
         $operator = Operator::where('id_user', auth()->user()->id)->first();
 
+        $mataPelajaran = MataPelajaran::where('nama_mata_pelajaran', $row[4])->first();
+
+        if (!$mataPelajaran) {
+            throw new \Exception("Mata pelajaran {$row[4]} tidak ditemukan.");
+        }
+
         Guru::create([
             'nama_guru' => $row[0],
             'nip' => $row[1],
             'id_user' => $user->id,
             'id_operator' => $operator->id_operator,
             'status' => 'Aktif',
+            'id_mata_pelajaran' => $mataPelajaran->id_mata_pelajaran,
         ]);
 
         return null;
@@ -58,6 +66,7 @@ class GuruImport implements ToModel, WithStartRow, WithValidation
             '1' => 'required|numeric|unique:gurus,nip',
             '2' => 'required|email|unique:users,email',
             '3' => 'required|string',
+            '4' => 'required|string',
         ];
     }
 }

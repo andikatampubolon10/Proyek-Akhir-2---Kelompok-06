@@ -14,6 +14,7 @@ class Guru extends Model
         'nama_guru',
         'nip',
         'status',
+        'id_mata_pelajaran',
         'id_user',
         'id_operator',
     ];
@@ -36,6 +37,11 @@ class Guru extends Model
     public function latihan()
     {
         return $this->hasMany(Latihan::class);
+    }
+
+    public function mataPelajaran()
+    {
+        return $this->belongsTo(MataPelajaran::class, 'id_mata_pelajaran');
     }
 
     public function ujian()

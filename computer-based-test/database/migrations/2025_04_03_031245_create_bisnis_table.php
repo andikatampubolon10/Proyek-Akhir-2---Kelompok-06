@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('bisnis', function (Blueprint $table) {
             $table->id('id_bisnis');
             $table->string('nama_sekolah');
-            $table->integer('jumlah_pendapatan');
+            $table->integer('jumlah_pendapatan')->default(0);
+            $table->string('perjanjian');
             $table->timestamps();
         });
     }

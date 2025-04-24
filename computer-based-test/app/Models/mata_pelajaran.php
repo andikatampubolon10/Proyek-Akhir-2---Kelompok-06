@@ -29,4 +29,8 @@ class mata_pelajaran extends Model
     public function mata_pelajaran_siswa(){
         return $this->hasMany(mata_pelajaran_siswa::class);
     }
+
+    public function guru(){
+        return $this->hasOne(guru::class);
+    }
 }
