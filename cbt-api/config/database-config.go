@@ -10,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDatabase() {
+func ConnectDatabase() *gorm.DB {
 	dsn := "root:@tcp(127.0.0.1:3306)/getkursus?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -20,9 +20,13 @@ func ConnectDatabase() {
 	DB = db
 
 	err = db.AutoMigrate(
-	// 	&entity.JawabanSiswa{},
+        &entity.Materi{},
+        // &entity.JawabanSoal{},
+		// &entity.JawabanSiswa{},
+        
+        
 	// 	&entity.MataPelajaranSiswa{},
-	// 	&entity.MataPelajaran{},
+		&entity.MataPelajaran{},
 	// 	&entity.KurikulumSiswa{},
 	// 	&entity.Kurikulum{},
 		&entity.KursusSiswa{},
@@ -45,4 +49,5 @@ func ConnectDatabase() {
 	// }
 
 	fmt.Println("Koneksi dan migrasi sukses")
+    return DB
 }

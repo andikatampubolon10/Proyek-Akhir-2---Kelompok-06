@@ -8,8 +8,8 @@ import (
 )
 
 func GetKursusBySiswa(c *gin.Context) {
-    // Mendapatkan id_siswa dari parameter atau token
-    idSiswa := c.Param("id_siswa")  // Ambil id_siswa dari parameter URL
+    // Mendapatkan id_siswa dari parameter URL
+    idSiswa := c.Param("id_siswa")
 
     var siswa entity.Siswa
     // Cari siswa berdasarkan id_siswa
@@ -27,9 +27,12 @@ func GetKursusBySiswa(c *gin.Context) {
 
     var kursusList []gin.H
     for _, ks := range kursusSiswa {
+        // Menambahkan id_kursus, nama_kursus, password, dan image ke dalam response
         kursusList = append(kursusList, gin.H{
             "id_kursus":   ks.Kursus.IdKursus,
             "nama_kursus": ks.Kursus.NamaKursus,
+            "password":    ks.Kursus.Password,  // Menambahkan password kursus
+            "image":       ks.Kursus.Image,     // Menambahkan image kursus
         })
     }
 

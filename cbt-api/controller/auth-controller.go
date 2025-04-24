@@ -7,7 +7,6 @@ import (
     "cbt-api/auth"
     "golang.org/x/crypto/bcrypt"
     "net/http"
-    "gorm.io/gorm"
 )
 
 func Login(c *gin.Context) {
@@ -25,11 +24,7 @@ func Login(c *gin.Context) {
     // Mencari user berdasarkan email
     var user entity.Users
     if err := config.DB.Where("email = ?", userInput.Email).First(&user).Error; err != nil {
-        if err == gorm.ErrRecordNotFound {
-            c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
-            return
-        }
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
         return
     }
 
@@ -46,6 +41,10 @@ func Login(c *gin.Context) {
         return
     }
 
-    // Mengembalikan token JWT ke client
-    c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
+    // Mengembalikan token dan id_siswa ke client
+    c.JSON(http.StatusOK, gin.H{
+        "message": "Login successful",
+        "token":   token,
+        "id_siswa": user.Id,  // Pastikan mengembalikan id_siswa
+    })
 }

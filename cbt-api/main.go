@@ -1,78 +1,60 @@
 package main
 
 import (
-	"net/http" // Ensure this line is present
 
-	"github.com/gin-gonic/gin" // Import the Gin framework package
+	"github.com/gin-gonic/gin"
 	"cbt-api/config"
-	"cbt-api/controller" 
+	"cbt-api/controller"
+	"cbt-api/service"
+	"cbt-api/repository"
 )
 
-
 func main() {
-	config.ConnectDatabase()
-	// router := gin.Default()
-	// router.GET("/", rootHandler)
-	// router.GET("/contoh", ContohHandler)   // Add a new route with the path "/contoh" and a handler function "ContohHandler"
-	// router.GET("/books/:id/:title", booksHandler) // Add a new route with the path "/books
-	// router.GET("/query", queryHandler)     // Add a new route with the path "/query
-	// router.POST("/books", postBooksHandler)
+	db := config.ConnectDatabase() 
+
+	// Inisialisasi Gin router
 	r := gin.Default()
 
-    r.POST("/login", controller.Login)  // API login
+	jawabanSiswaRepo := repository.NewJawabanSiswaRepository(db)
+
+	// 4. Init Service
+	jawabanSiswaService := service.NewJawabanSiswaService(jawabanSiswaRepo)
+	jwtService := service.NewJWTService()
+
+	// Inisialisasi controller dengan service
+	jawabanSiswaController := controller.NewJawabanSiswaController(jawabanSiswaService, jwtService)
+
+	// Setup routes untuk jawaban siswa
+	setupRoutes(r, jawabanSiswaController)
+
+	// Rute lainnya
+	r.POST("/login", controller.Login)
 	r.GET("/kursus-siswa/:id_siswa", controller.GetKursusBySiswa)
+	r.GET("/ujian-materi-kursus/:id_kursus", controller.GetUjianAndMateriByKursus)
+	r.GET("/profil/:id_siswa", controller.GetSiswaWithKelas)
+	r.GET("/kelas", controller.GetAllKelas)
+	r.GET("/kurikulum", controller.GetAllKurikulum)
+	r.POST("/login-ujian/:id_ujian", controller.AccessUjian)
+	r.GET("/soal/:id_soal", controller.GetSoalWithJawaban)
+	r.GET("/soal-ujian/:id_ujian", controller.GetSoalByUjian)
+	r.GET("/mata-pelajaran/:id_kurikulum", controller.GetMataPelajaranByKurikulum)
+	r.GET("/all-kursus", controller.GetAllKursus)
+	r.GET("/kursus/:id_kursus", controller.GetKursusById)
+	r.POST("/kursus/access/:id_kursus", controller.EnrollKursus)
+	r.POST("/kursus_siswa/enroll", controller.EnrollKursusSiswa)
 
+	// Jalankan server
 	r.Run("192.168.56.1:8080")
-
 }
 
-// Handler
-func rootHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"name": "Andika Tampubolon",
-		"bio":  "A Software Engineer",
-	})
-}
-
-func ContohHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"class":      "D4 TRPL",
-		"University": "Institut Teknologi Del",
-	})
-}
-
-func booksHandler(c *gin.Context) {
-	id := c.Param("id")
-	title := c.Param("title")
-	c.JSON(http.StatusOK, gin.H{"id": id, "title": title})
-}
-
-func queryHandler(c *gin.Context) {
-	title := c.Query("title")
-	price := c.Query("price")
-
-	c.JSON(http.StatusOK, gin.H{"title": title, "price": price})
-}
-
-type BookInput struct {
-	Title  string `json:"title" binding:"required"` 
-	Price int `json:"price" binding:"required,number"`
-	SubTitle string `json:"sub_title"`
-}
-
-func postBooksHandler(c *gin.Context) {
-	//title, price	
-	var bookInput BookInput
-
-	err := c.ShouldBindJSON(&bookInput)
-	if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return  // Return if there's an error binding JSON to the struct
-    }
-
-	c.JSON(http.StatusOK, gin.H{
-		"title": bookInput.Title, 
-		"price": bookInput.Price,
-		"sub_title": bookInput.SubTitle,
-	})
+// Daftarkan semua endpoint jawaban siswa ke router utama
+func setupRoutes(router *gin.Engine, jawabanSiswaController controller.JawabanSiswaController) {
+	jawabanSiswaRoutes := router.Group("api/jawaban-siswa")
+	{
+		jawabanSiswaRoutes.POST("/", jawabanSiswaController.CreateJawabanSiswa)
+		jawabanSiswaRoutes.POST("/batch", jawabanSiswaController.CreateBatchJawabanSiswa)
+		jawabanSiswaRoutes.GET("/:id", jawabanSiswaController.GetJawabanSiswaByID)
+		jawabanSiswaRoutes.GET("/siswa/:id_siswa", jawabanSiswaController.GetJawabanSiswaBySiswaID)
+		jawabanSiswaRoutes.GET("/ujian/:id_ujian", jawabanSiswaController.GetJawabanSiswaByUjianID)
+	}
 }

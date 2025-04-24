@@ -7,7 +7,7 @@ type Guru struct {
     NamaGuru   string    `gorm:"type:varchar(255);not null" json:"nama_guru"`
     NIP        int       `gorm:"type:int(11);not null" json:"nip"`
     Status     string    `gorm:"type:enum('Aktif', 'Tidak Aktif');not null" json:"status"`
-    IdUser      uint64   `gorm:"type:bigint(20) unsigned" json:"id_user"` // Foreign Key ke Users
+    IdUser     uint64   `gorm:"type:bigint(20) unsigned" json:"id_user"` // Foreign Key ke Users
     IdOperator uint64    `gorm:"type:bigint(20) unsigned" json:"id_operator"` // Foreign Key ke Operators
     CreatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"created_at"`
     UpdatedAt  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" json:"updated_at"`
