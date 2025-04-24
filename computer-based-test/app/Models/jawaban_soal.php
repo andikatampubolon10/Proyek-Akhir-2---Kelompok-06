@@ -19,13 +19,16 @@ class jawaban_soal extends Model
         'id_tipe_soal',
     ];
 
-    public function soal(){
-        return $this->belongsTo(soal::class);
+    public function soal()
+    {
+        return $this->belongsTo(Soal::class, 'id_soal');
     }
 
-    public function tipe_soal(){
-        return $this->belongsTo(tipe_soal::class);
+    public function tipe_soal()
+    {
+        return $this->belongsTo(TipeSoal::class, 'id_tipe_soal');
     }
+
 
     public function jawaban_siswa(){
         return $this->hasMany(jawaban_siswa::class);

@@ -14,11 +14,10 @@ class tipe_soal extends Model
     protected $fillable = [
         'id_tipe_soal',
         'nama_tipe_soal',
-        'id_soal',
     ];
 
     public function soal(){
-        return $this->belongsTo(soal::class);
+        return $this->hasMany(soal::class);
     }
 
     public function jawaban_soal(){

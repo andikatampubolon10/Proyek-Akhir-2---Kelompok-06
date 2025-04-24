@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('nama_guru');
             $table->integer('nip')->unique();
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->unsignedBigInteger('id_mata_pelajaran');
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_operator');
+            $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('mata_pelajaran')->onDelete('cascade');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_operator')->references('id_operator')->on('operator')->onDelete('cascade');
             $table->timestamps();

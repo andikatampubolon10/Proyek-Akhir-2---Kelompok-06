@@ -47,4 +47,9 @@ class siswa extends Model
     public function kurikulum_siswa(){
         return $this->hasMany(kurikulum_siswa::class);
     }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'id_siswa', 'id_siswa');
+    }
 }

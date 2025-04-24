@@ -3,93 +3,99 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nilai;
-use App\Models\User;
-use App\Models\Quiz;
-use App\Models\Ujian;
+use App\Models\Kursus;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class NilaiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan daftar nilai
     public function index()
     {
-        $nilais = Nilai::with(['user', 'quiz', 'ujian'])->get();
-        return view('nilais.index', compact('nilais'));
+        $nilai = Nilai::with(['kursus', 'siswa'])->get();
+        return view('nilai.index', compact('nilai'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Menampilkan form untuk membuat nilai baru
     public function create()
     {
-        $users = User::all();
-        $quizzes = Quiz::all();
-        $ujians = Ujian::all();
-        return view('nilais.create', compact('users', 'quizzes', 'ujians'));
+        $kursus = Kursus::all();
+        $siswa = Siswa::all();
+        return view('nilai.create', compact('kursus', 'siswa'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Menyimpan nilai baru
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'quiz_id' => 'nullable|exists:quizzes,id',
-            'ujian_id' => 'nullable|exists:ujians,id',
-            'persentase' => 'required|numeric',
-            'nilai_akhir' => 'required|numeric',
+            'id_kursus' => 'required|exists:kursus,id_kursus',
+            'id_siswa' => 'required|exists:siswa,id_siswa',
+            'nilai_kuis' => 'required|numeric|min:0|max:100',
+            'nilai_ujian' => 'required|numeric|min:0|max:100',
         ]);
 
-        Nilai::create($validated);
-        return redirect()->route('nilais.index')->with('success', 'Nilai created successfully.');
+        $kursus = Kursus::findOrFail($validated['id_kursus']);
+        $persentaseKuis = $kursus->persentase_kuis;
+        $persentaseUjian = $kursus->persentase_ujian;
+
+        $nilaiTotal = ($validated['nilai_kuis'] * $persentaseKuis / 100) +
+                      ($validated['nilai_ujian'] * $persentaseUjian / 100);
+
+        Nilai::create([
+            'id_kursus' => $validated['id_kursus'],
+            'id_siswa' => $validated['id_siswa'],
+            'nilai_kuis' => $validated['nilai_kuis'],
+            'nilai_ujian' => $validated['nilai_ujian'],
+            'nilai_total' => $nilaiTotal,
+        ]);
+
+        return redirect()->route('nilai.index')->with('success', 'Nilai berhasil disimpan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Nilai $nilai)
+    // Menampilkan form untuk mengedit nilai
+    public function edit($id)
     {
-        return view('nilais.show', compact('nilai'));
+        $nilai = Nilai::findOrFail($id);
+        $kursus = Kursus::all();
+        $siswa = Siswa::all();
+        return view('nilai.edit', compact('nilai', 'kursus', 'siswa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Nilai $nilai)
+    // Memperbarui nilai
+    public function update(Request $request, $id)
     {
-        $users = User::all();
-        $quizzes = Quiz::all();
-        $ujians = Ujian::all();
-        return view('nilais.edit', compact('nilai', 'users', 'quizzes', 'ujians'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Nilai $nilai)
-    {
-        // Validasi input
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'quiz_id' => 'nullable|exists:quizzes,id',
-            'ujian_id' => 'nullable|exists:ujians,id',
-            'persentase' => 'required|numeric',
-            'nilai_akhir' => 'required|numeric',
+            'id_kursus' => 'required|exists:kursus,id_kursus',
+            'id_siswa' => 'required|exists:siswa,id_siswa',
+            'nilai_kuis' => 'required|numeric|min:0|max:100',
+            'nilai_ujian' => 'required|numeric|min:0|max:100',
         ]);
 
-        $nilai->update($validated);
-        return redirect()->route('nilais.index')->with('success', 'Nilai updated successfully.');
+        $kursus = Kursus::findOrFail($validated['id_kursus']);
+        $persentaseKuis = $kursus->persentase_kuis;
+        $persentaseUjian = $kursus->persentase_ujian;
+
+        $nilaiTotal = ($validated['nilai_kuis'] * $persentaseKuis / 100) +
+                      ($validated['nilai_ujian'] * $persentaseUjian / 100);
+
+        $nilai = Nilai::findOrFail($id);
+        $nilai->update([
+            'id_kursus' => $validated['id_kursus'],
+            'id_siswa' => $validated['id_siswa'],
+            'nilai_kuis' => $validated['nilai_kuis'],
+            'nilai_ujian' => $validated['nilai_ujian'],
+            'nilai_total' => $nilaiTotal,
+        ]);
+
+        return redirect()->route('nilai.index')->with('success', 'Nilai berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Nilai $nilai)
+    // Menghapus nilai
+    public function destroy($id)
     {
+        $nilai = Nilai::findOrFail($id);
         $nilai->delete();
-        return redirect()->route('nilais.index')->with('success', 'Nilai deleted successfully.');
+
+        return redirect()->route('nilai.index')->with('success', 'Nilai berhasil dihapus.');
     }
 }

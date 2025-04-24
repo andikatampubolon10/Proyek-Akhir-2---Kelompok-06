@@ -16,13 +16,13 @@
 
 <body class="bg-gray-100">
     <!-- Header -->
-    <div class="bg-white shadow p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-teal-500">Daftar Guru</h1>
+    <div class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-white">Daftar Guru</h1>
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer">
                 <div class="flex flex-col items-center">
-                    <span class="text-teal-500">Welcome, Operator</span>
-                    <span class="text-teal-500 font-semibold">{{ $user->name }}</span>
+                    <span class="text-white">Welcome, Operator</span>
+                    <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
                 <img alt="Profile picture of Natan Hutahean" class="rounded-full ml-4" height="40"
                     src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
@@ -39,40 +39,40 @@
     </div>
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
-        <div class="w-full md:w-1/4 bg-gray-200 h-screen p-4">
+        <div class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 h-screen p-4">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}"
-                        class="flex items-center text-gray-700 p-2 rounded-lg">
-                        <i class="fas fa-user-graduate text-teal-500 mr-2"></i>
-                        Daftar Siswa
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a href="#" class="flex items-center text-gray-700 bg-white p-2 rounded-lg shadow">
-                        <i class="fas fa-chalkboard-teacher text-teal-500 mr-2"></i>
-                        Daftar Guru
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}"
-                        class="flex items-center text-gray-700 p-2 rounded-lg">
-                        <i class="fas fa-book text-teal-500 mr-2"></i>
-                        Mata Pelajaran
-                    </a>
-                </li>
-                <li class="mb-4">
                     <a href="{{ route('Operator.Kelas.index') }}"
-                        class="flex items-center text-gray-700 p-2 rounded-lg">
-                        <i class="fas fa-home text-teal-500 mr-2"></i>
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-home text-white mr-2"></i>
                         Kelas
                     </a>
                 </li>
                 <li class="mb-4">
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-user-graduate text-white mr-2"></i>
+                        Daftar Siswa
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="#" class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow">
+                        <i class="fas fa-chalkboard-teacher text-white mr-2"></i>
+                        Daftar Guru
+                    </a>
+                </li>
+                <li class="mb-4">
                     <a href="{{ route('Operator.Kurikulum.index') }}"
-                        class="flex items-center text-gray-700 p-2 rounded-lg">
-                        <i class="fas fa-calendar-alt text-teal-500 mr-2"></i>
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-calendar-alt text-white mr-2"></i>
                         Kurikulum
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-book text-white mr-2"></i>
+                        Mata Pelajaran
                     </a>
                 </li>
             </ul>
@@ -81,18 +81,18 @@
         <div class="w-full md:w-3/4 p-8">
             <div class="flex justify-end mb-4">
                 <a href="{{ route('Operator.Guru.create') }}"
-                    class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
+                    class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                     <i class="fas fa-plus mr-2"></i> Tambahkan
                 </a>
             </div>
             <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Teacher Information</h2>
+                <h2 class="text-xl font-bold mb-4 text-blue-600">Teacher Information</h2>
                 <div class="space-y-4">
                     @foreach ($gurus as $teacher)
                         <div
-                            class="bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                            class="bg-gray-100 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
                             <div class="mb-4 md:mb-0">
-                                <h2 class="text-xl font-semibold text-black mb-2">{{ $teacher->nama_guru }}</h2>
+                                <h2 class="text-xl font-semibold text-blue-600 mb-2">{{ $teacher->nama_guru }}</h2>
                                 <p class="text-base text-gray-700">NIP: <span class="text-black text-lg">{{ $teacher->nip }}</span></p>
                                 <p class="text-base text-gray-700">Email: <span class="text-black text-lg">{{ $teacher->user->email }}</span></p>
                                 <p class="text-base text-gray-700">Status Akun: <span class="text-black text-lg">{{ $teacher->status }}</span></p>
@@ -103,14 +103,14 @@
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 flex items-center">
+                                        <button type="submit" class="text-red-500 flex items-center hover:text-red-400">
                                             <i class="fas fa-trash-alt mr-1"></i> DELETE
                                         </button>
                                     </form>
                                 </div>
                                 <div>
                                     <form action="{{ route('Operator.Guru.edit', $teacher->id_guru) }}" method="GET">
-                                        <button type="submit" class="text-blue-500 flex items-center">
+                                        <button type="submit" class="text-blue-500 flex items-center hover:text-blue-400">
                                             <i class="fas fa-edit mr-1"></i> EDIT
                                         </button>
                                     </form>

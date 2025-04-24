@@ -62,7 +62,7 @@ class GuruController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'nip' => 'required|string|max:255|unique:gurus',
+                'nip' => 'required|string|max:255|unique:guru',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6',
                 'status' => 'in:Aktif,Tidak Aktif',

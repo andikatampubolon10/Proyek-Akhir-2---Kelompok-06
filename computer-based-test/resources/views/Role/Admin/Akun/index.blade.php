@@ -8,16 +8,14 @@
 
 <body class="bg-gray-100">
     <div class="flex flex-col">
-        <!-- Top Bar -->
-        <div class="bg-white shadow p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-teal-500">QUIZHUB</h1>
+        <div class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white">QUIZHUB</h1>
             <div class="relative dropdown">
                 <div class="flex items-center cursor-pointer">
                     <div class="flex flex-col items-center">
-                        <span class="text-teal-500">Welcome, Admin</span>
-                        <span class="text-teal-500 font-semibold">Kelompok 06</span>
+                        <span class="text-white">Welcome, Admin</span>
+                        <span class="text-white font-semibold">Kelompok 06</span>
                     </div>
-
                     <img alt="Profile picture of Natan Hutahean" class="rounded-full ml-4" height="40"
                         src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
                         width="40">
@@ -33,18 +31,18 @@
         </div>
         <div class="flex flex-col md:flex-row">
             <!-- Sidebar -->
-            <div class="w-full md:w-1/4 bg-gray-200 h-screen p-4">
+            <div class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 h-screen p-4">
                 <ul>
                     <li class="mb-4">
-                        <a href="#"
-                            class="flex items-center text-gray-700 bg-white p-2 rounded-lg shadow hover:bg-gray-300">
+                        <a href="{{ route('Admin.Akun.index') }}"
+                            class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow hover:bg-blue-400">
                             <i class="fa-solid fa-circle-user mr-4"></i>
                             Operator
                         </a>
                     </li>
                     <li class="mb-4">
                         <a href="{{ route('Admin.Bisnis.index') }}"
-                            class="flex items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                            class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400">
                             <i class="fa-solid fa-money-bill-wave mr-4"></i>
                             Bisnis
                         </a>
@@ -60,16 +58,16 @@
                     </a>
                 </div>
                 <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold mb-4">Operator Information</h2>
+                    <h2 class="text-xl font-bold mb-4 text-blue-600">Operator Information</h2>
                     <div class="space-y-4">
                         @foreach ($operators as $operator)
                             <div
-                                class="bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                                class="bg-gray-100 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
                                 <div class="mb-4 md:mb-0">
-                                    <h3 class="font-bold">{{ $operator['nama_sekolah'] }}</h3>
-                                    <p>Email   : {{ $operator->user['email'] }}</p>
-                                    <p>Durasi : {{ $operator['durasi'] }}</p>
-                                    <p>Status Aktif : {{ $operator['status'] }}</p>
+                                    <h3 class="font-bold text-blue-600">{{ $operator['nama_sekolah'] }}</h3>
+                                    <p>Email: {{ $operator->user['email'] }}</p>
+                                    <p>Durasi: {{ $operator['durasi'] }}</p>
+                                    <p>Status Aktif: {{ $operator['status'] }}</p>
                                 </div>
                                 <div class="flex space-x-5">
                                     <div>

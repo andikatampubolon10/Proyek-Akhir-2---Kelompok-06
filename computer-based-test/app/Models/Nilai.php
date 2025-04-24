@@ -13,7 +13,16 @@ class Nilai extends Model
 
     protected $primaryKey = 'id_nilai';
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'id_nilai',
+        'id_kursus',
+        'id_siswa',
+        'nilai_kuis',
+        'nilai_ujian',
+        'nilai_total',
+    ];
+
+    protected $guarded = ['id_nilai'];
 
     public function user()
     {
@@ -29,4 +38,15 @@ class Nilai extends Model
     {
         return $this->belongsTo(Ujian::class);
     }
+
+    public function kursus()
+    {
+        return $this->belongsTo(Kursus::class, 'id_kursus', 'id_kursus');
+    }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
+    }
+    
 }

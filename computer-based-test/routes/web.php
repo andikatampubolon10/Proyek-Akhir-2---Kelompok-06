@@ -17,7 +17,7 @@ use App\Http\Controllers\LatihanSoalSoalController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\QuizSoalController;
+use App\Http\Controllers\SoalController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UjianController;
 use App\Http\Controllers\UjianSoalController;
@@ -25,6 +25,8 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JawabanSoalUjianController;
 use App\Http\Controllers\JawabanSoalQuizController;
 use App\Http\Controllers\JawabanLatihanSoalController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\MateriController;
 use App\Http\Middleware\CheckOperatorStatus;
 
 
@@ -32,8 +34,8 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
 // Halaman dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/login', function () {
+    return view('login');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -54,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     // Route untuk Guru
     Route::prefix('Guru')->name('Guru.')->middleware('role:Guru')->group(function () {
+        Route::get('Ujian/create/{id_kursus}', [UjianController::class, 'create'])->name('Guru.Ujian.create');
         Route::resource('/Course', CourseController::class);
         Route::resource('/Siswa', SiswaController::class);
         Route::resource('/LatihanSoal', LatihanSoalController::class);
@@ -61,15 +64,17 @@ Route::middleware('auth')->group(function () {
         Route::resource('/Kelas', KelasController::class);
         Route::resource('/MataPelajaran', MataPelajaranController::class);
         Route::resource('/Quiz', QuizController::class);
-        Route::resource('/QuizSoal', QuizSoalController::class);
+        Route::resource('/Soal', SoalController::class);
         Route::resource('/Ujian', UjianController::class);
-        Route::get('/ujian/create/{id_kursus}', [UjianController::class, 'create'])->name('ujian.create');
+        Route::post('/Guru/Ujian', [UjianController::class, 'store'])->name('Guru.Ujian.store');
         Route::resource('/UjianSoal', UjianSoalController::class);
+        Route::get('Soal/create/{type}', [SoalController::class, 'create'])->name('Soal.create');
         Route::resource('/Kurikulum', KurikulumController::class);
         Route::resource('/Attempt', AttemptController::class);
+        Route::resource('/Materi', MateriController::class);
         Route::resource('/JawabanSiswaLatihanSoal', JawabanSiswaLatihanSoalController::class);
-        Route::resource('/JawabanSiswaQuiz', JawabanSiswaQuizController::class);
         Route::resource('/JawabanSiswaUjian', JawabanSiswaUjianController::class);
+        Route::resource('/Nilai', NilaiController::class);
     });
 
     // Route untuk Operator

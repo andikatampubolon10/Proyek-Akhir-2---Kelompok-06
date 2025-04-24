@@ -26,9 +26,9 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
+    
         $request->session()->regenerate();
-
+    
         $user = Auth::user();
         
         if ($user->hasRole('Admin')) {
@@ -40,6 +40,8 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->hasRole('Operator')) {
             return redirect()->route('Operator.Siswa.index');
         }
+    
+        return redirect()->route('login');
     }
 
     /**
