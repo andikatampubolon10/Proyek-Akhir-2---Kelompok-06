@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('persentase', function (Blueprint $table) {
             $table->id('id_persentase');
-            $table->decimal('persentase', 5, 2)->default(0.00); 
+            $table->decimal('persentase', 5, 0)->default(0); 
             $table->unsignedBigInteger('id_tipe_persentase'); 
             $table->unsignedBigInteger('id_kursus'); 
             $table->unsignedBigInteger('id_tipe_ujian'); 

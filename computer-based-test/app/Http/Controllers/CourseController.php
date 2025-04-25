@@ -33,7 +33,7 @@ class CourseController extends Controller
             ]);
     
             $idUser   = auth()->user()->id;
-            $guru = Guru::where('id_user', $idUser )->first();
+            $guru = Guru::where('id_user', $idUser)->first();
     
             if (!$guru) {
                 throw new \Exception('Guru tidak ditemukan untuk pengguna yang sedang login.');
@@ -51,11 +51,16 @@ class CourseController extends Controller
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move($imagePath, $imageName);
     
+            // Membuat URL gambar
+            $imageUrl = url('images/' . $imageName);
+    
+            // Simpan kursus dengan URL gambar
             $course = Kursus::create([
                 'nama_kursus' => $validated['nama_kursus'],
                 'password' => Hash::make($validated['password']),
                 'id_guru' => $guru->id_guru,
                 'image' => $imageName,
+                'image_url' => $imageUrl,  // Menyimpan URL gambar
             ]);
     
             return redirect()->route('Guru.Course.index')->with('success', 'Course created successfully.');
@@ -63,6 +68,7 @@ class CourseController extends Controller
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat membuat course. Silakan coba lagi.']);
         }
     }
+    
 
     public function show(string $id)
     {
@@ -81,7 +87,7 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             "nama_kursus" => 'required|string|max:255|unique:kursus,nama_kursus,' . $id_kursus . ',id_kursus',
-            "image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:40960', // Validasi untuk gambar
+            "image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:40960',
         ]);
     
         $course = Kursus::findOrFail($id_kursus);
@@ -93,16 +99,20 @@ class CourseController extends Controller
             }
     
             $imageName = time() . '.' . $request->image->extension();
-            
             $request->image->move($imagePath, $imageName);
     
+            // Membuat URL gambar baru
+            $imageUrl = url('images/' . $imageName);
+    
             $validated['image'] = $imageName;
+            $validated['image_url'] = $imageUrl;  // Menyimpan URL gambar baru
         }
     
         $course->update($validated);
     
         return redirect()->route('Guru.Course.index')->with('success', 'Course updated successfully.');
-    }    
+    }
+    
 
     public function destroy(string $id)
     {

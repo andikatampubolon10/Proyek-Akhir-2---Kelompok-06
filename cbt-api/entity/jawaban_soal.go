@@ -14,3 +14,7 @@ type JawabanSoal struct {
     Soal      Soal      `gorm:"foreignkey:IdSoal;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"soal"`
     TipeSoal  TipeSoal  `gorm:"foreignkey:IdTipeSoal;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"tipe_soal"`
 }
+
+func (JawabanSoal) TableName() string {
+    return "jawaban_soal" // Pastikan tabel ini sesuai dengan nama tabel di database
+}

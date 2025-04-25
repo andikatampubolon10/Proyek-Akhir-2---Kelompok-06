@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_soal');
             $table->string('soal');
             $table->string('image')->nullable();
+            $table->string('image_url')->nullable();
             $table->decimal('nilai_per_soal', 5, 2)->nullable();
             $table->unsignedBigInteger('id_ujian')->nullable();
             $table->unsignedBigInteger('id_tipe_soal')->nullable();

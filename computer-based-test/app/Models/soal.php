@@ -8,6 +8,7 @@ class Soal extends Model {
     protected $fillable = [
         'soal',
         'image',
+        'image_url',
         'id_ujian',
         'id_tipe_soal',
         'id_latihan',

@@ -16,9 +16,17 @@ namespace App\Models;
             'deskripsi',
             'week',
             'file',
+            'file_url',
             'id_kursus',
             'id_guru',
         ];
+
+        protected $appends = ['file_url']; 
+
+        public function getFileUrlAttribute()
+        {
+            return asset('storage/' . $this->file);
+        }
 
         public function kursus()
         {

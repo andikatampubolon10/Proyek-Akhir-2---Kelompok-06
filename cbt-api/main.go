@@ -44,7 +44,7 @@ func main() {
 	r.POST("/kursus_siswa/enroll", controller.EnrollKursusSiswa)
 
 	// Jalankan server
-	r.Run("192.168.56.1:8080")
+	r.Run("172.27.81.74:8080")
 }
 
 // Daftarkan semua endpoint jawaban siswa ke router utama

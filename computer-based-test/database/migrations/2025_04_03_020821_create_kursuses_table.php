@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_kursus');
             $table->string('password');
             $table->string('image');
+            $table->string('image_url')->nullable();
             $table->unsignedBigInteger('id_guru');
             $table->foreign('id_guru')->references('id_guru')->on('guru')->onDelete('cascade');
             $table->timestamps();

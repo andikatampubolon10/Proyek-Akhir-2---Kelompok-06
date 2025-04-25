@@ -10,13 +10,33 @@ class Kursus extends Model
 
     protected $primaryKey = 'id_kursus';
 
+    protected $appends = ['foto_url'];
+
     protected $fillable = [
         'id_kursus',
         'nama_kursus',
         'password',
         'id_guru',
         'image',
+        'image_url',
     ];
+
+    protected function getFotoUrlAttribute($value)
+    {
+        $defaultFoto = \DB::table('settings')->where('key', 'default_student_photo')->value('value');
+
+        if (!$defaultFoto) {
+            $defaultFoto = 'images/student-default.png';  // Default fallback jika tidak ada di database
+        }
+
+        if ($this->attributes['image'] == null || $this->attributes['image'] == '') {
+            return asset($defaultFoto);
+        }
+
+        $foto = (Storage::exists($this->attributes['image'])) ? $this->attributes['image'] : $defaultFoto;
+
+        return url(Storage::url($foto));
+    }
 
     public function guru()
     {

@@ -72,10 +72,22 @@ class SoalController extends Controller
     
         $idUjian = $ujian->id_ujian;
         $gradeUjian = $ujian->grade;  // Mendapatkan grade dari ujian
+
+        $imagePath = public_path('images');
+        if (!is_dir($imagePath)) {
+            mkdir($imagePath, 0755, true);
+        }
+
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move($imagePath, $imageName);
+
+        // Membuat URL gambar
+        $imageUrl = url('images/' . $imageName);
     
         $soal = Soal::create([
             'soal' => $validated['soal'],
             'image' => $validated['image'] ?? null,
+            'image_url' => $imageUrl, 
             'id_ujian' => $idUjian,
             'id_tipe_soal' => $validated['id_tipe_soal'],
             'id_latihan' => $validated['id_latihan'] ?? null,
@@ -173,18 +185,20 @@ class SoalController extends Controller
         // Menemukan soal berdasarkan id_soal
         $soal = Soal::findOrFail($id_soal);
     
-        // Update soal jika ada gambar baru
+        $imageUrl = $soal->image_url;  // Default to existing image URL
         if ($request->hasFile('image')) {
             if ($soal->image) {
-                Storage::disk('public')->delete($soal->image); // Hapus gambar lama jika ada
+                Storage::disk('public')->delete($soal->image); // Delete old image
             }
-            $validated['image'] = $request->file('image')->store('images/ujian_soals', 'public');
+            $imagePath = $request->file('image')->store('images/', 'public');
+            $imageUrl = asset('storage/' . $imagePath); // Update image URL
         }
     
         // Perbarui soal dengan data yang sudah divalidasi
         $soal->update([
             'soal' => $validated['soal'],
             'image' => $validated['image'] ?? $soal->image,
+            'image_url' => $imageUrl, 
             'id_tipe_soal' => $validated['id_tipe_soal'],
             'id_latihan' => $validated['id_latihan'] ?? $soal->id_latihan,
         ]);
@@ -253,7 +267,6 @@ class SoalController extends Controller
         }
     }    
     
-// Fungsi untuk menghitung dan memperbarui nilai per soal
 protected function updateNilaiPerSoal($idUjian)
 {
     // Hitung jumlah soal yang tersisa untuk ujian ini
