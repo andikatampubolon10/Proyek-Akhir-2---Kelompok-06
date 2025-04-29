@@ -8,7 +8,6 @@ class Soal extends Model {
     protected $fillable = [
         'soal',
         'image',
-        'image_url',
         'id_ujian',
         'id_tipe_soal',
         'id_latihan',
@@ -20,7 +19,7 @@ class Soal extends Model {
     }
 
     public function latihan() {
-        return $this->belongsTo(Latihan::class, 'id_latihan');
+        return $this->belongsTo(Latihan::class, 'id_latihan', 'id_latihan');
     }
 
     public function jawaban_soal()

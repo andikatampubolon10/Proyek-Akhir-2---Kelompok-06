@@ -125,7 +125,7 @@ class GuruController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'nip' => 'required|string|max:255|unique:gurus,nip,' . $id,
+            'nip' => 'required|string|max:255|unique:guru,nip,' . $id,
             'password' => 'nullable|string|min:6',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran', // Validasi mata pelajaran

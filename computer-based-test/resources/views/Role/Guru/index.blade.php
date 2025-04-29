@@ -150,7 +150,7 @@
                         <!-- Display course image dynamically -->
                         <img alt="Thumbnail image of the {{ $course->nama_kursus }} course"
                             class="w-24 h-24 rounded-lg mr-4 object-cover" height="100"
-                            src="{{ asset('images/' . $course->image) }}" width="100" />
+                            src="{{ $course->image_url }}" width="100" />
             
                         <div>
                             <!-- Display course name dynamically -->

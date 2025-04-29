@@ -68,20 +68,20 @@ class MateriController extends Controller
         }
     
         $idKursus = $kursus->id_kursus;
-
+    
+        $week = $request->input('week'); // Ambil week dari input form
+        Log::info('Menyimpan Materi dengan week: ' . $week);
+    
         // Proses upload file jika ada
         $filePath = $request->file('file')->store('materi', 'public');
         Log::info('File berhasil diupload.', ['file_path' => $filePath]);
-    
-        // Membuat URL untuk file yang diupload
-        $fileUrl = asset('storage/' . $filePath); // URL lengkap untuk file
     
         // Simpan materi
         Materi::create([
             'judul_materi' => $request->judul_materi,
             'deskripsi' => $request->deskripsi,
+            'week' => $week, // Menyimpan week
             'file' => $filePath, // Menyimpan path file
-            'file_url' => $fileUrl, // Menyimpan URL file
             'id_kursus' => $idKursus,
             'id_guru' => Auth::user()->guru->id_guru, // Asumsi bahwa pengguna yang login adalah guru
         ]);
@@ -89,8 +89,9 @@ class MateriController extends Controller
         Log::info('Materi berhasil disimpan.');
     
         return redirect()->route('Guru.Materi.index')->with('success', 'Materi berhasil ditambahkan.');
-    }    
-    
+    }
+        
+
     public function show($id)
     {
         $materi = Materi::findOrFail($id);

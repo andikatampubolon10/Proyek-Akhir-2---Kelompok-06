@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('judul_materi');
             $table->string('deskripsi')->nullable();
             $table->string('file');
-            $table->string('file_url')->nullable();
             $table->timestamp('tanggal_materi');
             $table->unsignedBigInteger('id_kursus');
             $table->unsignedBigInteger('id_guru');

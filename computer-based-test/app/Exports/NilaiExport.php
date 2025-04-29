@@ -17,23 +17,34 @@ class NilaiExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return Nilai::with('siswa', 'kursus')
-                    ->where('id_kursus', $this->id_kursus)
-                    ->get(); 
+        $nilai = Nilai::where('id_kursus', $this->id_kursus)
+                      ->with(['siswa', 'kursus', 'tipeNilai'])  // Pastikan relasi dengan tipeNilai
+                      ->get();
+    
+        $data = [];
+    
+        foreach ($nilai as $n) {
+            $data[] = [
+                'Nomor' => $n->id_nilai,
+                'Nama Siswa' => $n->siswa->nama_siswa,
+                'Nilai Kuis' => implode(", ", $n->tipeNilai->pluck('nilai_kuis')->toArray()), // Gabungkan nilai kuis
+                'Nilai UTS' => implode(", ", $n->tipeNilai->pluck('nilai_UTS')->toArray()),   // Gabungkan nilai UTS
+                'Nilai UAS' => implode(", ", $n->tipeNilai->pluck('nilai_UAS')->toArray()),   // Gabungkan nilai UAS
+                'Nilai Total' => $n->nilai_total, // Nilai total dihitung
+            ];
+        }
+    
+        return collect($data);
     }
-
+    
     public function headings(): array
     {
         return [
-            'ID Siswa',
+            'Nomor',
             'Nama Siswa',
-            'Nama Kursus',
             'Nilai Kuis',
-            'Nilai Ujian',
+            'Nilai UTS',
             'Nilai UAS',
-            'Persentase Kuis',
-            'Persentase UTS',
-            'Persentase UAS',
             'Nilai Total',
         ];
     }

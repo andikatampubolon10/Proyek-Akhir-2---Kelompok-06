@@ -8,6 +8,8 @@ use App\Models\Guru;
 use App\Models\Tipe_Ujian;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\NilaiExport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,11 +43,16 @@ class UjianController extends Controller
     public function exportNilai($id_kursus)
     {
         $kursus = Kursus::findOrFail($id_kursus);
-        
-        $fileName = $kursus->nama_kursus . '_nilai.xlsx'; 
+    
+        // Membersihkan nama kursus dari karakter yang tidak diizinkan dalam nama file
+        $fileName = $kursus->nama_kursus . '_nilai.xlsx';
+    
+        // Menghapus karakter "/" dan "\\" dari nama file
+        $fileName = str_replace(['/', '\\'], '_', $fileName);
     
         return Excel::download(new NilaiExport($id_kursus), $fileName);
-    }    
+    }
+     
 
     public function create(Request $request)
     {

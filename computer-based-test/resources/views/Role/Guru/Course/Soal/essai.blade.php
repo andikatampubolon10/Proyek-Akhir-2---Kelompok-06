@@ -10,7 +10,8 @@
 
 <body class="bg-gray-100">
     <!-- Top Bar -->
-    <div class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center w-full">
+    <div
+        class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center w-full">
         <h1 class="text-2xl font-bold text-white">QUIZHUB</h1>
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer" id="profileDropdown">
@@ -18,12 +19,16 @@
                     <span class="text-white">Welcome, Admin</span>
                     <span class="text-white font-semibold">{{ $users->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="40" src="https://storage.googleapis.com/a1aa/image/KO6yf8wvxyOnH9pvZuXN0ujQxQrH2zDDdLtZaIA-KQ8.jpg" width="40" />
+                <img alt="Profile picture" class="rounded-full ml-4" height="40"
+                    src="https://storage.googleapis.com/a1aa/image/KO6yf8wvxyOnH9pvZuXN0ujQxQrH2zDDdLtZaIA-KQ8.jpg"
+                    width="40" />
             </div>
-            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden" id="logoutDropdown">
+            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden"
+                id="logoutDropdown">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left" type="submit">Logout</button>
+                    <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
+                        type="submit">Logout</button>
                 </form>
             </div>
         </div>
@@ -33,17 +38,20 @@
         <div class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 min-h-screen p-4">
             <ul>
                 <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400" href="#">
+                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400"
+                        href="#">
                         <i class="fas fa-book mr-4"></i> Course
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow hover:bg-blue-400" href="#">
+                    <a class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow hover:bg-blue-400"
+                        href="#">
                         <i class="fas fa-pencil-alt mr-4"></i> Latihan Soal
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400" href="#">
+                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400"
+                        href="#">
                         <i class="fas fa-chart-line mr-4"></i> Nilai
                     </a>
                 </li>
@@ -93,6 +101,21 @@
                     <textarea id="correct_answer" name="correct_answer" class="w-full border p-2" rows="2" required></textarea>
                 </div>
 
+                <!-- Latihan Dropdown -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="id_latihan">Latihan (Untuk Pembuatan Soal Latihan)</label>
+                    <select name="id_latihan" id="id_latihan"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Pilih Latihan (Opsional)</option>
+                        @foreach ($latihan as $latihans)
+                            <option value="{{ $latihans->id_latihan }}"
+                                {{ old('id_latihan') == $latihans->id_latihan ? 'selected' : '' }}>
+                                {{ $latihans->Topik }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="flex justify-end">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                         <span>Simpan</span>
@@ -124,9 +147,11 @@
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const textarea = this.closest('.flex').nextElementSibling;
-            const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+            const selectedText = textarea.value.substring(textarea.selectionStart, textarea
+                .selectionEnd);
             const newText = `<strong>${selectedText}</strong>`;
-            textarea.value = textarea.value.substring(0, textarea.selectionStart) + newText + textarea.value.substring(textarea.selectionEnd);
+            textarea.value = textarea.value.substring(0, textarea.selectionStart) + newText + textarea
+                .value.substring(textarea.selectionEnd);
         });
     });
 

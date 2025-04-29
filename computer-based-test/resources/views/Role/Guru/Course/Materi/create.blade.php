@@ -73,17 +73,7 @@
         <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
             <form action="{{ route('Guru.Materi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-        
-                <div class="mb-4">
-                    <label for="week" class="block font-bold mb-2">Week</label>
-                    <select name="week" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                        <option value="" disabled selected>Pilih Week</option>
-                        @for ($i = 1; $i <= 26; $i++)
-                            <option value="{{ $i }}" {{ old('week') == $i ? 'selected' : '' }}>Week {{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
-        
+    
                 <div class="mb-4">
                     <label for="judul_materi" class="block font-bold mb-2">Topik Materi</label>
                     <input type="text" name="judul_materi" class="block w-full p-2 border border-gray-300 rounded-md" required>

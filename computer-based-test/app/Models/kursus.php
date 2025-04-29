@@ -67,4 +67,10 @@ class Kursus extends Model
     {
         return $this->hasMany(Materi::class, 'id_materi', 'id_materi');
     }
+
+    public function tipeNilai()
+{
+    return $this->hasMany(TipeNilai::class, 'id_kursus', 'id_kursus');
+}
+
 }

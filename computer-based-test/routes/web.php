@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/Soal',SoalController::class);
         Route::resource('/Persentase',persentaseController::class);
         Route::get('/Soal/create/{type}', [SoalController::class, 'create'])->name('Guru.Soal.create');
-        Route::get('/soal/{soal}/edit/{type}', [SoalController::class, 'edit'])->name('Guru.Soal.edit');
+        Route::get('/Soal/preview/{id}', [SoalController::class, 'preview'])->name('Soal.preview');
         Route::resource('/Kurikulum', KurikulumController::class);
         Route::resource('/Attempt', AttemptController::class);
         Route::resource('/Materi', MateriController::class);
