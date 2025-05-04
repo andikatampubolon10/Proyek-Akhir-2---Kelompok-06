@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -5,221 +6,465 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f4f5f7;
+            font-family: 'Arial', sans-serif;
+            padding: 0;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #00bfae, #00796b);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header .logo img {
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .header .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header .user-info img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .user-info span {
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 150px;
+            z-index: 1500;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04040;
+        }
+
+     .sidebar {
+    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+    width: 260px;
+    padding: 25px 15px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+    z-index: 900;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 15px;
+    font-size: 22px;
+}
+
+.sidebar a.active {
+    background-color: #00796b;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a:hover {
+    background-color: #004d40;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Adjust the "Course" button to match other sidebar items */
+#dropdownButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 18px; /* Same as other sidebar items */
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+#dropdownButton i {
+    font-size: 22px; /* Same icon size as other items */
+}
+
+#dropdownButton span {
+    font-size: 17px; /* Same font size as other items */
+}
+
+
+        /* Button Styles */
+        .btn-add-top-right {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            background-color: #00bfae;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-top-right:hover {
+            background-color: #00796b;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 18px 25px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #14A098;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        table td {
+            vertical-align: middle;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 100px 30px 30px;
+            flex: 1;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        /* Main Content Box */
+        .main-content-box {
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                top: 0;
+                left: 0;
+                height: auto;
+                border-radius: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 70px 20px 20px;
+            }
+
+            .btn-add-top-right {
+                width: 100%;
+                padding: 15px 0;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100">
-    <!-- Top Bar -->
-    <div
-        class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center w-full">
-        <h1 class="text-2xl font-bold text-white">QUIZHUB</h1>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
+
         <div class="relative dropdown">
-            <div class="flex items-center cursor-pointer select-none" id="profileDropdown" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
                 <div class="flex flex-col items-center">
-                    <span class="text-white">Welcome, Admin</span>
+                    <span class="text-white">Welcome, Guru</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture of the logged in user showing a smiling person with short hair wearing a blue shirt" class="rounded-full ml-4" height="40"
-                    src="https://storage.googleapis.com/a1aa/image/KO6yf8wvxyOnH9pvZuXN0ujQxQrH2zDDdLtZaIA-KQ8.jpg"
-                    width="40" />
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
             </div>
-            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
-                id="logoutDropdown" role="menu" aria-label="User menu">
+            <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left" type="submit" role="menuitem" tabindex="-1">Logout</button>
+                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
     </div>
-    <div class="flex flex-col md:flex-row min-h-screen">
+
+    <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
-        <nav class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 p-4" aria-label="Sidebar Navigation">
-            <ul>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400 transition" href="#">
-                        <i class="fas fa-book mr-4"></i> Course
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow hover:bg-blue-400 transition" href="#">
-                        <i class="fas fa-pencil-alt mr-4"></i> Latihan Soal
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400 transition" href="#">
-                        <i class="fas fa-chart-line mr-4"></i> Nilai
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- Main Content -->
-        <main class="w-full md:w-3/4 p-4">
+        <div class="sidebar">
+            <div class="flex flex-col space-y-2" id="dropdown-course">
+                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
+                    <span class="flex items-center space-x-2">
+                        <i class="fas fa-book-open text-sm"></i>
+                        <span>
+                            Course
+                        </span>
+                    </span>
+                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
+                </button>
+                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
+                            Ujian
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
+                            Soal
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
+                            Materi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        
+        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-pen text-sm"></i>
+                <span>Latihan Soal</span>
+        </a>
+        
+        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-chart-line text-sm"></i>
+                <span>Nilai</span>
+        </a>            
+    </div>
+      
+    
+
+       <!-- Main Content -->
+       <div class="main-content">
+        
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Soal</h2>
                 <!-- Modal untuk memilih tipe soal -->
                 <div class="flex justify-end mb-4">
                     <button onclick="showTipeSoalModal()"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1">
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                         <i class="fas fa-plus mr-2"></i> Tambahkan
                     </button>
                 </div>
                 <div id="tipeSoalModal"
-                    class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
-                    role="dialog" aria-modal="true" aria-labelledby="tipeSoalModalTitle" tabindex="-1">
-                    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md mx-auto" role="document">
-                        <h2 id="tipeSoalModalTitle" class="text-lg font-semibold text-gray-700 text-center">Pilih Tipe Soal</h2>
+                    class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 class="text-lg font-semibold text-gray-700 text-center">Pilih Tipe Soal</h2>
                         <div class="grid grid-cols-2 gap-4 mt-4">
-                            <button type="button" onclick="pilihSoal('pilgan')"
-                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <div onclick="pilihSoal('pilgan')"
+                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition">
                                 <i class="fas fa-question-circle text-blue-500 text-3xl"></i>
-                                <p class="mt-2 font-semibold">Pilgan</p>
-                            </button>
-                            <button type="button" onclick="pilihSoal('truefalse')"
-                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-green-400">
+                                <p class="mt-2 font-semibold">Pilihan Berganda</p>
+                            </div>
+                            <div onclick="pilihSoal('truefalse')"
+                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition">
                                 <i class="fas fa-check-circle text-green-500 text-3xl"></i>
-                                <p class="mt-2 font-semibold">True/False</p>
-                            </button>
-                            <button type="button" onclick="pilihSoal('essay')"
-                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-purple-400">
+                                <p class="mt-2 font-semibold">Benar/Salah</p>
+                            </div>
+                            <div onclick="pilihSoal('essay')"
+                                class="cursor-pointer p-4 border border-gray-300 rounded-lg text-center hover:bg-gray-100 transition">
                                 <i class="fas fa-pen text-purple-500 text-3xl"></i>
-                                <p class="mt-2 font-semibold">Essay</p>
-                            </button>
+                                <p class="mt-2 font-semibold">Essai</p>
+                            </div>
                         </div>
                         <button onclick="closeTipeSoalModal()"
-                            class="mt-4 w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition focus:outline-none focus:ring-2 focus:ring-gray-600">Batal</button>
+                            class="mt-4 w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">Batal</button>
                     </div>
                 </div>
+                <div class="space-y-4">
+                    <!-- Question 1 -->
+                    @foreach ($soals as $soal)
+                        <div class="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">{{ $soal->soal }} </h3>
+                                <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }} </p>
+                            </div>
 
-                <div class="mt-6">
-                        <!-- Soal Ujian -->
-                        @if ($idUjian)
-                            @foreach ($soals as $soal)
-                                <div class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                                    <div class="mb-4 md:mb-0 md:flex-1">
-                                        <h3 class="text-lg font-semibold mb-2 break-words">{{ $soal->soal }}</h3>
-                                        <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }}</p>
-                                    </div>
+                            <div class="flex space-x-5 justify-end">
+                                <form action="{{ route('Guru.Soal.destroy', $soal->id_ujian) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');">
+                                    @csrf
+                                    @method('DELETE')
 
-                                    <div class="flex space-x-5 justify-end flex-wrap">
-                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}" method="GET" class="inline">
-                                            <button type="submit" class="text-yellow-500 flex items-center hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
-                                                <i class="fas fa-eye mr-1"></i> PREVIEW
-                                            </button>
-                                        </form>
-
-                                            <form action="{{ route('Guru.Soal.destroy', $soal->id_soal) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" class="text-red-500 flex items-center hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 rounded">
-                                                    <i class="fas fa-trash-alt mr-1"></i> DELETE
-                                                </button>
-                                            </form>
-
-                                        <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET" class="inline">
-                                            <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-                                                <i class="fas fa-edit mr-1"></i> EDIT
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-
-                        <!-- Soal Latihan -->
-                        @if ($idLatihan)
-                            @foreach ($soals as $soal)
-                                <div class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                                    <div class="mb-4 md:mb-0 md:flex-1">
-                                        <h3 class="text-lg font-semibold mb-2 break-words">{{ $soal->soal }}</h3>
-                                        <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }}</p>
-                                        <p class="text-sm text-gray-600">Topik: {{ $soal->latihan->Topik }}</p>
-                                    </div>
-
-                                    <div class="flex space-x-5 justify-end flex-wrap">
-                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}" method="GET" class="inline">
-                                            <button type="submit" class="text-yellow-500 flex items-center hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
-                                                <i class="fas fa-eye mr-1"></i> PREVIEW
-                                            </button>
-                                        </form>
-
-                                        <form action="{{ route('Guru.Soal.destroy', $soal->id_soal) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 flex items-center hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 rounded">
-                                                <i class="fas fa-trash-alt mr-1"></i> DELETE
-                                            </button>
-                                        </form>
-
-                                        <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET" class="inline">
-                                            <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-                                                <i class="fas fa-edit mr-1"></i> EDIT
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-
-                        <!-- If no selection -->
-                        @if (!($idUjian || $idLatihan))
-                            <p class="text-center text-gray-600">Silakan pilih ujian atau latihan untuk melihat soal.</p>
-                        @endif
-                    </div>
+                                    <button type="submit" class="text-red-500 flex items-center hover:text-red-700">
+                                        <i class="fas fa-trash-alt mr-1"></i> DELETE
+                                    </button>
+                                </form>
+                                <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET">
+                                    <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700" data-id="{{ $soal->id_soal }}">
+                                        <i class="fas fa-edit mr-1"></i> EDIT
+                                    </button>
+                                </form>                                
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </main>
-
+        </div>
+    </div>
     <script>
-        // Toggle dropdown menu for profile
-        const profileDropdown = document.getElementById('profileDropdown');
-        const logoutDropdown = document.getElementById('logoutDropdown');
+                 // Dropdown toggle script
+                 const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const dropdownIcon = document.getElementById('dropdownIcon');
 
-        profileDropdown.addEventListener('click', function (e) {
-            e.stopPropagation();
-            logoutDropdown.classList.toggle('hidden');
-            const expanded = profileDropdown.getAttribute('aria-expanded') === 'true';
-            profileDropdown.setAttribute('aria-expanded', !expanded);
+        dropdownButton.addEventListener('click', () => {
+            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+            dropdownButton.setAttribute('aria-expanded', !isExpanded);
+
+            if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu.style.paddingTop = '0';
+                dropdownMenu.style.paddingBottom = '0';
+                dropdownIcon.style.transform = 'rotate(0deg)';
+            } else {
+                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                dropdownMenu.style.paddingTop = '0.5rem';
+                dropdownMenu.style.paddingBottom = '0.5rem';
+                dropdownIcon.style.transform = 'rotate(180deg)';
+            }
         });
 
         // Close dropdown if clicked outside
-        document.addEventListener('click', function () {
-            if (!logoutDropdown.classList.contains('hidden')) {
-                logoutDropdown.classList.add('hidden');
-                profileDropdown.setAttribute('aria-expanded', 'false');
+        window.addEventListener('click', (e) => {
+            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu.style.paddingTop = '0';
+                dropdownMenu.style.paddingBottom = '0';
+                dropdownButton.setAttribute('aria-expanded', 'false');
+                dropdownIcon.style.transform = 'rotate(0deg)';
             }
         });
 
-        // Keyboard accessibility for profile dropdown
-        profileDropdown.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' || e.key === 'Tab') {
-                logoutDropdown.classList.add('hidden');
-                profileDropdown.setAttribute('aria-expanded', 'false');
-            }
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                logoutDropdown.classList.toggle('hidden');
-                const expanded = profileDropdown.getAttribute('aria-expanded') === 'true';
-                profileDropdown.setAttribute('aria-expanded', !expanded);
-            }
+        // Initialize dropdown closed
+        dropdownMenu.style.maxHeight = '0px';
+        dropdownMenu.style.overflow = 'hidden';
+        dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+
+
+        document.getElementById('profileDropdown').addEventListener('click', function() {
+            document.getElementById('logoutDropdown').classList.toggle('hidden');
+        });
+
+
+
+        document.getElementById('profileDropdown').addEventListener('click', function() {
+            document.getElementById('logoutDropdown').classList.toggle('hidden');
         });
 
         function showTipeSoalModal() {
-            const modal = document.getElementById('tipeSoalModal');
-            modal.classList.remove('hidden');
-            modal.focus();
+            document.getElementById('tipeSoalModal').classList.remove('hidden');
         }
 
         function closeTipeSoalModal() {
-            const modal = document.getElementById('tipeSoalModal');
-            modal.classList.add('hidden');
+            document.getElementById('tipeSoalModal').classList.add('hidden');
         }
 
         function pilihSoal(tipe) {
             Swal.fire({
-                title: 'Anda memilih ' + (tipe === 'pilgan' ? 'Pilgan' : tipe === 'truefalse' ? 'True/False' : 'Essay'),
+                title: 'Anda memilih ' + (tipe === 'pilgan' ? 'Pilgan' : tipe === 'truefalse' ? 'True/False' :
+                    'Essay'),
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {

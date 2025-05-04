@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('guru', function (Blueprint $table) {
             $table->id('id_guru');
             $table->string('nama_guru');
-            $table->integer('nip')->unique();
+            $table->string('nip', 20)->unique(); 
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
             $table->unsignedBigInteger('id_mata_pelajaran');
             $table->unsignedBigInteger('id_user');

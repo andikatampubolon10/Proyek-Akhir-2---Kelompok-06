@@ -1,0 +1,21 @@
+<div class="container">
+    <h1>Preview Soal Pilihan Ganda</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Pertanyaan:</strong> {{ $soal->soal }}</p>
+
+            <p><strong>Jawaban A:</strong> {{ $soal->jawaban_soal->where('jawaban', 'jawaban_1')->first()->jawaban ?? '' }}</p>
+            <p><strong>Jawaban B:</strong> {{ $soal->jawaban_soal->where('jawaban', 'jawaban_2')->first()->jawaban ?? '' }}</p>
+            <p><strong>Jawaban C:</strong> {{ $soal->jawaban_soal->where('jawaban', 'jawaban_3')->first()->jawaban ?? '' }}</p>
+            <p><strong>Jawaban D:</strong> {{ $soal->jawaban_soal->where('jawaban', 'jawaban_4')->first()->jawaban ?? '' }}</p>
+            <p><strong>Jawaban E:</strong> {{ $soal->jawaban_soal->where('jawaban', 'jawaban_5')->first()->jawaban ?? '' }}</p>
+
+            <p><strong>Jawaban Benar:</strong> 
+                @php
+                    $correctAnswer = $soal->jawaban_soal->where('benar', true)->first();
+                @endphp
+                {{ $correctAnswer ? $correctAnswer->jawaban : 'Tidak ada jawaban benar yang dipilih' }}
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,111 +1,137 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <!-- Menggunakan Bootstrap dari CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login - QuizHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import font Poppins from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            margin: 0;
-            padding: 0;
-            display: flex;
+        }
+
+        .background-gradient {
+            background: linear-gradient(135deg, black, #00bfae, black, #00796b, black);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-button {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .form-button:hover {
+            background-color: #2563eb;
+        }
+
+        .terms-text {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .terms-text a {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(to right, #1e3c72, #2a5298, #1e3c72, #2a5298, #1e3c72);
+            z-index: 1000;
         }
 
-        .container {
-            width: 400px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container h2 {
+        .popup-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
             text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .form-group .error-message {
-            color: red;
-            font-size: 12px;
-        }
-
-        .btn {
+            max-width: 400px;
             width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background: #0056b3;
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <h2>Sign In</h2>
-        <form id="loginForm" action="{{ route('login.store') }}" method="POST">
+<body class="background-gradient min-h-screen flex justify-center items-center">
+
+    <div class="form-container">
+        <!-- Replace the QUIZHUB text with an image -->
+        <div class="text-center mb-4">
+            <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
+        </div>
+        <p class="text-center text-sm text-gray-600 mb-6">Welcome</p>
+        
+        <!-- Login Form -->
+        <form method="POST" action="{{ route('login') }}" id="login-form">
             @csrf
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="identifier" class="form-control" placeholder="Email" required>
-                <span id="emailError" class="error-message"></span>
+
+            <!-- Username Field -->
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-semibold text-gray-700">USERNAME</label>
+                <input id="username" name="identifier" type="text" class="block w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" required autofocus placeholder="Enter your username">
             </div>
-            <div class="form-group">
-                <label for="password">Password *</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                    required>
-                <span id="passwordError" class="error-message"></span>
+
+            <!-- Password Field -->
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-semibold text-gray-700">PASSWORD</label>
+                <input id="password" name="password" type="password" class="block w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" required placeholder="Enter your password">
             </div>
-            <button type="submit" class="btn btn-primary">Masuk</button>
+
+            <!-- Login Button -->
+            <button type="submit" class="form-button">LOGIN</button>
+
+            <!-- Terms and Privacy Text -->
+            <p class="terms-text">
+                By signing in you are agreeing to our <a href="#" class="hover:underline">Terms</a> and <a href="#" class="hover:underline">privacy policy</a>
+            </p>
         </form>
     </div>
 
-    <script>
-        function validateForm() {
-            let isValid = true;
+   <!-- Pop-up Modal for Success/Error -->
+   <div id="popup" class="popup">
+        <div class="popup-content">
+            <h4 id="popupTitle">Login Status</h4>
+            <div class="popup-content" id="popupContent"></div>
+            <button class="btn-close" onclick="closePopup()">Tutup</button>
+        </div>
+    </div>
 
-            // Clear previous error messages
-            document.getElementById("emailError").innerText = "";
-            document.getElementById("passwordError").innerText = "";
+<script>
+    // Show popup for login errors (email/password or account status)
+    @if(session('error'))
+        document.getElementById("popupTitle").innerText = "Login Gagal";
+        document.getElementById("popupContent").innerText = "{{ session('error') }}";
+        document.getElementById("popup").style.display = "flex";
+    @endif
 
-            // Get the input values
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+</script>
 
-            // Validate email
-            if (email === "" || !email.includes('@')) {
-                document.getElementById("emailError").innerText = "Email tidak valid";
-                isValid = false;
-            }
-
-            // Validate password
-            if (password === "" || password.length < 6) {
-                document.getElementById("passwordError").innerText = "Password tidak valid";
-                isValid = false;
-            }
-
-            return isValid;
-        }
-    </script>
 </body>
 
 </html>

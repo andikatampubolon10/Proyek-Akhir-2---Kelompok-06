@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Validation\ValidationException;
-use App\Http\Requests\Auth\LoginRequest; 
+use App\Http\Requests\Auth\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -16,34 +15,33 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('login'); 
+        return view('login');
     }
- 
+
     /**
-     * Handle login request
+     * Handle login request.
      */
     public function login(LoginRequest $request)
     {
-        $request->authenticate(); // Memanggil metode authenticate dari LoginRequest
+        // Memanggil metode authenticate dari LoginRequest
+        try {
+            $request->authenticate();
+        } catch (ValidationException $e) {
+            // Menyimpan pesan error di session untuk ditampilkan di view
+            return back()->with('error', 'Email atau password salah.');
+        }
     
-        // Jika sampai sini, berarti pengguna sudah berhasil login
         $user = Auth::user();
     
-        // Periksa apakah pengguna adalah operator dan statusnya tidak aktif
         if ($user->hasRole('Operator')) {
-            $operator = $user->operator; // Mengambil data operator terkait
-    
+            $operator = $user->operator;
             if ($operator && $operator->status_aktif === 'tidak aktif') {
-                // Jika status operator tidak aktif, logout dan tampilkan pesan kesalahan
                 Auth::logout();
-                throw ValidationException::withMessages([
-                    'email' => ['Akun Anda tidak aktif. Silakan hubungi administrator.'],
-                ]);
+                return back()->with('error', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
             }
         }
     
         $request->session()->regenerate();
-    
         // Redirect berdasarkan peran pengguna
         if ($user->hasRole('Admin')) {
             return redirect()->intended('Role.Admin.Akun.index');
@@ -55,6 +53,7 @@ class LoginController extends Controller
             return redirect()->intended('Role.Siswa.Course.index');
         }
     }
+    
 
     /**
      * Logout user.
@@ -62,9 +61,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect()->route('login');

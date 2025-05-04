@@ -1,82 +1,350 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>QuizHub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator | Siswa</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
-        html,
+        /* General Styles */
         body {
-            height: 100%;
+            background-color: #f4f5f7;
+            font-family: 'Arial', sans-serif;
+            padding: 0;
             margin: 0;
-            font-family: "Inter", sans-serif;
+            color: #333;
         }
 
-        body {
-            background-color: #f3f4f6;
-            min-height: 100vh;
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #00bfae, #00796b);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
-        #app {
-            flex: 1 1 auto;
+        .header .logo img {
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+        .header .user-info {
             display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 48px);
-            width: 100vw;
-            overflow-x: hidden;
+            align-items: center;
+            gap: 15px;
+            position: relative;
         }
 
-        @media (min-width: 768px) {
-            #app {
-                flex-direction: row;
+        .header .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header .user-info img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .user-info span {
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 150px;
+            z-index: 1500;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04040;
+        }
+
+     .sidebar {
+    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+    width: 260px;
+    padding: 25px 15px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+    z-index: 900;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 15px;
+    font-size: 22px;
+}
+
+.sidebar a.active {
+    background-color: #00796b;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a:hover {
+    background-color: #004d40;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Adjust the "Course" button to match other sidebar items */
+#dropdownButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 18px; /* Same as other sidebar items */
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+#dropdownButton i {
+    font-size: 22px; /* Same icon size as other items */
+}
+
+#dropdownButton span {
+    font-size: 17px; /* Same font size as other items */
+}
+
+
+        /* Button Styles */
+        .btn-add-top-right {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            background-color: #00bfae;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-top-right:hover {
+            background-color: #00796b;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 18px 25px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #14A098;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        table td {
+            vertical-align: middle;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 100px 30px 30px;
+            flex: 1;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        /* Main Content Box */
+        .main-content-box {
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                top: 0;
+                left: 0;
+                height: auto;
+                border-radius: 0;
             }
-        }
 
-        nav::-webkit-scrollbar {
-            width: 6px;
-        }
+            .main-content {
+                margin-left: 0;
+                padding: 70px 20px 20px;
+            }
 
-        nav::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
+            .btn-add-top-right {
+                width: 100%;
+                padding: 15px 0;
+            }
         }
     </style>
 </head>
 
-<body class="bg-[#f3f4f6] min-h-screen">
-    <header class="flex justify-between items-center px-4 sm:px-6 md:px-8 py-3 text-white font-semibold text-sm"
-        style="background: linear-gradient(90deg, #4f7aff 0%, #4bbf58 100%)">
-        <div class="flex items-center space-x-2">
-            <span class="font-extrabold text-lg select-none">
-                QUIZHUB
-            </span>
-        </div>
-    </header>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
 
-    <div id="app" class="flex-1 bg-white p-6 rounded-lg shadow-md overflow-auto max-w-4xl mx-auto my-6 w-full">
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Welcome, Guru</span>
+                </div>
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+            </div>
+       <!-- Dropdown Menu -->
+       <div id="dropdown-menu" class="dropdown-menu">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="flex flex-col space-y-2" id="dropdown-course">
+                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
+                    <span class="flex items-center space-x-2">
+                        <i class="fas fa-book-open text-sm"></i>
+                        <span>
+                            Course
+                        </span>
+                    </span>
+                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
+                </button>
+                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
+                            Ujian
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
+                            Soal
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
+                            Materi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        
+        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-pen text-sm"></i>
+                <span>Latihan Soal</span>
+        </a>
+        
+        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-chart-line text-sm"></i>
+                <span>Nilai</span>
+        </a>            
+    </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+<div id="app" class="flex-1 bg-white p-6 rounded-lg shadow-md overflow-auto max-w-4xl mx-auto my-6 w-full">
         <form action="{{ route('Guru.Persentase.store') }}" method="POST" class="space-y-6 w-full">
             @csrf
             <h2 class="text-xl font-semibold mb-4">Tambah Persentase</h2>
         
             <div class="flex flex-col space-y-6 w-full">
                 <!-- Dropdown untuk Kursus -->
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-                    <label for="id_kursus" class="text-sm font-medium text-gray-700 mb-1 sm:mb-0 sm:mr-4 flex-shrink-0 w-full sm:w-auto">
-                        Kursus
-                    </label>
-                    <select name="id_kursus" id="id_kursus" class="w-full sm:max-w-xs px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                        <option value="">Pilih Kursus</option>
-                        @foreach ($kursus as $kursus_item)
-                            <option value="{{ $kursus_item->id_kursus }}">{{ $kursus_item->nama_kursus }}</option>
-                        @endforeach
-                    </select>
-
-                </div>
+            
+                <input type="hidden" name="id_kursus" value="{{ $id_kursus }}">
+            
         
                 <!-- Input untuk Persentase Kuis -->
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
@@ -121,6 +389,48 @@
                 document.getElementById('warning-message').style.display = 'none';
             }
         });
+           // Dropdown toggle script
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const dropdownIcon = document.getElementById('dropdownIcon');
+
+        dropdownButton.addEventListener('click', () => {
+            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+            dropdownButton.setAttribute('aria-expanded', !isExpanded);
+
+            if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu.style.paddingTop = '0';
+                dropdownMenu.style.paddingBottom = '0';
+                dropdownIcon.style.transform = 'rotate(0deg)';
+            } else {
+                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                dropdownMenu.style.paddingTop = '0.5rem';
+                dropdownMenu.style.paddingBottom = '0.5rem';
+                dropdownIcon.style.transform = 'rotate(180deg)';
+            }
+        });
+
+        // Close dropdown if clicked outside
+        window.addEventListener('click', (e) => {
+            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu.style.paddingTop = '0';
+                dropdownMenu.style.paddingBottom = '0';
+                dropdownButton.setAttribute('aria-expanded', 'false');
+                dropdownIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Initialize dropdown closed
+        dropdownMenu.style.maxHeight = '0px';
+        dropdownMenu.style.overflow = 'hidden';
+        dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
     </script>
 </body>
 

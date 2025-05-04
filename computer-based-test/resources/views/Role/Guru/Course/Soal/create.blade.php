@@ -19,7 +19,7 @@
             <div class="flex items-center cursor-pointer" id="profileDropdown">
                 <div class="flex flex-col items-center">
                     <span class="text-white">
-                        Welcome, Admin
+                        Welcome, Guru
                     </span>
                     <span class="text-white font-semibold">
                         {{ $user->name }}

@@ -1,129 +1,392 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizHub</title>
+    <title>Operator | Edit Guru</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
-        /* Custom dropdown styles */
+        /* General Styles */
+        body {
+            background-color: #f4f5f7;
+            font-family: 'Arial', sans-serif;
+            padding: 0;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #00bfae, #00796b);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+
+        }
+
+        .header .logo img {
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .header .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header .user-info img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .user-info span {
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
         .dropdown-menu {
             display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 150px;
         }
 
-        .dropdown.open .dropdown-menu {
+        .dropdown-menu.show {
             display: block;
         }
+
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04040;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+       
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
+
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button Styles */
+        .btn-add-top-right {
+                position: absolute;
+                top: 100px;
+            right: 30px;
+            background-color: #00bfae;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-top-right:hover {
+            background-color: #00796b;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 18px 25px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #14A098;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        table td {
+            vertical-align: middle;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 100px 30px 30px;
+            flex: 1;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        /* Main Content Box */
+        .main-content-box {
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                top: 0;
+                left: 0;
+                height: auto;
+                border-radius: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 70px 20px 20px;
+            }
+
+            .btn-add-top-right {
+                width: 100%;
+                padding: 15px 0;
+            }
+        }
+        /* Breadcrumb Styling */
+        .breadcrumb {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .breadcrumb-item a {
+            color: #00bfae;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #004d40;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-item.active {
+            color: #00796b;
+        }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.dropdown').addEventListener('click', function() {
-                this.querySelector('.dropdown-menu').classList.toggle('hidden');
-            });
-        });
-    </script>
 </head>
 
-<body class="bg-gray-100">
+<body>
     <!-- Header -->
-    <div class="flex flex-col h-screen">
-        <!-- Top Bar -->
-        <div class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 shadow p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-white">QUIZHUB</h1>
-            <div class="relative dropdown">
-                <div class="flex items-center cursor-pointer">
-                    <div class="flex flex-col items-center">
-                        <span class="text-white">Welcome, Operator</span>
-                        <span class="text-white font-semibold">{{ $user->name }}</span>
-                    </div>
-                    <img alt="Profile picture of Natan Hutahean" class="rounded-full ml-4" height="40"
-                        src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
-                        width="40">
+    <div class="header">
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
+        
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Welcome, Operator</span>
+                    <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden">
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
-                    </form>
-                </div>
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+            </div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                </form>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row">
-            <!-- Sidebar -->
-            <div class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 h-screen p-4">
-                <ul>
-                    <li class="mb-4">
-                        <a href="{{ route('Operator.Kelas.index') }}"
-                            class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
-                            <i class="fas fa-home text-white mr-2"></i>
-                            Kelas
-                        </a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="{{ route('Operator.Siswa.index') }}"
-                            class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
-                            <i class="fas fa-user-graduate text-white mr-2"></i>
-                            Daftar Siswa
-                        </a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="#" class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow">
-                            <i class="fas fa-chalkboard-teacher text-white mr-2"></i>
-                            Daftar Guru
-                        </a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="{{ route('Operator.Kurikulum.index') }}"
-                            class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
-                            <i class="fas fa-calendar-alt text-white mr-2"></i>
-                            Kurikulum
-                        </a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="{{ route('Operator.MataPelajaran.index') }}"
-                            class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
-                            <i class="fas fa-book text-white mr-2"></i>
-                            Mata Pelajaran
-                        </a>
-                    </li>
-                </ul>
+    </div>
+
+    <div class="flex flex-col md:flex-row">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-home text-white mr-2"></i> Kelas
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+                      <!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
+        <li class="breadcrumb-item">
+            <a href="{{ route('Operator.Guru.store') }}" class="text-teal-500 hover:text-teal-700 font-semibold">Guru</a>
+        </li>
+        <li class="breadcrumb-item active text-gray-600" aria-current="page">Edit Guru</li>
+    </ol>
+</nav>
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{{ route('Admin.Akun.create') }}" class="btn btn-success d-flex align-items-center">
+                    <i class="fas fa-plus mr-2"></i> Tambahkan
+                </a>
             </div>
-            <!-- Main Content -->
-            <div class="w-full md:w-4/5 p-4 flex justify-center items-start">
-                <div class="w-full">
-                    <form action="{{ route('Operator.Guru.update', $gurus->id) }}" method="POST" class="space-y-6">
-                        @csrf
-                        @method('PATCH')
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2">NIP</label>
-                            <input name="nip" value="{{($gurus->nip)}}" type="text" class="block w-full p-2 border border-gray-300 rounded-md">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2">Nama Guru</label>
-                            <input name="name" value="{{ ($gurus->name) }}" type="text" class="block w-full p-2 border border-gray-300 rounded-md">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2">Password</label>
-                            <input name="password" type="password" class="block w-full p-2 border border-gray-300 rounded-md">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2">Konfirmasi Password</label>
-                            <input name="password_confirmation" type="password" class="block w-full p-2 border border-gray-300 rounded-md">
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
-                                <span>Simpan</span>
-                                <i class="fas fa-check ml-2"></i>
-                            </button>
-                        </div>
-                    </form>
+
+            <div class="table-responsive">
+                <h1 class="text-xl font-bold mb-4">Operator Information</h1>
+                <div class="main-content-box">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama Sekolah</th>
+                                <th>Email</th>
+                                <th>Durasi</th>
+                                <th>Status Aktif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($operators as $operator)
+                                <tr>
+                                    <td>{{ $operator['nama_sekolah'] }}</td>
+                                    <td>{{ $operator->user['email'] }}</td>
+                                    <td>{{ $operator['durasi'] }}</td>
+                                    <td>{{ $operator['status'] }}</td>
+                                    <td class="actions-btns">
+                                        <!-- Action Icons Without Boxes -->
+                                        <form action="{{ route('Admin.Akun.destroy', $operator->id_operator) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="delete-btn">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('Admin.Akun.edit', $operator->user->id) }}" method="GET">
+                                            <button type="submit" class="edit-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+    </script>
 </body>
 
 </html>

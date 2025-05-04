@@ -65,15 +65,15 @@ class KelasController extends Controller
         $request->validate([
             'nama_kelas' => 'required|string|max:255|unique:kelas,nama_kelas,' . $id . ',id_kelas',
         ]);
-
+    
         $kelas = Kelas::findOrFail($id);
         $kelas->update([
             'nama_kelas' => $request->nama_kelas,
         ]);
-
+    
         return redirect()->route('Operator.Kelas.index')->with('success', 'Kelas berhasil diperbarui.');
     }
-
+    
     public function destroy(string $id)
     {
         $kelas = Kelas::findOrFail($id);

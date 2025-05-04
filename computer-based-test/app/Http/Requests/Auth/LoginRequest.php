@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\Siswa;
@@ -31,18 +29,19 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        
+
+        // Mencari user berdasarkan email
         $user = User::where('email', $this->input('identifier'))->first();
-        
+
         if (!$user || !Auth::attempt(['email' => $this->input('identifier'), 'password' => $this->input('password')], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'identifier' => trans('auth.failed'),
+                'identifier' => 'Email atau password salah.',
             ]);
         }
 
-        // Validasi status akun (operator, guru, siswa)
+        // Validasi status akun
         $this->checkUserStatus($user);
 
         RateLimiter::clear($this->throttleKey());
@@ -54,21 +53,16 @@ class LoginRequest extends FormRequest
             return;
         }
 
-        event(new Lockout($this));
-
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'identifier' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'identifier' => 'Terlalu banyak percakapan. Silakan coba lagi dalam ' . $seconds . ' detik.',
         ]);
     }
 
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('identifier')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('identifier')) . '|' . $this->ip());
     }
 
     /**
