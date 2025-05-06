@@ -16,6 +16,7 @@
             color: #333;
             overflow-x: hidden;
         }
+
         /* Header Styles */
         .header {
             background: linear-gradient(to right, #00bfae, #00796b);
@@ -64,53 +65,54 @@
         }
 
         .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 60px;  /* Adjust based on header height */
-        right: 0;
-        background-color: #ffffff;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-        padding: 10px;
-        border-radius: 8px;
-        width: 150px;
-    }
+            display: none;
+            position: absolute;
+            top: 60px;
+            /* Adjust based on header height */
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 150px;
+        }
 
-    .dropdown-menu.show {
-        display: block;
-    }
+        .dropdown-menu.show {
+            display: block;
+        }
 
-    .logout-btn {
-        background-color: #ff4d4d;
-        color: white;
-        border: none;
-        padding: 10px;
-        width: 100%;
-        border-radius: 6px;
-        text-align: center;
-    }
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            text-align: center;
+        }
 
-    .logout-btn:hover {
-        background-color: #e04040;
-    }
+        .logout-btn:hover {
+            background-color: #e04040;
+        }
 
-    /* Style for user profile image hover effect */
-    .header .user-info img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 3px solid #ffffff;
-        object-fit: cover;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-    }
+        /* Style for user profile image hover effect */
+        .header .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+        }
 
-    .header .user-info img:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+        .header .user-info img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -122,7 +124,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-         
+
         }
 
         .sidebar a {
@@ -252,8 +254,8 @@
             }
         }
 
-                /* Breadcrumb Styling */
-                .breadcrumb {
+        /* Breadcrumb Styling */
+        .breadcrumb {
             background-color: #ffffff;
             padding: 10px 20px;
             border-radius: 8px;
@@ -275,6 +277,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -286,7 +295,9 @@
         </div>
         <div class="user-info">
             <span>Admin</span>
-            <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" onclick="toggleDropdown()">
+            <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                width="50" onclick="toggleDropdown()">
             <!-- Dropdown Menu -->
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
@@ -314,47 +325,74 @@
 
         <!-- Main Content -->
         <div class="main-content">
-    <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('Admin.Akun.index') }}">Akun</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
-        </ol>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('Admin.Akun.index') }}">Akun</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
+                </ol>
+                <div class="form-container">
+                    <form action="{{ route('Admin.Akun.update', $operator->id_operator) }}" method="POST">
+                        @csrf
+                        @method('PUT')
 
-            <div class="form-container">
-                <form action="{{ route('Admin.Akun.update', $operator->id_operator) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="nama_sekolah">Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input type="text" id="nama_sekolah" name="nama_sekolah" value="{{ $operator['nama_sekolah']}}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email<span class="text-red-500">*</span></label>
-                        <input type="email" id="email" name="email" value="{{ $operator->user['email'] }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status Aktif<span class="text-red-500">*</span></label>
-                        <select id="status" name="status">
-                            <option value="Aktif" {{ $operator->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Tidak Aktif" {{ $operator->status == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password<span class="text-red-500">*</span></label>
-                        <input type="password" id="password" name="password">
-                    </div>
-                    <div class="form-group">
-                        <label for="password_confirmation">Konfirmasi Password<span class="text-red-500">*</span></label>
-                        <input type="password" id="password_confirmation" name="password_confirmation">
-                    </div>
-                    <div class="form-group text-right">
-                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
-                            <span>Simpan</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                        <div class="form-group">
+                            <label for="nama_sekolah">Nama Sekolah<span class="text-red-500">*</span></label>
+                            <input type="text" id="nama_sekolah" name="nama_sekolah"
+                                value="{{ old('nama_sekolah', $operator['nama_sekolah']) }}" required>
+                            @error('nama_sekolah')
+                                <span class="alert-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email<span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email"
+                                value="{{ old('email', $operator->user['email']) }}" required>
+                            @error('email')
+                                <span class="alert-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status Aktif<span class="text-red-500">*</span></label>
+                            <select id="status" name="status">
+                                <option value="Aktif"
+                                    {{ old('status', $operator->status) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Tidak Aktif"
+                                    {{ old('status', $operator->status) == 'Tidak Aktif' ? 'selected' : '' }}>Tidak
+                                    Aktif</option>
+                            </select>
+                            @error('status')
+                                <span class="alert-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password<span class="text-red-500">*</span></label>
+                            <input type="password" id="password" name="password">
+                            @error('password')
+                                <span class="alert-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation">Konfirmasi Password<span
+                                    class="text-red-500">*</span></label>
+                            <input type="password" id="password_confirmation" name="password_confirmation">
+                            @error('password_confirmation')
+                                <span class="alert-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group text-right">
+                            <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
+                                <span>Simpan</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
         </div>
     </div>
 

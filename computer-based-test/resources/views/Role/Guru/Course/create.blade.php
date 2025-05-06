@@ -98,72 +98,75 @@
             background-color: #e04040;
         }
 
-     .sidebar {
-    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
-    width: 260px;
-    padding: 25px 15px;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.3s ease;
-    z-index: 900;
-}
+        .sidebar {
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+        }
 
-.sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 12px 18px;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-.sidebar a i {
-    margin-right: 15px;
-    font-size: 22px;
-}
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
 
-.sidebar a.active {
-    background-color: #00796b;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar a:hover {
-    background-color: #004d40;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-/* Adjust the "Course" button to match other sidebar items */
-#dropdownButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 18px; /* Same as other sidebar items */
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        /* Adjust the "Course" button to match other sidebar items */
+        #dropdownButton {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 18px;
+            /* Same as other sidebar items */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-#dropdownButton i {
-    font-size: 22px; /* Same icon size as other items */
-}
+        #dropdownButton i {
+            font-size: 22px;
+            /* Same icon size as other items */
+        }
 
-#dropdownButton span {
-    font-size: 17px; /* Same font size as other items */
-}
+        #dropdownButton span {
+            font-size: 17px;
+            /* Same font size as other items */
+        }
 
 
         /* Button Styles */
@@ -277,12 +280,15 @@
                     <span class="text-white">Welcome, Guru</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
@@ -291,174 +297,160 @@
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="flex flex-col space-y-2" id="dropdown-course">
-                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
-                    <span class="flex items-center space-x-2">
-                        <i class="fas fa-book-open text-sm"></i>
-                        <span>
-                            Course
-                        </span>
-                    </span>
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
-                </button>
-                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
-                            Ujian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
-                            Soal
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
-                            Materi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-pen text-sm"></i>
                 <span>Latihan Soal</span>
-        </a>
-        
-        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-chart-line text-sm"></i>
                 <span>Nilai</span>
-        </a>            
-    </div>
-
+            </a>
+        </div>
         <!-- Main Content -->
         <div class="main-content">
-        <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
-            <form action="{{ route('Guru.Ujian.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-4">
-                    <label for="nama_ujian" class="block font-bold mb-2">Judul Ujian</label>
-                    <input type="text" name="nama_ujian" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="password" class="block font-bold mb-2">Password Masuk</label>
-                    <input type="password" name="password_masuk" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-
-                <div class="mb-4">
-                    <label for="password" class="block font-bold mb-2">Password Keluar</label>
-                    <input type="password" name="password_keluar" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-            
-                <input type="hidden" name="id_kursus" value="{{ $id_kursus }}">
-            
-                <div class="mb-4">
-                    <label for="tipe_ujian" class="block font-bold mb-2">Tipe Ujian</label>
-                    <div class="flex items-center space-x-4">
-                        <label class="inline-flex items-center">
-                            <input type="radio" name="id_tipe_ujian" value="1" class="form-radio text-green-500" required>
-                            <span class="ml-2">Kuis</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" name="id_tipe_ujian" value="2" class="form-radio text-green-500" required>
-                            <span class="ml-2">Ujian Tengah Semester</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" name="id_tipe_ujian" value="3" class="form-radio text-green-500" required>
-                            <span class="ml-2">Ujian Akhir Semester</span>
-                        </label>
+            <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
+                <form action="{{ route('Guru.Ujian.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="nama_ujian" class="block font-bold mb-2">Judul Ujian</label>
+                        <input type="text" name="nama_ujian"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="acak" class="block font-bold mb-2">Acak Soal dan Pilihan</label>
-                    <select name="acak" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                        <option value="" disabled selected>Pilih opsi</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                    </select>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="status_jawaban" class="block font-bold mb-2">Status Jawaban</label>
-                    <select name="status_jawaban" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                        <option value="" disabled selected>Pilih opsi</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                    </select>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="grade" class="block font-bold mb-2">Grade</label>
-                    <input type="number" name="grade" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="Waktu_Mulai" class="block font-bold mb-2">Waktu Mulai</label>
-                    <input type="datetime-local" name="waktu_mulai" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-            
-                <div class="mb-4">
-                    <label for="Waktu_Selesai" class="block font-bold mb-2">Waktu Selesai</label>
-                    <input type="datetime-local" name="waktu_selesai" class="block w-full p-2 border border-gray-300 rounded-md" required>
-                </div>
-            
-                <div class="flex justify-end mt-4">
-                    <button type="submit"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
-                        <span>Simpan</span>
-                        <i class="fas fa-check ml-2"></i>
-                    </button>
-                </div>
-            </form>            
-        </div>
 
-        <script>
-            // Dropdown toggle script
-            const dropdownButton = document.getElementById('dropdownButton');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            const dropdownIcon = document.getElementById('dropdownIcon');
-    
-            dropdownButton.addEventListener('click', () => {
-                const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
-                dropdownButton.setAttribute('aria-expanded', !isExpanded);
-    
-                if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
-                    dropdownMenu.style.maxHeight = '0px';
-                    dropdownMenu.style.paddingTop = '0';
-                    dropdownMenu.style.paddingBottom = '0';
-                    dropdownIcon.style.transform = 'rotate(0deg)';
-                } else {
-                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
-                    dropdownMenu.style.paddingTop = '0.5rem';
-                    dropdownMenu.style.paddingBottom = '0.5rem';
-                    dropdownIcon.style.transform = 'rotate(180deg)';
+                    <div class="mb-4">
+                        <label for="password" class="block font-bold mb-2">Password Masuk</label>
+                        <input type="password" name="password_masuk"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="block font-bold mb-2">Password Keluar</label>
+                        <input type="password" name="password_keluar"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <input type="hidden" name="id_kursus" value="{{ $id_kursus }}">
+                    
+                    <div class="mb-4">
+                        <label for="tipe_ujian" class="block font-bold mb-2">Tipe Ujian</label>
+                        <div class="flex items-center space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="id_tipe_ujian" value="1"
+                                    class="form-radio text-green-500" required>
+                                <span class="ml-2">Kuis</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="id_tipe_ujian" value="2"
+                                    class="form-radio text-green-500" required>
+                                <span class="ml-2">Ujian Tengah Semester</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="id_tipe_ujian" value="3"
+                                    class="form-radio text-green-500" required>
+                                <span class="ml-2">Ujian Akhir Semester</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="acak" class="block font-bold mb-2">Acak Soal dan Pilihan</label>
+                        <select name="acak" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <option value="" disabled selected>Pilih opsi</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="status_jawaban" class="block font-bold mb-2">Status Jawaban</label>
+                        <select name="status_jawaban" class="block w-full p-2 border border-gray-300 rounded-md"
+                            required>
+                            <option value="" disabled selected>Pilih opsi</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="grade" class="block font-bold mb-2">Grade</label>
+                        <input type="number" name="grade"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Waktu_Mulai" class="block font-bold mb-2">Waktu Mulai</label>
+                        <input type="datetime-local" name="waktu_mulai"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Waktu_Selesai" class="block font-bold mb-2">Waktu Selesai</label>
+                        <input type="datetime-local" name="waktu_selesai"
+                            class="block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <div class="flex justify-end mt-4">
+                        <button type="submit"
+                            class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                            <span>Simpan</span>
+                            <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <script>
+                // Dropdown toggle script
+                const dropdownButton = document.getElementById('dropdownButton');
+                const dropdownMenu = document.getElementById('dropdownMenu');
+                const dropdownIcon = document.getElementById('dropdownIcon');
+
+                dropdownButton.addEventListener('click', () => {
+                    const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+                    dropdownButton.setAttribute('aria-expanded', !isExpanded);
+
+                    if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+                        dropdownMenu.style.maxHeight = '0px';
+                        dropdownMenu.style.paddingTop = '0';
+                        dropdownMenu.style.paddingBottom = '0';
+                        dropdownIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                        dropdownMenu.style.paddingTop = '0.5rem';
+                        dropdownMenu.style.paddingBottom = '0.5rem';
+                        dropdownIcon.style.transform = 'rotate(180deg)';
+                    }
+                });
+
+                // Close dropdown if clicked outside
+                window.addEventListener('click', (e) => {
+                    if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.style.maxHeight = '0px';
+                        dropdownMenu.style.paddingTop = '0';
+                        dropdownMenu.style.paddingBottom = '0';
+                        dropdownButton.setAttribute('aria-expanded', 'false');
+                        dropdownIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Initialize dropdown closed
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu.style.overflow = 'hidden';
+                dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+
+                function toggleDropdown() {
+                    const dropdown = document.getElementById("dropdown-menu");
+                    dropdown.classList.toggle("show");
                 }
-            });
-    
-            // Close dropdown if clicked outside
-            window.addEventListener('click', (e) => {
-                if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                    dropdownMenu.style.maxHeight = '0px';
-                    dropdownMenu.style.paddingTop = '0';
-                    dropdownMenu.style.paddingBottom = '0';
-                    dropdownButton.setAttribute('aria-expanded', 'false');
-                    dropdownIcon.style.transform = 'rotate(0deg)';
-                }
-            });
-    
-            // Initialize dropdown closed
-            dropdownMenu.style.maxHeight = '0px';
-            dropdownMenu.style.overflow = 'hidden';
-            dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
-    
-            function toggleDropdown() {
-                const dropdown = document.getElementById("dropdown-menu");
-                dropdown.classList.toggle("show");
-            }
-        </script>
-    </body>
-    
-    </html>
-    
+            </script>
+</body>
+
+</html>

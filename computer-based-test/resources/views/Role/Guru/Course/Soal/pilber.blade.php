@@ -95,72 +95,75 @@
             background-color: #e04040;
         }
 
-     .sidebar {
-    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
-    width: 260px;
-    padding: 25px 15px;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.3s ease;
-    z-index: 900;
-}
+        .sidebar {
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+        }
 
-.sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 12px 18px;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-.sidebar a i {
-    margin-right: 15px;
-    font-size: 22px;
-}
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
 
-.sidebar a.active {
-    background-color: #00796b;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar a:hover {
-    background-color: #004d40;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-/* Adjust the "Course" button to match other sidebar items */
-#dropdownButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 18px; /* Same as other sidebar items */
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        /* Adjust the "Course" button to match other sidebar items */
+        #dropdownButton {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 18px;
+            /* Same as other sidebar items */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-#dropdownButton i {
-    font-size: 22px; /* Same icon size as other items */
-}
+        #dropdownButton i {
+            font-size: 22px;
+            /* Same icon size as other items */
+        }
 
-#dropdownButton span {
-    font-size: 17px; /* Same font size as other items */
-}
+        #dropdownButton span {
+            font-size: 17px;
+            /* Same font size as other items */
+        }
 
 
         /* Button Styles */
@@ -274,210 +277,206 @@
                     <span class="text-white">Welcome, Guru</span>
                     <span class="text-white font-semibold">{{ $users->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
     </div>
 
     <div class="flex flex-col md:flex-row">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="flex flex-col space-y-2" id="dropdown-course">
-                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
-                    <span class="flex items-center space-x-2">
-                        <i class="fas fa-book-open text-sm"></i>
-                        <span>
-                            Course
-                        </span>
-                    </span>
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
-                </button>
-                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
-                            Ujian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
-                            Soal
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
-                            Materi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-pen text-sm"></i>
                 <span>Latihan Soal</span>
-        </a>
-        
-        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-chart-line text-sm"></i>
                 <span>Nilai</span>
-        </a>            
-    </div>
-      
-    
-
-       <!-- Main Content -->
-       <div class="main-content">
-        <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
-            <form action="{{ route('Guru.Soal.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="question_type">Tipe Soal</label>
-                    <select id="question_type" name="id_tipe_soal" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="1">Pilihan Berganda</option>
-                    </select>
-                </div>
-                <!-- Soal -->
-                <label class="block text-gray-700 text-sm font-bold mb-2">Soal</label>
-                <div class="border p-2">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-          
-                    </div>
-                    <textarea name="soal" class="w-full border p-2" rows="4" required></textarea>
-                    <div id="image-preview" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Jawaban 1 -->
-                <div class="border p-2 mb-4">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                    </div>
-                    <textarea name="jawaban_1" placeholder="Jawaban 1" class="w-full border p-2" rows="2" required></textarea>
-                    <div id="image-preview-1" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Jawaban 2 -->
-                <div class="border p-2 mb-4">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-         
-                    </div>
-                    <textarea name="jawaban_2" placeholder="Jawaban 2" class="w-full border p-2" rows="2" required></textarea>
-                    <div id="image-preview-2" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Jawaban 3 -->
-                <div class="border p-2 mb-4">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-              
-                    </div>
-                    <textarea name="jawaban_3" placeholder="Jawaban 3" class="w-full border p-2" rows="2" required></textarea>
-                    <div id="image-preview-3" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Jawaban 4 -->
-                <div class="border p-2 mb-4">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-               
-                    </div>
-                    <textarea name="jawaban_4" placeholder="Jawaban 4" class="w-full border p-2" rows="2" required></textarea>
-                    <div id="image-preview-4" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Jawaban 5 -->
-                <div class="border p-2 mb-4">
-                    <div class="flex space-x-2 mb-2">
-                        <button class="border p-1"><i class="fas fa-list"></i></button>
-                        <button class="border p-1"><i class="fas fa-bold"></i></button>
-        
-                    </div>
-                    <textarea name="jawaban_5" placeholder="Jawaban 5" class="w-full border p-2" rows="2" required></textarea>
-                    <div id="image-preview-5" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
-                </div>
-            
-                <!-- Correct Answer Selection -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="correct_answer">Jawaban Benar</label>
-                    <select id="correct_answer" name="correct_answer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="jawaban_1">Jawaban 1</option>
-                        <option value="jawaban_2">Jawaban 2</option>
-                        <option value="jawaban_3">Jawaban 3</option>
-                        <option value="jawaban_4">Jawaban 4</option>
-                        <option value="jawaban_5">Jawaban 5</option>
-                    </select>
-                </div>
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
-                        <span>Simpan</span>
-                        <i class="fas fa-check ml-2"></i>
-                    </button>
-                </div>
-            </form>
+            </a>
         </div>
-    </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
+                <form action="{{ route('Guru.Soal.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="question_type">Tipe Soal</label>
+                        <select id="question_type" name="id_tipe_soal"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="1">Pilihan Berganda</option>
+                        </select>
+                    </div>
+                    <!-- Soal -->
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Soal</label>
+                    <div class="border p-2">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="soal" class="w-full border p-2" rows="4" required></textarea>
+                        <div id="image-preview" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Jawaban 1 -->
+                    <div class="border p-2 mb-4">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="jawaban_1" placeholder="Jawaban 1" class="w-full border p-2" rows="2" required></textarea>
+                        <div id="image-preview-1" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Jawaban 2 -->
+                    <div class="border p-2 mb-4">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="jawaban_2" placeholder="Jawaban 2" class="w-full border p-2" rows="2" required></textarea>
+                        <div id="image-preview-2" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Jawaban 3 -->
+                    <div class="border p-2 mb-4">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="jawaban_3" placeholder="Jawaban 3" class="w-full border p-2" rows="2" required></textarea>
+                        <div id="image-preview-3" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Jawaban 4 -->
+                    <div class="border p-2 mb-4">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="jawaban_4" placeholder="Jawaban 4" class="w-full border p-2" rows="2" required></textarea>
+                        <div id="image-preview-4" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Jawaban 5 -->
+                    <div class="border p-2 mb-4">
+                        <div class="flex space-x-2 mb-2">
+                            <button class="border p-1"><i class="fas fa-list"></i></button>
+                            <button class="border p-1"><i class="fas fa-bold"></i></button>
+
+                        </div>
+                        <textarea name="jawaban_5" placeholder="Jawaban 5" class="w-full border p-2" rows="2" required></textarea>
+                        <div id="image-preview-5" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    </div>
+
+                    <!-- Correct Answer Selection -->
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="correct_answer">Jawaban
+                            Benar</label>
+                        <select id="correct_answer" name="correct_answer"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="jawaban_1">Jawaban 1</option>
+                            <option value="jawaban_2">Jawaban 2</option>
+                            <option value="jawaban_3">Jawaban 3</option>
+                            <option value="jawaban_4">Jawaban 4</option>
+                            <option value="jawaban_5">Jawaban 5</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_latihan">Latihan (Untuk Pembuatan Soal Latihan)</label>
+                        <select name="id_latihan" id="id_latihan"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Pilih Latihan (Opsional)</option>
+                            @foreach ($latihan as $latihans)
+                                <option value="{{ $latihans->id_latihan }}"
+                                    {{ old('id_latihan') == $latihans->id_latihan ? 'selected' : '' }}>
+                                    {{ $latihans->Topik }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
+                            <span>Simpan</span>
+                            <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </body>
 
 <script>
-                // Dropdown toggle script
-                const dropdownButton = document.getElementById('dropdownButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const dropdownIcon = document.getElementById('dropdownIcon');
+    // Dropdown toggle script
+    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const dropdownIcon = document.getElementById('dropdownIcon');
 
-        dropdownButton.addEventListener('click', () => {
-            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
-            dropdownButton.setAttribute('aria-expanded', !isExpanded);
+    dropdownButton.addEventListener('click', () => {
+        const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+        dropdownButton.setAttribute('aria-expanded', !isExpanded);
 
-            if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            } else {
-                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
-                dropdownMenu.style.paddingTop = '0.5rem';
-                dropdownMenu.style.paddingBottom = '0.5rem';
-                dropdownIcon.style.transform = 'rotate(180deg)';
-            }
-        });
-
-        // Close dropdown if clicked outside
-        window.addEventListener('click', (e) => {
-            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownButton.setAttribute('aria-expanded', 'false');
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            }
-        });
-
-        // Initialize dropdown closed
-        dropdownMenu.style.maxHeight = '0px';
-        dropdownMenu.style.overflow = 'hidden';
-        dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
-
-        function toggleDropdown() {
-            const dropdown = document.getElementById("dropdown-menu");
-            dropdown.classList.toggle("show");
+        if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+            dropdownMenu.style.maxHeight = '0px';
+            dropdownMenu.style.paddingTop = '0';
+            dropdownMenu.style.paddingBottom = '0';
+            dropdownIcon.style.transform = 'rotate(0deg)';
+        } else {
+            dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+            dropdownMenu.style.paddingTop = '0.5rem';
+            dropdownMenu.style.paddingBottom = '0.5rem';
+            dropdownIcon.style.transform = 'rotate(180deg)';
         }
+    });
+
+    // Close dropdown if clicked outside
+    window.addEventListener('click', (e) => {
+        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.style.maxHeight = '0px';
+            dropdownMenu.style.paddingTop = '0';
+            dropdownMenu.style.paddingBottom = '0';
+            dropdownButton.setAttribute('aria-expanded', 'false');
+            dropdownIcon.style.transform = 'rotate(0deg)';
+        }
+    });
+
+    // Initialize dropdown closed
+    dropdownMenu.style.maxHeight = '0px';
+    dropdownMenu.style.overflow = 'hidden';
+    dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdown-menu");
+        dropdown.classList.toggle("show");
+    }
 
 
-        document.getElementById('profileDropdown').addEventListener('click', function() {
-            document.getElementById('logoutDropdown').classList.toggle('hidden');
-        });     
+    document.getElementById('profileDropdown').addEventListener('click', function() {
+        document.getElementById('logoutDropdown').classList.toggle('hidden');
+    });
 
 
     document.querySelectorAll('.fa-list').forEach(button => {
@@ -499,9 +498,11 @@
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const textarea = this.closest('.flex').nextElementSibling;
-            const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+            const selectedText = textarea.value.substring(textarea.selectionStart, textarea
+                .selectionEnd);
             const newText = `<strong>${selectedText}</strong>`;
-            textarea.value = textarea.value.substring(0, textarea.selectionStart) + newText + textarea.value.substring(textarea.selectionEnd);
+            textarea.value = textarea.value.substring(0, textarea.selectionStart) + newText + textarea
+                .value.substring(textarea.selectionEnd);
         });
     });
 

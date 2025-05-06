@@ -32,7 +32,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-   
+
         }
 
         .header .logo img {
@@ -66,6 +66,7 @@
             font-weight: 600;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
+
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -98,7 +99,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -110,7 +111,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-        
+
         }
 
         .sidebar a {
@@ -237,6 +238,7 @@
                 padding: 15px 0;
             }
         }
+
         /* Breadcrumb Styling */
         .breadcrumb {
             background-color: #ffffff;
@@ -260,6 +262,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -276,7 +285,9 @@
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
@@ -294,27 +305,32 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kurikulum.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
                         <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Guru.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>
@@ -323,15 +339,16 @@
 
         <!-- Main Content -->
         <div class="main-content">
- <!-- Breadcrumb -->
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
-        <li class="breadcrumb-item">
-            <a href="{{ route('Operator.Kurikulum.store') }}" class="text-teal-500 hover:text-teal-700 font-semibold">Kurikulum</a>
-        </li>
-        <li class="breadcrumb-item active text-gray-600" aria-current="page">Tambah Kurikulum</li>
-    </ol>
-</nav>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('Operator.Kurikulum.store') }}"
+                            class="text-teal-500 hover:text-teal-700 font-semibold">Kurikulum</a>
+                    </li>
+                    <li class="breadcrumb-item active text-gray-600" aria-current="page">Tambah Kurikulum</li>
+                </ol>
+            </nav>
 
 
             <div class="form-container">
@@ -339,11 +356,19 @@
                     @csrf
                     <div class="space-y-4 bg-white p-6 rounded-lg shadow-md">
                         <div>
-                            <label for="nama-kurikulum" class="block text-lg font-semibold text-gray-700">Nama Kurikulum</label>
-                            <input type="text" id="nama_kurikulum" name="nama_kurikulum" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            <label for="nama-kurikulum" class="block text-lg font-semibold text-gray-700">Nama
+                                Kurikulum</label>
+                            <input type="text" id="nama_kurikulum" name="nama_kurikulum"
+                                class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            @error('nama_kurikulum')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="flex justify-end">
-                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                            <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                                 <span>Simpan</span>
                                 <i class="fas fa-check ml-2"></i>
                             </button>

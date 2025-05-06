@@ -17,6 +17,7 @@ class GuruController extends Controller
     {
         $gurus = Guru::with('user')->get();
         $user = auth()->user();
+
         if (!$user) {
             return redirect()->route('login');
         }
@@ -32,6 +33,9 @@ class GuruController extends Controller
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
+        ], [
+            'file.required' => 'File harus diupload.',
+            'file.mimes' => 'File harus bertipe .xlsx atau .xls.',
         ]);
 
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
@@ -62,41 +66,57 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         try {
+            // Custom validation messages
             $request->validate([
                 'name' => 'required|string|max:255',
-                'nip' => 'required|numeric|digits:18|unique:guru',  // Validasi nip harus angka positif dan panjang 20 digit
+                'nip' => 'required|numeric|digits:18|min:18|unique:guru',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8',
                 'status' => 'in:Aktif,Tidak Aktif',
-                'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran', // Validasi untuk mata pelajaran
+                'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran',
+            ], [
+                'name.required' => 'Nama guru harus diisi.',
+                'nip.required' => 'NIP harus diisi.',
+                'nip.unique' => 'NIP sudah terdaftar.',
+                'nip.numeric' => 'NIP harus berupa angka.',
+                'nip.digits' => 'NIP harus terdiri dari 18 digit.',
+                'nip.min' => 'NIP harus terdiri dari minimal 18 digit.',
+                'email.required' => 'Email harus diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah terdaftar.',
+                'password.required' => 'Password harus diisi.',
+                'password.min' => 'Password minimal terdiri dari 8 karakter.',
+                'status.in' => 'Status harus bernilai "Aktif" atau "Tidak Aktif".',
+                'mata_pelajaran.required' => 'Mata pelajaran harus dipilih.',
+                'mata_pelajaran.exists' => 'Mata pelajaran yang dipilih tidak valid.',
             ]);
-    
+
+            // Create the user and associate the operator and guru data
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-    
+
             $user->assignRole('Guru');
-    
-            $idUser   = auth()->user()->id;
+
+            $idUser = auth()->user()->id;
             $operator = Operator::where('id_user', $idUser)->first();
-    
+
             if (!$operator) {
                 Log::error('Operator not found for user: ' . $idUser);
                 return redirect()->back()->withErrors('ID Operator tidak ditemukan. Pastikan pengguna memiliki ID Operator yang valid.');
             }
-    
-            // Simpan guru dengan mata pelajaran
+
             Guru::create([
                 'nama_guru' => $request->name,
-                'nip' => $request->nip,  // Validasi nip yang sudah benar
+                'nip' => $request->nip,
                 'id_user' => $user->id,
                 'id_operator' => $operator->id_operator,
                 'status' => $request->status ?? 'Aktif',
-                'id_mata_pelajaran' => $request->mata_pelajaran, // Menyimpan mata pelajaran
+                'id_mata_pelajaran' => $request->mata_pelajaran,
             ]);
-    
+
             return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil ditambahkan.');
         } catch (\Exception $e) {
             Log::error('Error adding guru: ' . $e->getMessage(), [
@@ -105,7 +125,7 @@ class GuruController extends Controller
             ]);
             return redirect()->back()->withErrors('Terjadi kesalahan saat menambahkan guru.');
         }
-    }    
+    }
 
     public function show(string $id)
     {
@@ -115,38 +135,76 @@ class GuruController extends Controller
 
     public function edit(string $id)
     {
-        $mataPelajaran = MataPelajaran::all();
+        $mataPelajaran = mata_pelajaran::all();
         $guru = Guru::with('user')->findOrFail($id);
         $user = auth()->user();
         return view('Role.Operator.Guru.edit', compact('guru', 'user', 'mataPelajaran'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id_guru)
     {
+        // Log masuk untuk melihat data request
+        Log::debug('Update Request Data:', $request->all());
+        
+        // Validasi request
         $request->validate([
             'name' => 'required|string|max:255',
-            'nip' => 'required|numeric|digits:18|unique:guru,nip,' . $id,
-            'password' => 'nullable|string|min:8',
+            'nip' => 'required|numeric|digits:18|min:18|unique:guru,nip,' . $id_guru . ',id_guru',
+            'password' => 'nullable|string|min:8|confirmed',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'mata_pelajaran' => 'required|exists:mata_pelajaran,id_mata_pelajaran', // Validasi mata pelajaran
+        ], [
+            'name.required' => 'Nama guru harus diisi.',
+            'nip.required' => 'NIP harus diisi.',
+            'nip.unique' => 'NIP sudah terdaftar.',
+            'nip.numeric' => 'NIP harus berupa angka.',
+            'nip.digits' => 'NIP harus terdiri dari 18 digit.',
+            'nip.min' => 'NIP harus terdiri dari minimal 18 digit.',
+            'password.min' => 'Password minimal terdiri dari 8 karakter.',
+            'password.confirmed' => 'Password dan konfirmasi password tidak cocok.',
+            'status.required' => 'Status harus diisi.',
+            'status.in' => 'Status harus bernilai "Aktif" atau "Tidak Aktif".',
         ]);
-
-        $guru = Guru::findOrFail($id);
+    
+        // Temukan guru berdasarkan ID
+        $guru = Guru::findOrFail($id_guru);
+    
+        // Update data guru
         $guru->nama_guru = $request->name;
         $guru->nip = $request->nip;
         $guru->status = $request->status;
-        $guru->id_mata_pelajaran = $request->mata_pelajaran; // Update mata pelajaran
-
-        if ($request->filled('password')) {
-            $guru->password = bcrypt($request->password);
+    
+        // Jika user ada, update nama guru di tabel user
+        if ($guru->user) {
+            Log::debug('Updating User Name:', ['old_name' => $guru->user->name, 'new_name' => $request->name]);
+            $guru->user->name = $request->name; // Update kolom 'name' di tabel 'users'
         }
-
+    
+        // Update password jika ada perubahan
+        if ($request->filled('password')) {
+            Log::debug('Password is being updated');
+            $guru->password = bcrypt($request->password); // Update password di tabel guru
+    
+            if ($guru->user) {
+                Log::debug('Updating User Password');
+                $guru->user->password = bcrypt($request->password); // Update password di tabel users
+                $guru->user->save(); // Simpan perubahan pada user
+            }
+        }
+    
+        // Simpan perubahan pada tabel guru
+        Log::debug('Saving Guru Data...');
         $guru->save();
-
+    
+        // Simpan perubahan pada tabel user jika nama diupdate
+        if ($guru->user) {
+            Log::debug('Saving User Data...');
+            $guru->user->save(); // Simpan perubahan nama dan password pada user
+        }
+    
+        // Return ke halaman index dengan pesan sukses
         return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil diperbarui.');
     }
-
-
+    
     public function destroy(string $id)
     {
         $guru = Guru::findOrFail($id);

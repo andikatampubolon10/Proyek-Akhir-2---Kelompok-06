@@ -262,6 +262,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -352,6 +359,11 @@
                         </label>
                         <input name="nama_kelas" type="text" value="{{ old('nama_kelas', $kelas->nama_kelas) }}"
                             class="mt-1 block w-full border border-gray-300 rounded p-2" required>
+                        @error('nama_kelas')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="flex justify-end">

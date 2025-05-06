@@ -24,14 +24,14 @@ class UjianController extends Controller
             return redirect()->route('login'); // Redirect jika user tidak ditemukan
         }
 
-        $id_kursus = $request->query('id_kursus');
-
 
         $guru = Guru::where('id_user', $user->id)->first();
 
         if (!$guru) {
             return redirect()->back()->withErrors(['error' => 'Guru tidak ditemukan.']);
         }
+
+        $courses = kursus::with('guru')->get();
 
         $id_kursus = $request->input('id_kursus');
 
@@ -47,7 +47,7 @@ class UjianController extends Controller
             ->orderBy('tanggal_ujian', 'DESC')
             ->get();
 
-        return view('Role.Guru.Course.index', compact('user', 'ujians', 'kursus','id_kursus'));
+        return view('Role.Guru.Course.index', compact('user', 'ujians', 'kursus','id_kursus','courses'));
     }
 
     public function exportNilai($id_kursus)
@@ -84,10 +84,8 @@ class UjianController extends Controller
 
     public function store(Request $request)
     {
-        // Log request data
         Log::info('Received data for ujian creation:', $request->all());
 
-        // Validasi input dari form
         $validated = $request->validate([
             'nama_ujian' => 'required|string|max:255',
             'password_masuk' => 'required|string|min:6',
@@ -102,7 +100,6 @@ class UjianController extends Controller
         ]);
 
         try {
-            // Log validated data
             Log::info('Validated data:', $validated);
 
             $guru = Guru::where('id_user', auth()->user()->id)->first();
@@ -111,12 +108,10 @@ class UjianController extends Controller
                 return redirect()->back()->withErrors(['error' => 'Guru tidak ditemukan.']);
             }
 
-            // Menghitung durasi ujian
             $waktuMulai = Carbon::parse($validated['waktu_mulai']);
             $waktuSelesai = Carbon::parse($validated['waktu_selesai']);
             $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
 
-            // Menyimpan ujian ke dalam database
             $ujian = Ujian::create([
                 'id_guru' => $guru->id_guru,
                 'nama_ujian' => $validated['nama_ujian'],
@@ -132,7 +127,6 @@ class UjianController extends Controller
                 'durasi' => $durasi,
             ]);
 
-            // Log successful creation
             Log::info('Ujian successfully created:', ['ujian_id' => $ujian->id_ujian]);
 
             return redirect()->route('Guru.Ujian.index', ['id_kursus' => $validated['id_kursus']])->with('success', 'Ujian berhasil ditambahkan.');
@@ -148,86 +142,108 @@ class UjianController extends Controller
         return view('Role.Guru.Course.index', compact('ujian', 'course'));
     }
 
-    public function edit($id_ujian)
+    public function edit(Request $request, $id_ujian)
     {
-        try {
-            $user = auth()->user();
-            Log::info("User {$user->id} is editing Ujian with ID: {$id_ujian}");
+        $ujian = Ujian::where('id_ujian', $id_ujian)->firstOrFail();
+    
+        $id_kursus = $request->query('id_kursus');
+        
+        $user = auth()->user();
+    
+        $id_ujian = $request->query('id_ujian');
 
-            $ujian = Ujian::findOrFail($id_ujian);
-            Log::info("Ujian found: {$ujian->nama_ujian}");
-
-            return view('Role.Guru.Course.edit', compact('ujian', 'user'));
-        } catch (\Exception $e) {
-            Log::error("Error in edit Ujian with ID: {$id_ujian}. Error: {$e->getMessage()}");
-            return redirect()->back()->withErrors(['error' => 'Ujian tidak ditemukan.']);
+        $guru = Guru::where('id_user', auth()->user()->id)->first();
+    
+        if (!$guru) {
+            return redirect()->back()->withErrors(['error' => 'Guru tidak ditemukan.']);
         }
+    
+        $courses = Kursus::where('id_guru', $guru->id_guru)->get();
+    
+        if ($courses->isEmpty()) {
+            return redirect()->back()->with('error', 'Kursus tidak ditemukan.');
+        }
+    
+        return view('Role.Guru.Course.edit', compact('ujian', 'guru', 'id_kursus', 'courses', 'user','id_ujian'));
     }
 
     public function update(Request $request, $id_ujian)
     {
-        $ujian = Ujian::findOrFail($id_ujian);
-
+        Log::info('Mulai validasi input.');
+    
+        $validated = $request->validate([
+            'nama_ujian' => 'nullable|string|max:255',
+            'id_tipe_ujian' => 'nullable|in:1,2,3',
+            'acak' => 'nullable|in:Aktif,Tidak Aktif',
+            'status_jawaban' => 'nullable|in:Aktif,Tidak Aktif',
+            'grade' => 'nullable|numeric|min:0|max:100',
+            'waktu_mulai' => 'nullable|date|after:now',
+            'waktu_selesai' => 'nullable|date|after:waktu_mulai',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        Log::info('Validasi input berhasil.');
+    
         try {
-            $validated = $request->validate([
-                'nama_ujian' => 'nullable|string|max:255',
-                'id_tipe_ujian' => 'nullable|in:1,2,3', // Kuis atau Ujian
-                'acak' => 'nullable|in:Aktif,Tidak Aktif',
-                'status_jawaban' => 'nullable|in:Aktif,Tidak Aktif',
-                'grade' => 'nullable|numeric|min:0|max:100',
-                'waktu_mulai' => 'nullable|date|after:now', // Validasi waktu mulai setelah sekarang
-                'waktu_selesai' => 'nullable|date|after:waktu_mulai', // Waktu selesai harus setelah waktu mulai
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-            ]);
-
-            Log::info("Validation passed for Ujian ID: {$ujian->id_ujian}");
-
+            Log::info('Mencari ujian dengan id_ujian: ' . $id_ujian);
+            $ujian = Ujian::findOrFail($id_ujian);
+    
+            Log::info('Memperbarui ujian dengan id_ujian: ' . $ujian->id_ujian);
+            $ujian->nama_ujian = $validated['nama_ujian'] ?? $ujian->nama_ujian;
+            $ujian->id_tipe_ujian = $validated['id_tipe_ujian'] ?? $ujian->id_tipe_ujian;
+            $ujian->acak = $validated['acak'] ?? $ujian->acak;
+            $ujian->status_jawaban = $validated['status_jawaban'] ?? $ujian->status_jawaban;
+            $ujian->grade = $validated['grade'] ?? $ujian->grade;
+    
+            if (isset($validated['waktu_mulai'])) {
+                $ujian->waktu_mulai = $validated['waktu_mulai'];
+            }
+    
+            if (isset($validated['waktu_selesai'])) {
+                $ujian->waktu_selesai = $validated['waktu_selesai'];
+            }
+    
             if ($request->hasFile('image')) {
-                Log::info("Image file detected for Ujian ID: {$ujian->id_ujian}");
-                // Hapus gambar lama jika ada
+                Log::info('File image ditemukan untuk ujian dengan id_ujian: ' . $ujian->id_ujian);
+                
                 if ($ujian->image) {
                     Storage::disk('public')->delete($ujian->image);
+                    Log::info('Gambar lama berhasil dihapus.');
                 }
-                $validated['image'] = $request->file('image')->store('images/ujians', 'public');
-                Log::info("New image stored: {$validated['image']}");
+    
+                $ujian->image = $request->file('image')->store('images/ujians', 'public');
+                Log::info('Gambar baru berhasil disimpan di: ' . $ujian->image);
             }
-
-            // Update data ujian
-            $ujian->update([
-                'nama_ujian' => $validated['nama_ujian'],
-                'id_tipe_ujian' => $validated['id_tipe_ujian'],
-                'acak' => $validated['acak'],
-                'status_jawaban' => $validated['status_jawaban'],
-                'grade' => $validated['grade'],
-                'waktu_mulai' => $validated['waktu_mulai'],
-                'waktu_selesai' => $validated['waktu_selesai'],
-                'image' => $validated['image'] ?? $ujian->image,
-            ]);
-
-            Log::info("Ujian ID: {$ujian->id_ujian} updated successfully.");
-
-            return redirect()->route('Guru.Ujian.index')->with('success', 'Ujian berhasil diperbarui.');
+    
+            $ujian->save();
+            Log::info('Ujian berhasil diperbarui dengan id_ujian: ' . $ujian->id_ujian);
+    
+            $id_kursus = $request->input('id_kursus');
+    
+            if (!$id_kursus) {
+                Log::error('id_kursus tidak ditemukan di request.');
+                return redirect()->back()->withErrors(['error' => 'ID Kursus tidak ditemukan.']);
+            }
+    
+            return redirect()->route('Guru.Ujian.index', ['id_kursus' => $id_kursus])->with('success', 'Ujian berhasil diperbarui.');
         } catch (\Exception $e) {
-            Log::error("Error updating Ujian with ID: {$id_ujian}. Error: {$e->getMessage()}");
+            Log::error('Error updating Ujian with ID: ' . $id_ujian . '. Error: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui ujian.']);
         }
     }
-
+    
+    
     public function destroy(String $id_ujian)
     {
         try {
-            // Cari ujian berdasarkan id_ujian
             $ujian = Ujian::findOrFail($id_ujian);
 
-            // Hapus file gambar jika ada
             if ($ujian->Image) {
                 Storage::disk('public')->delete($ujian->Image);
             }
 
-            // Hapus ujian dari database
             $ujian->delete();
 
-            // Redirect ke halaman daftar ujian dengan pesan sukses
             return redirect()->route('Guru.Ujian.index')->with('success', 'Ujian berhasil dihapus.');
         } catch (\Exception $e) {
             // Jika terjadi kesalahan, kembali dengan pesan error
@@ -237,30 +253,23 @@ class UjianController extends Controller
     public function prosesNilai($id_ujian)
     {
         try {
-            // Ambil data ujian
             $ujian = Ujian::findOrFail($id_ujian);
             $kursus = $ujian->kursus;  // Dapatkan kursus dari ujian yang sedang berlangsung
             $siswa = Siswa::all();  // Ambil semua siswa yang mengikuti ujian
 
-            // Ambil persentase nilai berdasarkan kursus
             $persentase = Persentase::where('id_kursus', $kursus->id_kursus)->first();
 
-            // Jika persentase tidak ditemukan, tampilkan error
             if (!$persentase) {
                 return redirect()->back()->withErrors(['error' => 'Persentase nilai untuk kursus ini tidak ditemukan.']);
             }
 
-            // Loop untuk setiap siswa dan hitung nilai
             foreach ($siswa as $s) {
-                // Mengambil nilai ujian untuk siswa (anda bisa ganti dengan data nilai yang sebenarnya)
                 $nilai_ujian = $this->ambilNilaiUjian($ujian->id_ujian, $s->id_siswa);
 
-                // Menghitung nilai total berdasarkan persentase
                 $nilaiTotal = ($nilai_ujian['nilai_kuis'] * $persentase->persentase_kuis / 100) +
                     ($nilai_ujian['nilai_ujian'] * $persentase->persentase_UTS / 100) +
                     ($nilai_ujian['nilai_uas'] * $persentase->persentase_UAS / 100);
 
-                // Menyimpan nilai ke tabel nilai
                 Nilai::create([
                     'id_kursus' => $kursus->id_kursus,
                     'id_siswa' => $s->id_siswa,
@@ -274,7 +283,6 @@ class UjianController extends Controller
                 ]);
             }
 
-            // Kembali ke halaman ujian dengan pesan sukses
             return redirect()->route('Guru.Ujian.index')->with('success', 'Nilai berhasil diproses.');
         } catch (\Exception $e) {
             // Log error jika terjadi masalah
@@ -283,10 +291,8 @@ class UjianController extends Controller
         }
     }
 
-    // Fungsi untuk mengambil nilai ujian, sesuaikan dengan cara pengambilan nilai yang sesungguhnya
     private function ambilNilaiUjian($id_ujian, $id_siswa)
     {
-        // Untuk sekarang kita gunakan nilai acak, Anda bisa mengganti ini dengan logika untuk mendapatkan nilai ujian siswa
         return [
             'nilai_kuis' => rand(0, 100),  // Nilai acak untuk kuis
             'nilai_ujian' => rand(0, 100),  // Nilai acak untuk ujian

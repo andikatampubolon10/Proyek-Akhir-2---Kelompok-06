@@ -30,7 +30,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-        
+
         }
 
         .header .logo img {
@@ -56,7 +56,8 @@
 
         .header .user-info img:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* Add shadow on hover */
         }
 
         .header .user-info span {
@@ -114,7 +115,7 @@
         }
 
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -126,7 +127,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-         
+
         }
 
         .sidebar a {
@@ -142,14 +143,18 @@
         }
 
         .sidebar a i {
-            font-size: 28px; /* Increase the icon size */
+            font-size: 28px;
+            /* Increase the icon size */
             margin-right: 15px;
-            transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Smooth transition for hover effect */
         }
 
         .sidebar a.active i {
-            color: #fff; /* Change icon color on hover or active */
-            transform: scale(1.2); /* Slightly increase size on hover */
+            color: #fff;
+            /* Change icon color on hover or active */
+            transform: scale(1.2);
+            /* Slightly increase size on hover */
         }
 
         .sidebar a:hover {
@@ -199,21 +204,31 @@
 
         /* Action Button Icons */
         .actions-btns button i {
-            font-size: 26px; /* Increase icon size */
+            font-size: 26px;
+            /* Increase icon size */
             margin-right: 12px;
-            transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+            transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            /* Smooth transition for hover effect */
             padding: 12px;
-            border-radius: 50%; /* Make icons round */
-            background-color: #ffffff; /* Background for the icons */
-            color: #00bfae; /* Initial color */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Add a strong shadow */
+            border-radius: 50%;
+            /* Make icons round */
+            background-color: #ffffff;
+            /* Background for the icons */
+            color: #00bfae;
+            /* Initial color */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            /* Add a strong shadow */
         }
 
         .actions-btns button:hover i {
-            transform: scale(1.3); /* Slightly enlarge icon on hover */
-            color: #ffffff; /* Change icon color on hover */
-            background-color: #00bfae; /* Change background color on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+            transform: scale(1.3);
+            /* Slightly enlarge icon on hover */
+            color: #ffffff;
+            /* Change icon color on hover */
+            background-color: #00bfae;
+            /* Change background color on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            /* Increase shadow on hover */
         }
 
         /* Action Buttons Container Styling */
@@ -230,8 +245,10 @@
         }
 
         .actions-btns button:hover {
-            background-color: #e5f7f5; /* Subtle background change on hover */
-            transform: scale(1.1); /* Slight scaling effect on hover */
+            background-color: #e5f7f5;
+            /* Subtle background change on hover */
+            transform: scale(1.1);
+            /* Slight scaling effect on hover */
         }
 
         /* Main Content */
@@ -294,8 +311,9 @@
                 padding: 15px 0;
             }
         }
-               /* Breadcrumb Styling */
-               .breadcrumb {
+
+        /* Breadcrumb Styling */
+        .breadcrumb {
             background-color: #ffffff;
             padding: 10px 20px;
             border-radius: 8px;
@@ -317,40 +335,51 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
 <body>
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">
-        <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
-    </div>
-    <div class="user-info">
-        <span>Admin</span>
-        <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" onclick="toggleDropdown()">
-        <!-- Dropdown Menu -->
-        <div id="dropdown-menu" class="dropdown-menu">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="logout-btn">
-                    <span>Logout</span>
-                </button>
-            </form>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
+        </div>
+        <div class="user-info">
+            <span>Admin</span>
+            <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                width="50" onclick="toggleDropdown()">
+            <!-- Dropdown Menu -->
+            <div id="dropdown-menu" class="dropdown-menu">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn">
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Sidebar and Main Content -->
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="{{ route('Admin.Akun.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
+            <a href="{{ route('Admin.Akun.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
                 <i class="fa-solid fa-circle-user mr-4"></i>
                 Operator
             </a>
 
-            <a href="{{ route('Admin.Bisnis.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a href="{{ route('Admin.Bisnis.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fa-solid fa-money-bill-wave mr-4"></i>
                 Bisnis
             </a>
@@ -358,51 +387,67 @@
 
         <!-- Main Content -->
         <div class="main-content">
-                  <!-- Breadcrumb -->
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('Admin.Bisnis.index') }}">Akun</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
-                    </ol>
-                </nav>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('Admin.Bisnis.index') }}">Akun</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
+                </ol>
+            </nav>
             <div class="w-full md:w-3/4 p-8">
-                <form action="{{ route('Admin.Bisnis.update', $bisnis->id_bisnis) }}" method="POST" class="space-y-6" enctype="multipart/form-data">
+                <form action="{{ route('Admin.Bisnis.update', $bisnis->id_bisnis) }}" method="POST"
+                    enctype="multipart/form-data" class="space-y-6">
                     @csrf
-                    @method('PATCH')  <!-- This is for the HTTP PATCH method to update the resource -->
-                
+                    @method('PATCH')
+
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input name="nama_sekolah" value="{{ old('nama_sekolah', $bisnis->nama_sekolah) }}" type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span
+                                class="text-red-500">*</span></label>
+                        <input name="nama_sekolah" value="{{ old('nama_sekolah', $bisnis->nama_sekolah) }}"
+                            type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        @error('nama_sekolah')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span class="text-red-500">*</span></label>
-                        <input name="jumlah_pendapatan" value="{{ old('jumlah_pendapatan', $bisnis->jumlah_pendapatan) }}" type="text" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span
+                                class="text-red-500">*</span></label>
+                        <input name="jumlah_pendapatan"
+                            value="{{ old('jumlah_pendapatan', $bisnis->jumlah_pendapatan) }}" type="text"
+                            class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        @error('jumlah_pendapatan')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <!-- Optional: File upload input for 'perjanjian' if it's being updated -->
                     <div>
                         <label class="block text-gray-700 font-bold mb-2">Perjanjian (PDF/Word)</label>
-                        <input type="file" name="perjanjian" class="w-full border border-gray-400 p-2 rounded-lg" accept=".pdf, .doc, .docx">
+                        <input type="file" name="perjanjian" class="w-full border border-gray-400 p-2 rounded-lg"
+                            accept=".pdf, .doc, .docx">
+                        @error('perjanjian')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <div class="flex justify-end">
                         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                             <span>Simpan</span>
                             <i class="fas fa-check ml-2"></i>
                         </button>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>
     <script>
         // Function to toggle dropdown visibility
         function toggleDropdown() {
-           const dropdown = document.getElementById("dropdown-menu");
-           dropdown.classList.toggle("show");
-       }
-       </script>
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+    </script>
 </body>
 
 </html>

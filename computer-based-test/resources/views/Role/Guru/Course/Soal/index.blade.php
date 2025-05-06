@@ -95,72 +95,75 @@
             background-color: #e04040;
         }
 
-     .sidebar {
-    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
-    width: 260px;
-    padding: 25px 15px;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.3s ease;
-    z-index: 900;
-}
+        .sidebar {
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+        }
 
-.sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 12px 18px;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-.sidebar a i {
-    margin-right: 15px;
-    font-size: 22px;
-}
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
 
-.sidebar a.active {
-    background-color: #00796b;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar a:hover {
-    background-color: #004d40;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-/* Adjust the "Course" button to match other sidebar items */
-#dropdownButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 18px; /* Same as other sidebar items */
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        /* Adjust the "Course" button to match other sidebar items */
+        #dropdownButton {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 18px;
+            /* Same as other sidebar items */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-#dropdownButton i {
-    font-size: 22px; /* Same icon size as other items */
-}
+        #dropdownButton i {
+            font-size: 22px;
+            /* Same icon size as other items */
+        }
 
-#dropdownButton span {
-    font-size: 17px; /* Same font size as other items */
-}
+        #dropdownButton span {
+            font-size: 17px;
+            /* Same font size as other items */
+        }
 
 
         /* Button Styles */
@@ -274,12 +277,15 @@
                     <span class="text-white">Welcome, Guru</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
@@ -288,51 +294,27 @@
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="flex flex-col space-y-2" id="dropdown-course">
-                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
-                    <span class="flex items-center space-x-2">
-                        <i class="fas fa-book-open text-sm"></i>
-                        <span>
-                            Course
-                        </span>
-                    </span>
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
-                </button>
-                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
-                            Ujian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
-                            Soal
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
-                            Materi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-pen text-sm"></i>
                 <span>Latihan Soal</span>
-        </a>
-        
-        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-chart-line text-sm"></i>
                 <span>Nilai</span>
-        </a>            
-    </div>
-      
-    
+            </a>
+        </div>
 
-       <!-- Main Content -->
-       <div class="main-content">
-        
+        <!-- Main Content -->
+        <div class="main-content">
+
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Soal</h2>
                 <!-- Modal untuk memilih tipe soal -->
@@ -387,10 +369,11 @@
                                     </button>
                                 </form>
                                 <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET">
-                                    <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700" data-id="{{ $soal->id_soal }}">
+                                    <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700"
+                                        data-id="{{ $soal->id_soal }}">
                                         <i class="fas fa-edit mr-1"></i> EDIT
                                     </button>
-                                </form>                                
+                                </form>
                             </div>
                         </div>
                     @endforeach
@@ -399,8 +382,8 @@
         </div>
     </div>
     <script>
-                 // Dropdown toggle script
-                 const dropdownButton = document.getElementById('dropdownButton');
+        // Dropdown toggle script
+        const dropdownButton = document.getElementById('dropdownButton');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const dropdownIcon = document.getElementById('dropdownIcon');
 

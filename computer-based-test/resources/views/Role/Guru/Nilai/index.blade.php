@@ -98,72 +98,75 @@
             background-color: #e04040;
         }
 
-     .sidebar {
-    background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
-    width: 260px;
-    padding: 25px 15px;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.3s ease;
-    z-index: 900;
-}
+        .sidebar {
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+        }
 
-.sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 12px 18px;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-.sidebar a i {
-    margin-right: 15px;
-    font-size: 22px;
-}
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
 
-.sidebar a.active {
-    background-color: #00796b;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar a:hover {
-    background-color: #004d40;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-/* Adjust the "Course" button to match other sidebar items */
-#dropdownButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 18px; /* Same as other sidebar items */
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 17px;
-    transition: all 0.3s ease;
-}
+        /* Adjust the "Course" button to match other sidebar items */
+        #dropdownButton {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px 18px;
+            /* Same as other sidebar items */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
 
-#dropdownButton i {
-    font-size: 22px; /* Same icon size as other items */
-}
+        #dropdownButton i {
+            font-size: 22px;
+            /* Same icon size as other items */
+        }
 
-#dropdownButton span {
-    font-size: 17px; /* Same font size as other items */
-}
+        #dropdownButton span {
+            font-size: 17px;
+            /* Same font size as other items */
+        }
 
 
         /* Button Styles */
@@ -277,12 +280,15 @@
                     <span class="text-white">Welcome, Guru</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
@@ -291,121 +297,98 @@
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="flex flex-col space-y-2" id="dropdown-course">
-                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
-                    <span class="flex items-center space-x-2">
-                        <i class="fas fa-book-open text-sm"></i>
-                        <span>
-                            Course
-                        </span>
-                    </span>
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
-                </button>
-                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
-                            Ujian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
-                            Soal
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
-                            Materi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-pen text-sm"></i>
                 <span>Latihan Soal</span>
-        </a>
-        
-        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-chart-line text-sm"></i>
                 <span>Nilai</span>
-        </a>            
-    </div>
-
+            </a>
+        </div>
         <!-- Main Content -->
         <div class="main-content">
-        <main class="flex-1 bg-white p-6 md:p-8 rounded-lg shadow-md overflow-auto max-h-[calc(100vh-88px)]">
-            <h2 class="text-2xl font-bold mb-6 text-blue-600 tracking-wide">
-                Course Information
-            </h2>
-            <div class="space-y-6">
-                @foreach ($courses as $course)
-                <div
-                    class="p-5 border border-gray-200 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between hover:shadow-lg transition-shadow duration-300 bg-white">
-                    <div class="flex items-center mb-4 sm:mb-0 sm:flex-1">
-                        <img alt="Thumbnail image of the {{ $course->nama_kursus }} course"
-                            class="w-28 h-28 rounded-lg mr-5 object-cover flex-shrink-0" height="112"
-                            src="{{ asset('images/' . $course->image) }}" width="112" />
+            <main class="flex-1 bg-white p-6 md:p-8 rounded-lg shadow-md overflow-auto max-h-[calc(100vh-88px)]">
+                <h2 class="text-2xl font-bold mb-6 text-blue-600 tracking-wide">
+                    Course Information
+                </h2>
+                <div class="space-y-6">
+                    @foreach ($courses as $course)
+                        <div
+                            class="p-5 border border-gray-200 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between hover:shadow-lg transition-shadow duration-300 bg-white">
+                            <div class="flex items-center mb-4 sm:mb-0 sm:flex-1">
+                                <img alt="Thumbnail image of the {{ $course->nama_kursus }} course"
+                                    class="w-28 h-28 rounded-lg mr-5 object-cover flex-shrink-0" height="112"
+                                    src="{{ asset('images/' . $course->image) }}" width="112" />
 
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">
-                                <a href="{{ route('Guru.Persentase.create', ['id_kursus' => $course->id_kursus]) }}"
-                                    class="text-blue-600 no-underline hover:underline">
-                                    {{ $course->nama_kursus }}
-                                 </a>                                 
-                            </h3>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">
+                                        <a href="{{ route('Guru.Persentase.create', ['id_kursus' => $course->id_kursus]) }}"
+                                            class="text-blue-600 no-underline hover:underline">
+                                            {{ $course->nama_kursus }}
+                                        </a>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="flex justify-end sm:flex-none">
+                                <form action="{{ route('Guru.Persentase.edit', $course->id_kursus) }}" method="GET">
+                                    <button type="submit"
+                                        class="text-blue-600 flex items-center font-semibold hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
+                                        <i class="fas fa-edit mr-2"></i> EDIT
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex justify-end sm:flex-none">
-                        <form action="{{ route('Guru.Persentase.edit', $course->id_kursus) }}" method="GET">
-                            <button type="submit"
-                                class="text-blue-600 flex items-center font-semibold hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
-                                <i class="fas fa-edit mr-2"></i> EDIT
-                            </button>
-                        </form>
-                    </div>
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
-        </main>
-    </div>
-    <script>
-        const dropdownButton = document.getElementById('dropdownButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const dropdownIcon = document.getElementById('dropdownIcon');
+            </main>
+        </div>
+        <script>
+            const dropdownButton = document.getElementById('dropdownButton');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownIcon = document.getElementById('dropdownIcon');
 
-        dropdownButton.addEventListener('click', () => {
-            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
-            dropdownButton.setAttribute('aria-expanded', !isExpanded);
+            dropdownButton.addEventListener('click', () => {
+                const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+                dropdownButton.setAttribute('aria-expanded', !isExpanded);
 
-            if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            } else {
-                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
-                dropdownMenu.style.paddingTop = '0.5rem';
-                dropdownMenu.style.paddingBottom = '0.5rem';
-                dropdownIcon.style.transform = 'rotate(180deg)';
-            }
-        });
+                if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+                    dropdownMenu.style.maxHeight = '0px';
+                    dropdownMenu.style.paddingTop = '0';
+                    dropdownMenu.style.paddingBottom = '0';
+                    dropdownIcon.style.transform = 'rotate(0deg)';
+                } else {
+                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                    dropdownMenu.style.paddingTop = '0.5rem';
+                    dropdownMenu.style.paddingBottom = '0.5rem';
+                    dropdownIcon.style.transform = 'rotate(180deg)';
+                }
+            });
 
-        // Close dropdown if clicked outside
-        window.addEventListener('click', (e) => {
-            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownButton.setAttribute('aria-expanded', 'false');
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            }
-        });
+            // Close dropdown if clicked outside
+            window.addEventListener('click', (e) => {
+                if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.style.maxHeight = '0px';
+                    dropdownMenu.style.paddingTop = '0';
+                    dropdownMenu.style.paddingBottom = '0';
+                    dropdownButton.setAttribute('aria-expanded', 'false');
+                    dropdownIcon.style.transform = 'rotate(0deg)';
+                }
+            });
 
-        // Initialize dropdown closed
-        dropdownMenu.style.maxHeight = '0px';
-        dropdownMenu.style.overflow = 'hidden';
-        dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
-    </script>
+            // Initialize dropdown closed
+            dropdownMenu.style.maxHeight = '0px';
+            dropdownMenu.style.overflow = 'hidden';
+            dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+        </script>
 </body>
 
 </html>

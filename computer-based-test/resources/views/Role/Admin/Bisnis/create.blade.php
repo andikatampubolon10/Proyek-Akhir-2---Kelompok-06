@@ -30,7 +30,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-     
+
         }
 
         .header .logo img {
@@ -67,7 +67,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -79,7 +79,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-         
+
         }
 
         .sidebar a {
@@ -203,8 +203,9 @@
                 width: 100%;
             }
         }
-               /* Breadcrumb Styling */
-               .breadcrumb {
+
+        /* Breadcrumb Styling */
+        .breadcrumb {
             background-color: #ffffff;
             padding: 10px 20px;
             border-radius: 8px;
@@ -226,40 +227,51 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
 <body>
-   <!-- Header -->
-   <div class="header">
-    <div class="logo">
-        <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
-    </div>
-    <div class="user-info">
-        <span>Admin</span>
-        <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" onclick="toggleDropdown()">
-        <!-- Dropdown Menu -->
-        <div id="dropdown-menu" class="dropdown-menu">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="logout-btn">
-                    <span>Logout</span>
-                </button>
-            </form>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
+        </div>
+        <div class="user-info">
+            <span>Admin</span>
+            <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                width="50" onclick="toggleDropdown()">
+            <!-- Dropdown Menu -->
+            <div id="dropdown-menu" class="dropdown-menu">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn">
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Sidebar and Main Content -->
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="{{ route('Admin.Akun.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a href="{{ route('Admin.Akun.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fa-solid fa-circle-user mr-4"></i>
                 Operator
             </a>
 
-            <a href="{{ route('Admin.Bisnis.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
+            <a href="{{ route('Admin.Bisnis.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
                 <i class="fa-solid fa-money-bill-wave mr-4"></i>
                 Bisnis
             </a>
@@ -267,40 +279,54 @@
 
         <!-- Main Content -->
         <div class="main-content">
-                   <!-- Breadcrumb -->
-                   <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('Admin.Bisnis.index') }}">Akun</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
-                    </ol>
-                </nav>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('Admin.Bisnis.index') }}">Akun</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Akun</li>
+                </ol>
+            </nav>
             <div class="form-container">
                 <h2 class="text-xl font-bold mb-4 text-blue-600">Tambah Bisnis</h2>
-                <form action="{{ route('Admin.Bisnis.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form action="{{ route('Admin.Bisnis.store') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-6">
                     @csrf
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_sekolah" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        <label class="block text-gray-700 font-bold mb-2">Nama Sekolah<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="nama_sekolah" class="w-full border border-gray-400 p-2 rounded-lg">
+                        @error('nama_sekolah')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span class="text-red-500">*</span></label>
-                        <input type="text" name="jumlah_pendapatan" class="w-full border border-gray-400 p-2 rounded-lg" required>
+                        <label class="block text-gray-700 font-bold mb-2">Jumlah Pendapatan<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="jumlah_pendapatan"
+                            class="w-full border border-gray-400 p-2 rounded-lg">
+                        @error('jumlah_pendapatan')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <!-- Perjanjian file upload -->
                     <div>
-                        <label class="block text-gray-700 font-bold mb-2">Perjanjian (PDF/Word) <span class="text-red-500">*</span></label>
-                        <input type="file" name="perjanjian" class="w-full border border-gray-400 p-2 rounded-lg" required accept=".pdf, .doc, .docx">
+                        <label class="block text-gray-700 font-bold mb-2">Perjanjian (PDF/Word) <span
+                                class="text-red-500">*</span></label>
+                        <input type="file" name="perjanjian" class="w-full border border-gray-400 p-2 rounded-lg">
+                        @error('perjanjian')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                
+
                     <div class="flex justify-end">
                         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                             <span>Simpan</span>
                             <i class="fas fa-check ml-2"></i>
                         </button>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>
@@ -308,10 +334,10 @@
     <script>
         // Function to toggle dropdown visibility
         function toggleDropdown() {
-           const dropdown = document.getElementById("dropdown-menu");
-           dropdown.classList.toggle("show");
-       }
-       </script>
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+    </script>
 </body>
 
 </html>

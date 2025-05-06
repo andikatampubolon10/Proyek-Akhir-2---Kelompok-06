@@ -22,9 +22,11 @@ return new class extends Migration
             $table->id('id_tipe_nilai');
             $table->decimal('nilai', 5, 0)->default(0);
             $table->unsignedBigInteger('id_tipe_ujian');
+            $table->unsignedBigInteger('id_ujian');
             $table->unsignedBigInteger('id_siswa'); 
             $table->foreign('id_tipe_ujian')->references('id_tipe_ujian')->on('tipe_ujian')->onDelete('cascade');
             $table->foreign('id_siswa')->references('id_siswa')->on('siswa')->onDelete('cascade');
+            $table->foreign('id_ujian')->references('id_ujian')->on('ujian')->onDelete('cascade');
             $table->timestamps();
         });        
     }

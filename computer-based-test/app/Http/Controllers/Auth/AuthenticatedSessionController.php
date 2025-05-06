@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->hasRole('Siswa')) {
             return redirect()->route('Siswa.Course.index');
         } elseif ($user->hasRole('Operator')) {
-            return redirect()->route('Operator.Siswa.index');
+            return redirect()->route('Operator.Kurikulum.index');
         }
     
         return redirect()->route('login');

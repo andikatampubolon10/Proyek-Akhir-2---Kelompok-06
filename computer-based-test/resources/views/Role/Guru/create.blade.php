@@ -291,45 +291,23 @@
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="flex flex-col space-y-2" id="dropdown-course">
-                <button aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between rounded-md bg- px-6 py-2 text-white text-sm font-normal focus:outline-none" id="dropdownButton" type="button">
-                    <span class="flex items-center space-x-2">
-                        <i class="fas fa-book-open text-sm"></i>
-                        <span>
-                            Course
-                        </span>
-                    </span>
-                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="dropdownIcon"></i>
-                </button>
-                <ul aria-label="submenu" class="flex flex-col rounded-md  text-white text-sm font-normal" id="dropdownMenu" role="menu" style="box-shadow: 0 4px 6px rgb(0 0 0 / 0.1); padding-top: 0; padding-bottom: 0;">
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Ujian.create') }}" role="menuitem" tabindex="-1">
-                            Ujian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Soal.create') }}" role="menuitem" tabindex="-1">
-                            Soal
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block px-4 py-2 hover:bg-[#3a9e3f] cursor-pointer" href="{{ route('Guru.Materi.create') }}" role="menuitem" tabindex="-1">
-                            Materi
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-        <a href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-pen text-sm"></i>
                 <span>Latihan Soal</span>
-        </a>
-        
-        <a href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
                 <i class="fas fa-chart-line text-sm"></i>
                 <span>Nilai</span>
-        </a>            
-    </div>
+            </a>
+        </div>
 
          <!-- Main Content -->
          <div class="main-content">

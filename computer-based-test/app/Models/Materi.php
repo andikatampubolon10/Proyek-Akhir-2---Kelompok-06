@@ -9,6 +9,8 @@ class Materi extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_materi';
+
     protected $table = 'materi';
 
     protected $fillable = [

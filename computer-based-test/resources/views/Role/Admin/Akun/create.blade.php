@@ -199,6 +199,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -210,7 +217,9 @@
         </div>
         <div class="user-info">
             <span>Admin</span>
-            <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" onclick="toggleDropdown()">
+            <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                width="50" onclick="toggleDropdown()">
         </div>
     </div>
 
@@ -218,12 +227,14 @@
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="{{ route('Admin.Akun.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
+            <a href="{{ route('Admin.Akun.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
                 <i class="fa-solid fa-circle-user mr-4"></i>
                 Operator
             </a>
 
-            <a href="{{ route('Admin.Bisnis.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
+            <a href="{{ route('Admin.Bisnis.index') }}"
+                class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
                 <i class="fa-solid fa-money-bill-wave mr-4"></i>
                 Bisnis
             </a>
@@ -244,27 +255,52 @@
                     @csrf
                     <div>
                         <label>Nama Sekolah<span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_sekolah" required>
+                        <input type="text" name="nama_sekolah">
+                        @error('nama_sekolah')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <div>
                         <label>Email<span class="text-red-500">*</span></label>
-                        <input type="email" name="email" required>
+                        <input type="email" name="email">
+                        @error('email')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <div>
                         <label>Password<span class="text-red-500">*</span></label>
                         <input type="password" name="password">
+                        @error('password')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <div>
                         <label>Konfirmasi Password<span class="text-red-500">*</span></label>
-                        <input type="password" name="password_confirmation" required>
+                        <input type="password" name="password_confirmation">
+                        @error('password_confirmation')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <div>
                         <label>Durasi<span class="text-red-500">*</span></label>
-                        <input type="number" name="durasi" placeholder="12" required>
+                        <input type="number" name="durasi" placeholder="12">
+                        @error('durasi')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
 
                     <button type="submit">Simpan</button>

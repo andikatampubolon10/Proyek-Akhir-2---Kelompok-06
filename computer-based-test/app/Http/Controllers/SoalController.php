@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Soal;
 use App\Models\User;
 use App\Models\Ujian;
+use App\Models\Guru;
 use App\Models\latihan;
 use App\Models\tipe_ujian;
 use App\Models\JawabanSoal;
@@ -86,71 +87,67 @@ class SoalController extends Controller
         $idUjian = null;
         $idLatihan = $validated['id_latihan'] ?? null;
     
-        // Jika soal untuk latihan
+        // Check if the user is authenticated and has a 'guru' relationship
+        $users = Auth::user();
+    
+        if (!$users) {
+            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
+        }
+    
+        $guru = Guru::where('id_user', auth()->user()->id)->first();
+    
+        // If the course (kursus) for the guru exists
+        $kursus = $guru->kursus()->first();
+    
+        // Handle soal creation for latihan or ujian
         if ($idLatihan) {
-            // Soal untuk latihan
+            // Logic for creating soal related to latihan
             $latihan = Latihan::findOrFail($idLatihan);
     
-            // Membuat soal latihan
             $soal = Soal::create([
                 'soal' => $validated['soal'],
                 'image' => $validated['image'] ?? null,
                 'id_tipe_soal' => $validated['id_tipe_soal'],
-                'id_latihan' => $idLatihan, // Menggunakan id_latihan
+                'id_latihan' => $idLatihan,
             ]);
     
-            // Menghitung jumlah soal latihan yang ada
+            // Count number of latihan questions
             $jumlahSoalLatihan = Soal::where('id_latihan', $idLatihan)->count();
     
-            // Jika soal latihan ada, bagi total nilai 100 dengan jumlah soal yang ada
-            if ($jumlahSoalLatihan > 0) {
-                $nilaiPerSoalLatihan = round(100 / $jumlahSoalLatihan, 2); // Pembulatan nilai per soal
-            } else {
-                $nilaiPerSoalLatihan = 0; // Jika tidak ada soal, set ke 0
-            }
+            // Set nilai per soal for latihan
+            $nilaiPerSoalLatihan = $jumlahSoalLatihan > 0 ? round(100 / $jumlahSoalLatihan, 2) : 0;
     
-            // Update nilai per soal untuk soal yang baru dibuat
             $soal->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
-    
-            // Update nilai per soal untuk semua soal latihan terkait id_latihan
             Soal::where('id_latihan', $idLatihan)->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
     
             Log::info('Soal latihan berhasil dibuat.', ['soal_id' => $soal->id_soal]);
     
         } else {
-            $guru = Auth::user()->guru;
-            $kursus = $guru->kursus()->first();
-    
-            if (!$kursus) {
-                return redirect()->route('guru.dashboard')->with('error', 'Kursus tidak ditemukan untuk guru ini.');
-            }
-    
+            // Logic for creating soal related to ujian
             $ujian = $kursus->ujian()->first();
             $idUjian = $ujian ? $ujian->id_ujian : null;
     
             $soal = Soal::create([
                 'soal' => $validated['soal'],
                 'image' => $validated['image'] ?? null,
-                'id_ujian' => $idUjian, // Jika ada ujian, simpan id_ujian
+                'id_ujian' => $idUjian, // If there is an ujian, store id_ujian
                 'id_tipe_soal' => $validated['id_tipe_soal'],
-                'id_latihan' => null, // Soal ujian tidak terkait dengan latihan
+                'id_latihan' => null, // Soal for ujian is not related to latihan
             ]);
     
+            // Count number of ujian questions
             $jumlahSoal = Soal::where('id_ujian', $idUjian)->count();
     
-            if ($jumlahSoal > 0) {
-                $nilaiPerSoal = round(100 / $jumlahSoal, 2); // Pembulatan nilai per soal
-            } else {
-                $nilaiPerSoal = 0;
-            }
+            // Set nilai per soal for ujian
+            $nilaiPerSoal = $jumlahSoal > 0 ? round(100 / $jumlahSoal, 2) : 0;
     
             $soal->update(['nilai_per_soal' => $nilaiPerSoal]);
-    
             Soal::where('id_ujian', $idUjian)->update(['nilai_per_soal' => $nilaiPerSoal]);
     
             Log::info('Soal ujian berhasil dibuat.', ['soal_id' => $soal->id_soal]);
         }
     
+        // Handling the creation of jawaban based on the question type
         $jawaban_data = [];
         if ($validated['id_tipe_soal'] == 1) {
             $jawaban_data = [
@@ -171,6 +168,7 @@ class SoalController extends Controller
             ];
         }
     
+        // Save jawaban data to the soal
         $soal->jawaban_soal()->createMany($jawaban_data);
     
         if ($idUjian) {
@@ -178,7 +176,8 @@ class SoalController extends Controller
         }
     
         return redirect()->route('Guru.Latihan.index')->with('success', 'Soal latihan berhasil dibuat.');
-    }    
+    }
+    
 
     public function show(Soal $soal)
     {

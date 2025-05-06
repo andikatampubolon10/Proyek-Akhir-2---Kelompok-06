@@ -26,13 +26,19 @@ class MataPelajaranController extends Controller
 
     public function store(Request $request)
     {
+        // Validation with custom messages
         $request->validate([
             'nama_mata_pelajaran' => 'required|unique:mata_pelajaran',
             'id_kurikulum' => 'required|exists:kurikulum,id_kurikulum',
+        ], [
+            'nama_mata_pelajaran.required' => 'Nama mata pelajaran harus diisi.',
+            'nama_mata_pelajaran.unique' => 'Nama mata pelajaran sudah terdaftar.',
+            'id_kurikulum.required' => 'Kurikulum harus dipilih.',
+            'id_kurikulum.exists' => 'Kurikulum yang dipilih tidak valid.',
         ]);
 
         $idUser  = auth()->user()->id;
-        $operator = Operator::where('id_user', $idUser )->first();
+        $operator = Operator::where('id_user', $idUser)->first();
 
         mata_pelajaran::create([
             'nama_mata_pelajaran' => $request->nama_mata_pelajaran,
@@ -54,20 +60,26 @@ class MataPelajaranController extends Controller
     {
         $mataPelajaran = mata_pelajaran::findOrFail($id);
         $kurikulums = Kurikulum::all();
-        return view('Role.Operator.Mapel.edit', compact('mataPelajaran', 'kurikulums'));
+        $user = auth()->user();
+        return view('Role.Operator.Mapel.edit', compact('mataPelajaran', 'kurikulums', 'user'));
     }
 
     public function update(Request $request, string $id)
     {
+        // Validation with custom messages
         $request->validate([
             'nama_mata_pelajaran' => 'required|unique:mata_pelajaran,nama_mata_pelajaran,' . $id . ',id_mata_pelajaran',
             'id_kurikulum' => 'required|exists:kurikulum,id_kurikulum',
+        ], [
+            'nama_mata_pelajaran.required' => 'Nama mata pelajaran harus diisi.',
+            'nama_mata_pelajaran.unique' => 'Nama mata pelajaran sudah terdaftar.',
+            'id_kurikulum.required' => 'Kurikulum harus dipilih.',
+            'id_kurikulum.exists' => 'Kurikulum yang dipilih tidak valid.',
         ]);
 
         $mataPelajaran = mata_pelajaran::findOrFail($id);
         $mataPelajaran->update([
             'nama_mata_pelajaran' => $request->nama_mata_pelajaran,
-            'id_kurikulum' => $request->id_kurikulum,
         ]);
 
         return redirect()->route('Operator.MataPelajaran.index')

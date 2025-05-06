@@ -42,33 +42,23 @@
     </div>
     <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
-        <div class="w-full md:w-1/4 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 h-screen p-4">
-            <ul>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400"
-                        href="#">
-                        <i class="fas fa-book mr-4">
-                        </i>
-                        Course
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-blue-500 p-2 rounded-lg shadow hover:bg-blue-400"
-                        href="#">
-                        <i class="fas fa-pencil-alt mr-4">
-                        </i>
-                        Latihan Soal
-                    </a>
-                </li>
-                <li class="mb-4">
-                    <a class="flex items-center text-white bg-green-500 p-2 rounded-lg shadow hover:bg-green-400"
-                        href="#">
-                        <i class="fas fa-chart-line mr-4">
-                        </i>
-                        Nilai
-                    </a>
-                </li>
-            </ul>
+        <div class="sidebar">
+            <a
+                href="{{ route('Guru.Course.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-book-open text-sm"></i>
+                <span>Course</span>
+            </a>
+            <a
+                href="{{ route('Guru.Latihan.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-pen text-sm"></i>
+                <span>Latihan Soal</span>
+            </a>
+
+            <a
+                href="{{ route('Guru.Nilai.index') }}"class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
+                <i class="fas fa-chart-line text-sm"></i>
+                <span>Nilai</span>
+            </a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-md h-full w-full">
             <form action="{{ route('Guru.Course.update', $course->id_kursus) }}" method="POST" enctype="multipart/form-data">

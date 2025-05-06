@@ -32,13 +32,20 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
+        // Custom validation rules
         $request->validate([
-            'nama_kelas' => 'required|string|max:255|unique:kelas',
+            'nama_kelas' => 'required|string|max:10|unique:kelas', // Ensure the class name is unique
+        ], [
+            'nama_kelas.required' => 'Nama kelas harus diisi.', // Custom message for 'required'
+            'nama_kelas.string' => 'Nama kelas harus berupa teks.', // Custom message for 'string'
+            'nama_kelas.max' => 'Nama kelas tidak boleh lebih dari 10 karakter.', // Custom message for 'max'
+            'nama_kelas.unique' => 'Nama kelas sudah ada, silakan pilih nama lain.', // Custom message for 'unique'
         ]);
 
-        $idUser  = auth()->id();
-        $operator = Operator::where('id_user', $idUser )->first();
+        $idUser = auth()->id();
+        $operator = Operator::where('id_user', $idUser)->first();
 
+        // Create the class (Kelas)
         Kelas::create([
             'nama_kelas' => $request->nama_kelas,
             'id_operator' => $operator->id_operator,
@@ -62,18 +69,24 @@ class KelasController extends Controller
 
     public function update(Request $request, string $id)
     {
+        // Custom validation rules for updating
         $request->validate([
-            'nama_kelas' => 'required|string|max:255|unique:kelas,nama_kelas,' . $id . ',id_kelas',
+            'nama_kelas' => 'required|string|max:10|unique:kelas,nama_kelas,' . $id . ',id_kelas', // Allow updating the same class name
+        ], [
+            'nama_kelas.required' => 'Nama kelas harus diisi.',
+            'nama_kelas.string' => 'Nama kelas harus berupa teks.',
+            'nama_kelas.max' => 'Nama kelas tidak boleh lebih dari 10 karakter.',
+            'nama_kelas.unique' => 'Nama kelas sudah ada, silakan pilih nama lain.',
         ]);
-    
+
         $kelas = Kelas::findOrFail($id);
         $kelas->update([
             'nama_kelas' => $request->nama_kelas,
         ]);
-    
+
         return redirect()->route('Operator.Kelas.index')->with('success', 'Kelas berhasil diperbarui.');
     }
-    
+
     public function destroy(string $id)
     {
         $kelas = Kelas::findOrFail($id);

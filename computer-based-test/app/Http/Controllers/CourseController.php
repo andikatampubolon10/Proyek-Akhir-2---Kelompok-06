@@ -17,10 +17,13 @@ class CourseController extends Controller
         return view('Role.Guru.index', compact('courses', 'user'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $user = auth()->user();
-        return view('Role.Guru.create', compact('user'));
+    
+        $id_kursus = $request->query('id_kursus');
+    
+        return view('Role.Guru.create', compact('user', 'id_kursus'));
     }
 
     public function store(Request $request)
@@ -72,7 +75,7 @@ class CourseController extends Controller
 
     public function show(string $id)
     {
-        $course = kursuses::with('guru')->findOrFail($id);
+        $course = kursus::with('guru')->findOrFail($id);
         return view('Role.Guru.index', compact('course'));
     }
 

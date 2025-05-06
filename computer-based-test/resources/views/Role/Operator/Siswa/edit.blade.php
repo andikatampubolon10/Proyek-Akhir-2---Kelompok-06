@@ -98,7 +98,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -236,6 +236,7 @@
                 padding: 15px 0;
             }
         }
+
         /* Breadcrumb Styling */
         .breadcrumb {
             background-color: #ffffff;
@@ -259,6 +260,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -268,14 +276,16 @@
         <h1 class="text-2xl font-bold text-white">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
         </h1>
-        
+
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
                 <div class="flex flex-col items-center">
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
@@ -293,87 +303,121 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kurikulum.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Guru.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
                         <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>
             </ul>
         </div>
-        
+
         <!-- Main Content -->
         <div class="main-content">
-           <!-- Breadcrumb -->
-           <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('Operator.Siswa.store') }}" class="text-teal-500 hover:text-teal-700 font-semibold">Siswa</a>
-                </li>
-                <li class="breadcrumb-item active text-gray-600" aria-current="page">Edit Siswa</li>
-            </ol>
-        </nav>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('Operator.Siswa.store') }}"
+                            class="text-teal-500 hover:text-teal-700 font-semibold">Siswa</a>
+                    </li>
+                    <li class="breadcrumb-item active text-gray-600" aria-current="page">Edit Siswa</li>
+                </ol>
+            </nav>
             <div class="main-content-box">
 
-                    <form action="{{ route('Operator.Siswa.update', $siswa->id_siswa) }}" method="POST" class="space-y-6">
-                        @csrf
-                        @method('PATCH')
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2 text-blue-600">NISN</label>
-                            <input name="nis" value="{{ $siswa->nis }}" type="text"
-                                class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2 text-blue-600">Nama Siswa</label>
-                            <input name="name" value="{{ $siswa->nama_siswa }}" type="text"
-                                class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-bold mb-2">Status Aktif<span class="text-red-500">*</span></label>
-                            <select name="status" class="w-full border border-gray-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="Aktif" {{ $siswa->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="Tidak Aktif" {{ $siswa->status == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2 text-blue-600">Password</label>
-                            <input name="password" type="password"
-                                class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-bold mb-2 text-blue-600">Konfirmasi Password</label>
-                            <input name="password_confirmation" type="password"
-                                class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
-                                <span>Simpan</span>
-                                <i class="fas fa-check ml-2"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <form action="{{ route('Operator.Siswa.update', $siswa->id_siswa) }}" method="POST" class="space-y-6">
+                    @csrf
+                    @method('PATCH')
+                    <div class="mb-4">
+                        <label class="block font-bold mb-2 text-blue-600">NISN</label>
+                        <input name="nis" value="{{ $siswa->nis }}" type="text"
+                            class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('nis')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-bold mb-2 text-blue-600">Nama Siswa</label>
+                        <input name="name" value="{{ $siswa->nama_siswa }}" type="text"
+                            class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('name')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-bold mb-2">Status Aktif<span
+                                class="text-red-500">*</span></label>
+                        <select name="status"
+                            class="w-full border border-gray-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="Aktif" {{ $siswa->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Tidak Aktif" {{ $siswa->status == 'Tidak Aktif' ? 'selected' : '' }}>Tidak
+                                Aktif</option>
+                        </select>
+                        @error('status')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-bold mb-2 text-blue-600">Password</label>
+                        <input name="password" type="password"
+                            class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('password')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-bold mb-2 text-blue-600">Konfirmasi Password</label>
+                        <input name="password_confirmation" type="password"
+                            class="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('password_confirmation')
+                            <span class="alert-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                            <span>Simpan</span>
+                            <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <script>
         document.querySelector('.dropdown').addEventListener('click', function() {

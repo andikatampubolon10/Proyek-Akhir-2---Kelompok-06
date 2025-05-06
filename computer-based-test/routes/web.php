@@ -50,7 +50,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/Akun', OperatorController::class)->parameters(['Akun' => 'user']);
         Route::get('/Akun/{user}/edit', [OperatorController::class, 'edit'])->name('Akun.edit');
         Route::get('Akun/{user}', [OperatorController::class, 'show'])->name('Admin.Akun.show');
-        Route::resource('/Bisnis', BisnisController::class)->parameters(['Bisnis' => 'id_bisnis',]);});
+        Route::resource('/Bisnis', BisnisController::class)->parameters(['Bisnis' => 'id_bisnis',]);
+    });
 
     Route::prefix('Guru')->name('Guru.')->middleware('role:Guru')->group(function () {
         Route::resource('/Course', CourseController::class);
@@ -58,11 +59,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('/Latihan', LatihanSoalController::class);
         Route::resource('/LatihanSoalSoal', LatihanSoalSoalController::class);
         Route::resource('/Kelas', KelasController::class);
-        Route::resource('/MataPelajaran', MataPelajaranController::class);    
+        Route::resource('/MataPelajaran', MataPelajaranController::class);
         Route::resource('/Ujian', UjianController::class);
         Route::get('/nilai/export/{id_kursus}', [UjianController::class, 'exportNilai'])->name('nilai.export');
-        Route::resource('/Soal',SoalController::class);
-        Route::resource('/Persentase',persentaseController::class);
+        Route::resource('/Soal', SoalController::class);
+        Route::resource('/Persentase', persentaseController::class);
         Route::get('/Soal/create/{type}', [SoalController::class, 'create'])->name('Guru.Soal.create');
         Route::get('/Soal/preview/{id}', [SoalController::class, 'preview'])->name('Soal.preview');
         Route::resource('/Kurikulum', KurikulumController::class);
@@ -71,8 +72,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/JawabanSiswaLatihanSoal', JawabanSiswaLatihanSoalController::class);
         Route::resource('/JawabanSiswaUjian', JawabanSiswaUjianController::class);
         Route::resource('/Nilai', NilaiController::class);
-    });        
-        
+    });
+
     // Route untuk Operator
     Route::prefix('Operator')->name('Operator.')->middleware('role:Operator')->group(function () {
         Route::resource('/Guru', GuruController::class);

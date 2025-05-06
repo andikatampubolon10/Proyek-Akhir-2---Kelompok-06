@@ -99,7 +99,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -111,7 +111,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-       
+
         }
 
         .sidebar a {
@@ -145,8 +145,8 @@
 
         /* Button Styles */
         .btn-add-top-right {
-                position: absolute;
-                top: 100px;
+            position: absolute;
+            top: 100px;
             right: 30px;
             background-color: #00bfae;
             color: white;
@@ -239,6 +239,7 @@
                 padding: 15px 0;
             }
         }
+
         /* Breadcrumb Styling */
         .breadcrumb {
             background-color: #ffffff;
@@ -262,6 +263,13 @@
         .breadcrumb-item.active {
             color: #00796b;
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -271,19 +279,22 @@
         <h1 class="text-2xl font-bold text-white">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
         </h1>
-        
+
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
                 <div class="flex flex-col items-center">
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
@@ -294,27 +305,32 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kurikulum.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
+                    <a href="{{ route('Operator.Guru.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
                         <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>
@@ -323,58 +339,96 @@
 
         <!-- Main Content -->
         <div class="main-content">
-           <!-- Breadcrumb -->
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
-        <li class="breadcrumb-item">
-            <a href="{{ route('Operator.Siswa.store') }}" class="text-teal-500 hover:text-teal-700 font-semibold">Siswa</a>
-        </li>
-        <li class="breadcrumb-item active text-gray-600" aria-current="page">Tambah Siswa</li>
-    </ol>
-</nav>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-white p-4 rounded-lg shadow-md flex items-center gap-2 mt-8 mb-6">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('Operator.Siswa.store') }}"
+                            class="text-teal-500 hover:text-teal-700 font-semibold">Siswa</a>
+                    </li>
+                    <li class="breadcrumb-item active text-gray-600" aria-current="page">Tambah Siswa</li>
+                </ol>
+            </nav>
             <div class="flex-1 p-4">
 
-                    <form id="importForm" action="{{ route('Operator.Siswa.import') }}" method="POST"
-                    enctype="multipart/form-data" class="flex justify-end mb-4 w-full"> 
-                        @csrf
-                        <input type="file" id="fileInput" name="file" class="hidden" accept=".xlsx, .xls" />
-                        <button type="button" id="importButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-400">
-                            <i class="fas fa-upload mr-2"></i> Import File </button>
-                    </form>
-                    <div class="main-content-box">
+                <form id="importForm" action="{{ route('Operator.Siswa.import') }}" method="POST"
+                    enctype="multipart/form-data" class="flex justify-end mb-4 w-full">
+                    @csrf
+                    <input type="file" id="fileInput" name="file" class="hidden" accept=".xlsx, .xls" />
+                    <button type="button" id="importButton"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-400">
+                        <i class="fas fa-upload mr-2"></i> Import File </button>
+                </form>
+                <div class="main-content-box">
                     <form action="{{ route('Operator.Siswa.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">Kelas</label>
                             <select name="kelas" class="block w-full p-2 border border-gray-300 rounded-md" required>
                                 <option value="">Pilih Kelas</option>
-                                @foreach($kelas as $k)
+                                @foreach ($kelas as $k)
                                     <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
                                 @endforeach
                             </select>
+                            @error('nama_kelas')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">NIS</label>
-                            <input type="number" name="nis" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <input type="number" name="nis"
+                                class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            @error('nis')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">Nama Siswa</label>
-                            <input type="text" name="name" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <input type="text" name="name"
+                                class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            @error('name')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">Email</label>
-                            <input type="email" name="email" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <input type="email" name="email"
+                                class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            @error('email')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">Password</label>
-                            <input type="password" name="password" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <input type="password" name="password"
+                                class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            @error('password')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold mb-2 text-blue-600">Konfirmasi Password</label>
-                            <input type="password" name="password_confirmation" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            <input type="password" name="password_confirmation"
+                                class="block w-full p-2 border border-gray-300 rounded-md" required>
+                            @error('password_confirmation')
+                                <span class="alert-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                         <div class="flex justify-end mt-4">
-                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                            <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                                 <span>Simpan</span>
                                 <i class="fas fa-check ml-2"></i>
                             </button>
