@@ -344,8 +344,6 @@
                             <input type="file" id="image-input-1" accept="image/*" style="display: none;">
 
                         </div>
-                        <textarea name="jawaban_1" placeholder="Jawaban Essay" class="w-full border p-2" rows="4" required></textarea>
-                        <div id="image-preview-1" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
                     </div>
 
                     <!-- Correct Answer Selection (Essay) -->

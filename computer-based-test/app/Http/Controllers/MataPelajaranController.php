@@ -39,7 +39,7 @@ class MataPelajaranController extends Controller
 
         $idUser  = auth()->user()->id;
         $operator = Operator::where('id_user', $idUser)->first();
-
+        
         mata_pelajaran::create([
             'nama_mata_pelajaran' => $request->nama_mata_pelajaran,
             'id_operator' => $operator->id_operator,

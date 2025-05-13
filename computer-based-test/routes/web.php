@@ -26,6 +26,7 @@ use App\Http\Controllers\JawabanLatihanSoalController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\persentaseController;
+use App\Http\Controllers\ListSiswaController;
 use App\Http\Middleware\CheckOperatorStatus;
 
 
@@ -45,7 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route untuk Admin
     Route::prefix('Admin')->name('Admin.')->middleware('role:Admin')->group(function () {
         Route::resource('/Akun', OperatorController::class)->parameters(['Akun' => 'user']);
         Route::get('/Akun/{user}/edit', [OperatorController::class, 'edit'])->name('Akun.edit');
@@ -61,7 +61,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('/Kelas', KelasController::class);
         Route::resource('/MataPelajaran', MataPelajaranController::class);
         Route::resource('/Ujian', UjianController::class);
-        Route::get('/nilai/export/{id_kursus}', [UjianController::class, 'exportNilai'])->name('nilai.export');
+        Route::get('/ListSiswa/{id_kursus}', [ListSiswaController::class, 'index'])->name('ListSiswa');
+        Route::get('/nilai/export/{id_kursus}', [ListSiswaController::class, 'exportNilai'])->name('nilai.export');
+        Route::get('/nilai/{id_kursus}', [App\Http\Controllers\NilaiController::class, 'index'])->name('Guru.nilai.index');
+        Route::post('/calculate-nilai/{id_kursus}/{id_siswa}', [NilaiController::class, 'calculateNilai'])->name('Guru.nilai.calculate');
+        Route::get('/nilai-breakdown/{id_kursus}/{id_siswa}', [App\Http\Controllers\NilaiController::class, 'getScoreBreakdown'])->name('Guru.nilai.breakdown');
         Route::resource('/Soal', SoalController::class);
         Route::resource('/Persentase', persentaseController::class);
         Route::get('/Soal/create/{type}', [SoalController::class, 'create'])->name('Guru.Soal.create');
@@ -72,6 +76,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/JawabanSiswaLatihanSoal', JawabanSiswaLatihanSoalController::class);
         Route::resource('/JawabanSiswaUjian', JawabanSiswaUjianController::class);
         Route::resource('/Nilai', NilaiController::class);
+        Route::post('/reset-recalculate-nilai/{id_kursus}', [ListSiswaController::class, 'resetAndRecalculateNilai']);
     });
 
     // Route untuk Operator

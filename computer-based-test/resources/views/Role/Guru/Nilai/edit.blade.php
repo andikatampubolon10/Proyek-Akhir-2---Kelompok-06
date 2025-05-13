@@ -316,33 +316,15 @@
         </div>
         <div id="app"
             class="flex-1 bg-white p-6 rounded-lg shadow-md overflow-auto max-w-4xl mx-auto my-6 w-full">
-            <form action="{{ route('Guru.Persentase.update', $persentase->first()->id_kursus) }}" method="POST"
-                class="space-y-6 w-full">
+            <form action="{{ route('Guru.Persentase.update', $id_kursus) }}" method="POST" class="space-y-6 w-full">
                 @csrf
                 @method('PUT')
 
                 <h2 class="text-xl font-semibold mb-4">Edit Persentase</h2>
 
-                <div class="flex flex-col space-y-6 w-full">
-                    <!-- Dropdown untuk Kursus -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-                        <label for="id_kursus"
-                            class="text-sm font-medium text-gray-700 mb-1 sm:mb-0 sm:mr-4 flex-shrink-0 w-full sm:w-auto">
-                            Kursus
-                        </label>
-                        <select name="id_kursus" id="id_kursus"
-                            class="w-full sm:max-w-xs px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required>
-                            <option value="">Pilih Kursus</option>
-                            @foreach ($kursus as $kursus_item)
-                                <option value="{{ $kursus_item->id_kursus }}"
-                                    {{ $kursus_item->id_kursus == old('id_kursus', $persentase->first()->id_kursus) ? 'selected' : '' }}>
-                                    {{ $kursus_item->nama_kursus }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                <input type="hidden" name="id_kursus" value="{{ $id_kursus }}">
 
+                <div class="flex flex-col space-y-6 w-full">
                     <!-- Input untuk Persentase Kuis -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
                         <label for="persentase_kuis"

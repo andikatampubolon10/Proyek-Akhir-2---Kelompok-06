@@ -22,6 +22,11 @@ class tipe_ujian extends Model
 
     public function persentase()
     {
-        return $this->hasMany(Persentase::class, 'id_tipe_ujian', 'id_tipe_ujian');
+        return $this->hasMany(Persentase::class, 'id_tipe_ujian', 'id_tipe_ujian','id_tipe_ujian');
+    }
+    
+    public function nilaiKursus()
+    {
+        return $this->hasMany(NilaiKursus::class, 'id_tipe_ujian');
     }
 }

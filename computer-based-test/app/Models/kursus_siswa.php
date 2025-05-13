@@ -18,10 +18,10 @@ class kursus_siswa extends Model
     ];
 
     public function siswa(){
-        return $this->belongsTo(siswa::class);
+        return $this->belongsTo(siswa::class,'id_siswa');
     }
 
     public function kursus(){
-        return $this->belongsTo(kursus::class);
+        return $this->belongsTo(kursus::class,'id_kursus');
     }
 }

@@ -18,21 +18,17 @@ class SoalController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil id_ujian dan id_latihan dari request
         $idUjian = $request->get('id_ujian');
         $idLatihan = $request->get('id_latihan');
 
         $soals = null;
 
-        // Cek apakah id_ujian atau id_latihan dipilih
         if ($idUjian) {
-            // Ambil soal terkait ujian
             $soals = Soal::where('id_ujian', $idUjian)
                 ->with(['ujian', 'latihan', 'tipe_soal'])
                 ->orderBy('id_soal', 'DESC')
                 ->get();
         } elseif ($idLatihan) {
-            // Ambil soal terkait latihan
             $soals = Soal::where('id_latihan', $idLatihan)
                 ->with(['latihan', 'tipe_soal'])
                 ->orderBy('id_soal', 'DESC')
@@ -44,7 +40,7 @@ class SoalController extends Controller
 
         // Kembalikan ke view dengan data soal yang sudah difilter
         return view('Role.Guru.Course.Soal.index', compact('soals', 'user', 'idUjian', 'idLatihan'));
-    }   
+    }
 
     public function create(Request $request)
     {
@@ -67,87 +63,93 @@ class SoalController extends Controller
     public function store(Request $request)
     {
         Log::info('Menerima request untuk membuat soal.');
-    
+
         $validated = $request->validate([
-            'soal' => 'required|string',
+            'soal' => 'required|string|max:40',
             'id_tipe_soal' => 'required|exists:tipe_soal,id_tipe_soal',
             'id_latihan' => 'nullable|exists:latihan,id_latihan', // Untuk latihan
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'jawaban_1' => 'required|string',
-            'jawaban_2' => 'nullable|string',
-            'jawaban_3' => 'nullable|string',
-            'jawaban_4' => 'nullable|string',
-            'jawaban_5' => 'nullable|string',
+            'jawaban_1' => 'nullable|string|max:30',
+            'jawaban_2' => 'nullable|string|max:30',
+            'jawaban_3' => 'nullable|string|max:30',
+            'jawaban_4' => 'nullable|string|max:30',
+            'jawaban_5' => 'nullable|string|max:30',
             'correct_answer' => 'required|string',
         ]);
-    
+
         Log::info('Validasi berhasil untuk soal.', ['validated_data' => $validated]);
-    
-        // Deklarasikan $idUjian dan $idLatihan di luar if untuk menghindari undefined variable
+
         $idUjian = null;
         $idLatihan = $validated['id_latihan'] ?? null;
-    
-        // Check if the user is authenticated and has a 'guru' relationship
+
         $users = Auth::user();
-    
+
         if (!$users) {
             return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
-    
+
         $guru = Guru::where('id_user', auth()->user()->id)->first();
-    
-        // If the course (kursus) for the guru exists
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Ensure the images folder exists
+            $imagePath = public_path('images');
+            if (!is_dir($imagePath)) {
+                mkdir($imagePath, 0755, true);
+            }
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move($imagePath, $imageName);
+
+            $imageUrl = url('images/' . $imageName);
+        } else {
+            $imageName = null;
+            $imageUrl = null;
+        }
+
         $kursus = $guru->kursus()->first();
-    
-        // Handle soal creation for latihan or ujian
+
         if ($idLatihan) {
-            // Logic for creating soal related to latihan
             $latihan = Latihan::findOrFail($idLatihan);
-    
+
             $soal = Soal::create([
                 'soal' => $validated['soal'],
-                'image' => $validated['image'] ?? null,
+                'image' => $imageName,
                 'id_tipe_soal' => $validated['id_tipe_soal'],
                 'id_latihan' => $idLatihan,
+                'image_url' => $imageUrl,
             ]);
-    
-            // Count number of latihan questions
+
             $jumlahSoalLatihan = Soal::where('id_latihan', $idLatihan)->count();
-    
-            // Set nilai per soal for latihan
+
             $nilaiPerSoalLatihan = $jumlahSoalLatihan > 0 ? round(100 / $jumlahSoalLatihan, 2) : 0;
-    
+
             $soal->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
             Soal::where('id_latihan', $idLatihan)->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
-    
+
             Log::info('Soal latihan berhasil dibuat.', ['soal_id' => $soal->id_soal]);
-    
         } else {
-            // Logic for creating soal related to ujian
             $ujian = $kursus->ujian()->first();
             $idUjian = $ujian ? $ujian->id_ujian : null;
-    
+
             $soal = Soal::create([
                 'soal' => $validated['soal'],
-                'image' => $validated['image'] ?? null,
+                'image' => $imageName,
+                'image_url' => $imageUrl,
                 'id_ujian' => $idUjian, // If there is an ujian, store id_ujian
                 'id_tipe_soal' => $validated['id_tipe_soal'],
                 'id_latihan' => null, // Soal for ujian is not related to latihan
             ]);
-    
-            // Count number of ujian questions
+
             $jumlahSoal = Soal::where('id_ujian', $idUjian)->count();
-    
-            // Set nilai per soal for ujian
+
             $nilaiPerSoal = $jumlahSoal > 0 ? round(100 / $jumlahSoal, 2) : 0;
-    
+
             $soal->update(['nilai_per_soal' => $nilaiPerSoal]);
             Soal::where('id_ujian', $idUjian)->update(['nilai_per_soal' => $nilaiPerSoal]);
-    
+
             Log::info('Soal ujian berhasil dibuat.', ['soal_id' => $soal->id_soal]);
         }
-    
-        // Handling the creation of jawaban based on the question type
+
         $jawaban_data = [];
         if ($validated['id_tipe_soal'] == 1) {
             $jawaban_data = [
@@ -164,20 +166,18 @@ class SoalController extends Controller
             ];
         } else if ($validated['id_tipe_soal'] == 3) {
             $jawaban_data = [
-                ['jawaban' => $validated['jawaban_1'], 'benar' => true, 'id_tipe_soal' => $validated['id_tipe_soal']],
+                ['jawaban' => $validated['correct_answer'], 'benar' => true, 'id_tipe_soal' => $validated['id_tipe_soal']],
             ];
         }
-    
-        // Save jawaban data to the soal
+
         $soal->jawaban_soal()->createMany($jawaban_data);
-    
+
         if ($idUjian) {
             return redirect()->route('Guru.Soal.index', ['id_ujian' => $idUjian])->with('success', 'Soal berhasil dibuat.');
         }
-    
+
         return redirect()->route('Guru.Latihan.index')->with('success', 'Soal latihan berhasil dibuat.');
     }
-    
 
     public function show(Soal $soal)
     {
@@ -217,7 +217,6 @@ class SoalController extends Controller
 
         $user = auth()->user();
 
-        // Cek tipe soal dan arahkan ke view yang sesuai untuk preview
         switch ($soal->id_tipe_soal) {
             case 1: // Pilihan Ganda
                 return view('Role.Guru.Course.Soal.pilberPreview', compact('soal', 'user'));
@@ -230,49 +229,57 @@ class SoalController extends Controller
         }
     }
 
-
     public function update(Request $request, $id_soal)
     {
         Log::info('Menerima request untuk memperbarui soal.');
-    
-        // Validasi data soal
+
         $validated = $request->validate([
-            'soal' => 'required|string',
+            'soal' => 'required|string|max:40',
             'id_tipe_soal' => 'required|exists:tipe_soal,id_tipe_soal', // Pastikan tipe soal valid
             'id_latihan' => 'nullable|exists:latihan,id_latihan', // Jika ada id_latihan
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'jawaban_1' => 'required|string',
-            'jawaban_2' => 'nullable|string',
-            'jawaban_3' => 'nullable|string',
-            'jawaban_4' => 'nullable|string',
-            'jawaban_5' => 'nullable|string',
+            'jawaban_1' => 'required|string|max:30',
+            'jawaban_2' => 'nullable|string|max:30',
+            'jawaban_3' => 'nullable|string|max:30',
+            'jawaban_4' => 'nullable|string|max:30',
+            'jawaban_5' => 'nullable|string|max:30',
             'correct_answer' => 'required|string',
         ]);
-    
-        Log::info('Validasi berhasil untuk soal.', ['validated_data' => $validated]);
-    
-        // Menemukan soal berdasarkan id_soal
+
         $soal = Soal::findOrFail($id_soal);
-    
-        // Update soal jika ada gambar baru
-        if ($request->hasFile('image')) {
-            if ($soal->image) {
-                Storage::disk('public')->delete($soal->image); // Hapus gambar lama jika ada
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = public_path('images');
+            if (!is_dir($imagePath)) {
+                mkdir($imagePath, 0755, true);  // Pastikan folder images ada
             }
-            $validated['image'] = $request->file('image')->store('images/ujian_soals', 'public');
+
+            if ($soal->image) {
+                $oldImagePath = public_path('images/' . $soal->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);  // Hapus gambar lama
+                }
+            }
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move($imagePath, $imageName);
+
+            $imageUrl = url('images/' . $imageName);  
+
+            $soal->image = $imageName;
+            $soal->image_url = $imageUrl;  
         }
-    
-        // Perbarui soal dengan data yang sudah divalidasi
+
         $soal->update([
             'soal' => $validated['soal'],
-            'image' => $validated['image'] ?? $soal->image,
+            'image' => $soal->image ?? $soal->image, // Jika ada gambar baru, simpan nama gambar baru
+            'image_url' => $soal->image_url ?? $soal->image_url, // Jika ada gambar baru, simpan URL gambar baru
             'id_tipe_soal' => $validated['id_tipe_soal'],
             'id_latihan' => $validated['id_latihan'] ?? $soal->id_latihan,
         ]);
-    
+
         Log::info('Soal berhasil diperbarui.', ['soal_id' => $soal->id_soal]);
-    
-        // Membuat data jawaban berdasarkan tipe soal
+
         $jawaban_data = [];
         if ($validated['id_tipe_soal'] == 1) { // Pilihan Ganda
             $jawaban_data = [
@@ -292,53 +299,47 @@ class SoalController extends Controller
                 ['jawaban' => $validated['jawaban_1'], 'benar' => true, 'id_soal' => $soal->id_soal, 'id_tipe_soal' => $validated['id_tipe_soal']],
             ];
         }
-    
-        // Update jawaban soal
+
         $soal->jawaban_soal()->delete(); // Menghapus jawaban lama
         $soal->jawaban_soal()->createMany($jawaban_data); // Menyimpan jawaban baru
-    
+
         Log::info('Jawaban berhasil disimpan untuk soal.', ['soal_id' => $soal->id_soal]);
-    
-        // Mengupdate nilai per soal jika diperlukan
+
         if ($soal->id_latihan) {
-            // Jika soal terkait dengan latihan
             $jumlahSoalLatihan = Soal::where('id_latihan', $soal->id_latihan)->count();
             $nilaiPerSoalLatihan = $jumlahSoalLatihan > 0 ? 100 / $jumlahSoalLatihan : 0;
             $soal->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
-    
-            // Perbarui nilai_per_soal untuk semua soal latihan
+
             Soal::where('id_latihan', $soal->id_latihan)->update(['nilai_per_soal' => $nilaiPerSoalLatihan]);
         } elseif ($soal->id_ujian) {
-            // Jika soal terkait dengan ujian
             $jumlahSoal = Soal::where('id_ujian', $soal->id_ujian)->count();
             $nilaiPerSoal = $jumlahSoal > 0 ? $soal->ujian->grade / $jumlahSoal : 0;
             $soal->update(['nilai_per_soal' => $nilaiPerSoal]);
-    
-            // Perbarui nilai_per_soal untuk semua soal di ujian
+
             Soal::where('id_ujian', $soal->id_ujian)->update(['nilai_per_soal' => $nilaiPerSoal]);
         }
-    
+
         return redirect()->route('Guru.Soal.index', ['id_ujian' => $soal->id_ujian ?? null, 'id_latihan' => $soal->id_latihan ?? null])->with('success', 'Soal berhasil diperbarui.');
-    }    
+    }
 
     public function destroy(Request $request, $id_soal)
     {
         try {
             // Cari soal berdasarkan id_soal
             $soal = Soal::findOrFail($id_soal); // Menemukan soal berdasarkan id_soal
-    
+
             // Simpan id_ujian atau id_latihan untuk redirect
             $idUjian = $soal->id_ujian;
             $idLatihan = $soal->id_latihan;
-    
+
             // Proses penghapusan soal
             if ($soal->image) {
                 Storage::disk('public')->delete($soal->image); // Hapus gambar jika ada
             }
-    
+
             // Hapus soal
             $soal->delete();
-    
+
             // Mengupdate nilai per soal setelah penghapusan
             if ($idLatihan) {
                 // Jika soal terkait latihan, update nilai per soal untuk latihan
@@ -347,7 +348,7 @@ class SoalController extends Controller
                 // Jika soal terkait ujian, update nilai per soal untuk ujian
                 $this->updateNilaiPerSoalUjian($idUjian);
             }
-    
+
             // Redirect sesuai dengan id_ujian atau id_latihan
             if ($idLatihan) {
                 // Redirect ke halaman soal latihan jika soal tersebut terkait latihan
@@ -356,16 +357,15 @@ class SoalController extends Controller
                 // Redirect ke halaman soal ujian jika soal tersebut terkait ujian
                 return redirect()->route('Guru.Soal.index', ['id_ujian' => $idUjian])->with('success', 'Soal ujian berhasil dihapus dan nilai per soal diperbarui.');
             }
-    
+
             // Jika tidak ada id_ujian atau id_latihan, kembalikan ke halaman utama
             return redirect()->route('Guru.Soal.index')->with('error', 'Soal tidak ditemukan.');
-    
         } catch (\Exception $e) {
             // Tangani kesalahan saat penghapusan soal
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus soal.']);
         }
-    }    
-    
+    }
+
     protected function updateNilaiPerSoalUjian($idUjian)
     {
         $jumlahSoal = Soal::where('id_ujian', $idUjian)->count();
