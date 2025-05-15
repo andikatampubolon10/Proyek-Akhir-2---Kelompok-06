@@ -320,37 +320,38 @@
                     {{ $kursus->nama_kursus }}
                 </h1>
 
-                <h2 class="text-xl font-semibold mb-4">
-                    Course Content
-                </h2>
+                <div class="flex justify-between mb-4">
+                    <h2 class="text-xl font-semibold mb-4">
+                        Course Content
+                    </h2>
+
+                    <a href="{{ route('Guru.ListSiswa', ['id_kursus' => $kursus->id_kursus]) }}" 
+                        class="bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                        <i class="fas fa-download mr-2"></i> Informasi Siswa
+                     </a>
+                     
+                </div>
+
                 <div class="border-b border-gray-300 mb-4"></div>
 
                 <div class="flex mb-4">
                     <div class="w-1/2 pb-2 flex justify-center items-center">
-                        @foreach ($courses as $course)
-                            <a href="{{ route('Guru.Materi.index', ['id_kursus' => $course->id_kursus]) }}">
-                                <h3 class="text-lg font-semibold">
-                                    Materi
-                                </h3>
-                            </a>
-                        @endforeach
+                        <a href="{{ url('/Guru/Materi?id_kursus=' . $course->id_kursus) }}">
+                            <h3 class="text-lg font-semibold">
+                                Materi
+                            </h3>
+                        </a> 
                     </div>
                     <div class="w-1/2 border-b-2 border-blue-600 pb-2 flex justify-center items-center">
                         <h3 class="text-lg font-semibold">Ujian</h3>
                     </div>
-                </div>                
-                <div class="flex justify-between mb-4">
-                    <a href="{{ route('Guru.nilai.export', ['id_kursus' => $kursus->id_kursus]) }}"
-                        class="bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
-                        <i class="fas fa-download mr-2"></i> Export Nilai
-                    </a>
-
+                </div>      
+                <div class="flex justify-end mb-4">
                     <a href="{{ route('Guru.Ujian.create', ['id_kursus' => $id_kursus]) }}"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
+                       class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                         <i class="fas fa-plus mr-2"></i> Tambahkan
                     </a>
-
-                </div>
+                </div>              
 
                 @foreach ($ujians->sortBy('tanggal_ujian') as $exam)
                     <h4 class="text-lg font-semibold mb-2">

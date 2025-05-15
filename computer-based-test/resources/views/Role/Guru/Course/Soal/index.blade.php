@@ -312,12 +312,10 @@
             </a>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
 
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Soal</h2>
-                <!-- Modal untuk memilih tipe soal -->
                 <div class="flex justify-end mb-4">
                     <button onclick="showTipeSoalModal()"
                         class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
@@ -350,118 +348,190 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <!-- Question 1 -->
-                    @foreach ($soals as $soal)
-                        <div class="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center">
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">{{ $soal->soal }} </h3>
-                                <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }} </p>
-                            </div>
-
-                            <div class="flex space-x-5 justify-end">
-                                <form action="{{ route('Guru.Soal.destroy', $soal->id_ujian) }}" method="POST"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" class="text-red-500 flex items-center hover:text-red-700">
-                                        <i class="fas fa-trash-alt mr-1"></i> DELETE
-                                    </button>
-                                </form>
-                                <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET">
-                                    <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700"
-                                        data-id="{{ $soal->id_soal }}">
-                                        <i class="fas fa-edit mr-1"></i> EDIT
-                                    </button>
-                                </form>
+                    <div class="mt-6">
+                        <div id="previewModal" class="modal">
+                            <div class="modal-content">
+                                <span id="modalClose" class="modal-close">&times;</span>
+                                <div id="previewContent"></div>
                             </div>
                         </div>
-                    @endforeach
+                        @if ($idUjian)
+                            @foreach ($soals as $soal)
+                                <div
+                                    class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                                    <div class="mb-4 md:mb-0 md:flex-1">
+                                        <h3 class="text-lg font-semibold mb-2 break-words">{{ $soal->soal }}</h3>
+                                        <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex space-x-5 justify-end flex-wrap">
+                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}" method="GET"
+                                            class="inline">
+                                            <button type="submit"
+                                                class="text-yellow-500 flex items-center hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
+                                                <i class="fas fa-eye mr-1"></i> Preview
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('Guru.Soal.destroy', $soal->id_soal) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                class="text-red-500 flex items-center hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 rounded">
+                                                <i class="fas fa-trash-alt mr-1"></i> Delete
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET"
+                                            class="inline">
+                                            <button type="submit"
+                                                class="text-blue-500 flex items-center hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
+                                                <i class="fas fa-edit mr-1"></i> Edit
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
+                        <!-- Soal Latihan -->
+                        @if ($idLatihan)
+                            @foreach ($soals as $soal)
+                                <div
+                                    class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                                    <div class="mb-4 md:mb-0 md:flex-1">
+                                        <h3 class="text-lg font-semibold mb-2 break-words">{{ $soal->soal }}</h3>
+                                        <p class="text-sm text-gray-600">Jenis: {{ $soal->tipe_soal->nama_tipe_soal }}
+                                        </p>
+                                        <p class="text-sm text-gray-600">Topik: {{ $soal->latihan->Topik }}</p>
+                                    </div>
+
+                                    <div class="flex space-x-5 justify-end flex-wrap">
+                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}" method="GET"
+                                            class="inline">
+                                            <button type="submit"
+                                                class="text-yellow-500 flex items-center hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
+                                                <i class="fas fa-eye mr-1"></i> Preview
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('Guru.Soal.destroy', $soal->id_soal) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?');"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-500 flex items-center hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 rounded">
+                                                <i class="fas fa-trash-alt mr-1"></i> Delete
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('Guru.Soal.edit', $soal->id_soal) }}" method="GET"
+                                            class="inline">
+                                            <button type="submit"
+                                                class="text-blue-500 flex items-center hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded">
+                                                <i class="fas fa-edit mr-1"></i> Edit
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
+                        @if (!($idUjian || $idLatihan))
+                            <p class="text-center text-gray-600">Silakan pilih ujian atau latihan untuk melihat soal.
+                            </p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        // Dropdown toggle script
-        const dropdownButton = document.getElementById('dropdownButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const dropdownIcon = document.getElementById('dropdownIcon');
+        <script>
+            // Dropdown toggle script
+            const dropdownButton = document.getElementById('dropdownButton');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownIcon = document.getElementById('dropdownIcon');
 
-        dropdownButton.addEventListener('click', () => {
-            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
-            dropdownButton.setAttribute('aria-expanded', !isExpanded);
+            dropdownButton.addEventListener('click', () => {
+                const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+                dropdownButton.setAttribute('aria-expanded', !isExpanded);
 
-            if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            } else {
-                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
-                dropdownMenu.style.paddingTop = '0.5rem';
-                dropdownMenu.style.paddingBottom = '0.5rem';
-                dropdownIcon.style.transform = 'rotate(180deg)';
-            }
-        });
-
-        // Close dropdown if clicked outside
-        window.addEventListener('click', (e) => {
-            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.style.maxHeight = '0px';
-                dropdownMenu.style.paddingTop = '0';
-                dropdownMenu.style.paddingBottom = '0';
-                dropdownButton.setAttribute('aria-expanded', 'false');
-                dropdownIcon.style.transform = 'rotate(0deg)';
-            }
-        });
-
-        // Initialize dropdown closed
-        dropdownMenu.style.maxHeight = '0px';
-        dropdownMenu.style.overflow = 'hidden';
-        dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
-
-        function toggleDropdown() {
-            const dropdown = document.getElementById("dropdown-menu");
-            dropdown.classList.toggle("show");
-        }
-
-
-        document.getElementById('profileDropdown').addEventListener('click', function() {
-            document.getElementById('logoutDropdown').classList.toggle('hidden');
-        });
-
-
-
-        document.getElementById('profileDropdown').addEventListener('click', function() {
-            document.getElementById('logoutDropdown').classList.toggle('hidden');
-        });
-
-        function showTipeSoalModal() {
-            document.getElementById('tipeSoalModal').classList.remove('hidden');
-        }
-
-        function closeTipeSoalModal() {
-            document.getElementById('tipeSoalModal').classList.add('hidden');
-        }
-
-        function pilihSoal(tipe) {
-            Swal.fire({
-                title: 'Anda memilih ' + (tipe === 'pilgan' ? 'Pilgan' : tipe === 'truefalse' ? 'True/False' :
-                    'Essay'),
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                closeTipeSoalModal();
-                if (tipe === 'pilgan') {
-                    window.location.href = "{{ route('Guru.Soal.create', ['type' => 'pilgan']) }}";
-                } else if (tipe === 'truefalse') {
-                    window.location.href = "{{ route('Guru.Soal.create', ['type' => 'truefalse']) }}";
-                } else if (tipe === 'essay') {
-                    window.location.href = "{{ route('Guru.Soal.create', ['type' => 'essay']) }}";
+                if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
+                    dropdownMenu.style.maxHeight = '0px';
+                    dropdownMenu.style.paddingTop = '0';
+                    dropdownMenu.style.paddingBottom = '0';
+                    dropdownIcon.style.transform = 'rotate(0deg)';
+                } else {
+                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                    dropdownMenu.style.paddingTop = '0.5rem';
+                    dropdownMenu.style.paddingBottom = '0.5rem';
+                    dropdownIcon.style.transform = 'rotate(180deg)';
                 }
             });
-        }
-    </script>
+
+            // Close dropdown if clicked outside
+            window.addEventListener('click', (e) => {
+                if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.style.maxHeight = '0px';
+                    dropdownMenu.style.paddingTop = '0';
+                    dropdownMenu.style.paddingBottom = '0';
+                    dropdownButton.setAttribute('aria-expanded', 'false');
+                    dropdownIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Initialize dropdown closed
+            dropdownMenu.style.maxHeight = '0px';
+            dropdownMenu.style.overflow = 'hidden';
+            dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+
+            function toggleDropdown() {
+                const dropdown = document.getElementById("dropdown-menu");
+                dropdown.classList.toggle("show");
+            }
+
+
+            document.getElementById('profileDropdown').addEventListener('click', function() {
+                document.getElementById('logoutDropdown').classList.toggle('hidden');
+            });
+
+
+
+            document.getElementById('profileDropdown').addEventListener('click', function() {
+                document.getElementById('logoutDropdown').classList.toggle('hidden');
+            });
+
+            function showTipeSoalModal() {
+                document.getElementById('tipeSoalModal').classList.remove('hidden');
+            }
+
+            function closeTipeSoalModal() {
+                document.getElementById('tipeSoalModal').classList.add('hidden');
+            }
+
+            function pilihSoal(tipe) {
+                Swal.fire({
+                    title: 'Anda memilih ' + (tipe === 'pilgan' ? 'Pilgan' : tipe === 'truefalse' ? 'True/False' :
+                        'Essay'),
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    closeTipeSoalModal();
+                    if (tipe === 'pilgan') {
+                        window.location.href = "{{ route('Guru.Soal.create', ['type' => 'pilgan']) }}";
+                    } else if (tipe === 'truefalse') {
+                        window.location.href = "{{ route('Guru.Soal.create', ['type' => 'truefalse']) }}";
+                    } else if (tipe === 'essay') {
+                        window.location.href = "{{ route('Guru.Soal.create', ['type' => 'essay']) }}";
+                    }
+                });
+            }
+        </script>
 
 </body>
 

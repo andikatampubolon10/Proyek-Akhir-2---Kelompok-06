@@ -19,50 +19,41 @@ class UjianController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-
+    
         if (!$user) {
             return redirect()->route('login'); // Redirect jika user tidak ditemukan
         }
-
-
+    
         $guru = Guru::where('id_user', $user->id)->first();
-
+    
         if (!$guru) {
             return redirect()->back()->withErrors(['error' => 'Guru tidak ditemukan.']);
         }
+    
+        $id_kursus = $request->query('id_kursus');
 
-        $courses = kursus::with('guru')->get();
-
-        $id_kursus = $request->input('id_kursus');
-
+        $courses = kursus::with('guru')->get(); // Ambil semua kursus
+    
+        $course = $courses->where('id_kursus', $id_kursus)->first();
+    
+        if (!$course) {
+            return redirect()->back()->withErrors(['error' => 'Kursus yang dipilih tidak valid.']);
+        }
+    
         $kursus = Kursus::where('id_kursus', $id_kursus)
-            ->where('id_guru', $guru->id_guru)
-            ->first();
-
+                        ->where('id_guru', $guru->id_guru)
+                        ->first();
+    
         if (!$kursus) {
             return redirect()->back()->withErrors(['error' => 'Kursus yang dipilih tidak valid.']);
         }
-
+    
         $ujians = Ujian::where('id_kursus', $kursus->id_kursus)
-            ->orderBy('tanggal_ujian', 'DESC')
-            ->get();
-
-        return view('Role.Guru.Course.index', compact('user', 'ujians', 'kursus','id_kursus','courses'));
-    }
-
-    public function exportNilai($id_kursus)
-    {
-        $kursus = Kursus::findOrFail($id_kursus);
-
-        // Membersihkan nama kursus dari karakter yang tidak diizinkan dalam nama file
-        $fileName = $kursus->nama_kursus . '_nilai.xlsx';
-
-        // Menghapus karakter "/" dan "\\" dari nama file
-        $fileName = str_replace(['/', '\\'], '_', $fileName);
-
-        return Excel::download(new NilaiExport($id_kursus), $fileName);
-    }
-
+                       ->orderBy('tanggal_ujian', 'DESC')
+                       ->get();
+    
+        return view('Role.Guru.Course.index', compact('user', 'course', 'ujians', 'kursus', 'id_kursus', 'courses'));
+    }    
 
     public function create(Request $request)
     {

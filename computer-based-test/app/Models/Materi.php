@@ -17,6 +17,7 @@ class Materi extends Model
         'judul_materi',
         'deskripsi',
         'file',
+        'file_url',
         'tanggal_materi',
         'id_kursus',
         'id_guru',

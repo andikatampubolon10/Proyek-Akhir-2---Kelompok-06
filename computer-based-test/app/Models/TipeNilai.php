@@ -21,11 +21,11 @@ class TipeNilai extends Model
 
     public function tipeUjian()
     {
-        return $this->belongsTo(tipe_ujian::class, 'id_tipe_ujian');
+        return $this->belongsTo(tipe_ujian::class, 'id_tipe_ujian','id_tipe_ujian');
     }
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'id_siswa');
+        return $this->belongsTo(Siswa::class, 'id_siswa','id_siswa');
     }
 }

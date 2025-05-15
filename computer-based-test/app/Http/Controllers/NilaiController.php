@@ -1,11 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Nilai;
 use App\Models\Kursus;
 use App\Models\Siswa;
+use App\Models\TipeNilai;
+use App\Models\NilaiKursus;
+use App\Models\Persentase;
+use App\Models\Tipe_Ujian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class NilaiController extends Controller
 {
@@ -23,92 +28,146 @@ class NilaiController extends Controller
         return view('Role.Guru.Nilai.create', compact('user'));
     }
 
-    public function prosesNilai($id_ujian)
-    {       
+    public function calculateAllNilai($id_kursus)
+    {
+        // Cek apakah persentase sudah diatur
+        $persentaseCheck = Persentase::where('id_kursus', $id_kursus)->get();
+        if ($persentaseCheck->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Persentase belum diatur. Silahkan atur persentase terlebih dahulu.'
+            ], 422);
+        }
+        
+        // Mulai transaksi database untuk memastikan integritas data
+        DB::beginTransaction();
+        
         try {
-            // Ambil data ujian
-            $ujian = Ujian::findOrFail($id_ujian);
-            $kursus = $ujian->kursus;
-            $siswa = Siswa::all();
-    
-            // Ambil persentase berdasarkan kursus
-            $persentase = Persentase::where('id_kursus', $kursus->id_kursus)->get();
-    
-            // Loop untuk setiap siswa dan hitung nilai
-            foreach ($siswa as $s) {
-                // Ambil nilai kuis, UTS, dan UAS
-                $nilai_kuis = rand(0, 100);
-                $nilai_uts = rand(0, 100);
-                $nilai_uas = rand(0, 100);
-    
-                // Masukkan nilai ke tipe_nilai
-                $tipeNilai = TipeNilai::create([
-                    'nilai_kuis' => $nilai_kuis,
-                    'nilai_UTS' => $nilai_uts,
-                    'nilai_UAS' => $nilai_uas
-                ]);
-    
-                // Menghitung nilai total
-                $nilaiTotal = ($nilai_kuis * $persentase->where('id_tipe_ujian', 1)->first()->persentase / 100) +
-                              ($nilai_uts * $persentase->where('id_tipe_ujian', 2)->first()->persentase / 100) +
-                              ($nilai_uas * $persentase->where('id_tipe_ujian', 3)->first()->persentase / 100);
-    
-                // Masukkan data nilai ke tabel nilai
-                Nilai::create([
-                    'id_kursus' => $kursus->id_kursus,
-                    'id_siswa' => $s->id_siswa,
-                    'id_persentase' => $persentase->first()->id_persentase,
-                    'id_tipe_nilai' => $tipeNilai->id_tipe_nilai,
-                    'nilai_total' => $nilaiTotal,
-                ]);
+            // Ambil semua siswa dalam kursus
+            $siswaList = Siswa::whereHas('kursus', function($query) use ($id_kursus) {
+                $query->where('id_kursus', $id_kursus);
+            })->get();
+            
+            $results = [];
+            
+            // Proses untuk setiap siswa
+            foreach ($siswaList as $siswa) {
+                $id_siswa = $siswa->id_siswa;
+                
+                // Ambil semua tipe ujian yang ada nilainya untuk siswa ini
+                $tipeUjianList = TipeNilai::where('id_siswa', $id_siswa)
+                    ->select('id_tipe_ujian')
+                    ->distinct()
+                    ->get()
+                    ->pluck('id_tipe_ujian');
+                
+                $nilai_per_tipe = [];
+                
+                // 1. Hitung nilai per tipe ujian
+                foreach ($tipeUjianList as $id_tipe_ujian) {
+                    $nilai_tipe = $this->calculateNilaiKursus($id_kursus, $id_siswa, $id_tipe_ujian);
+                    $nilai_per_tipe[$id_tipe_ujian] = $nilai_tipe;
+                }
+                
+                // 2. Hitung nilai total
+                $nilai_total = $this->calculateNilaiTotal($id_kursus, $id_siswa);
+                
+                $results[$id_siswa] = [
+                    'nilai_total' => $nilai_total
+                ];
             }
-    
-            return redirect()->route('Guru.Ujian.index')->with('success', 'Nilai berhasil diproses.');
+            
+            // Commit transaksi jika semua berhasil
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Perhitungan nilai berhasil dilakukan untuk semua siswa',
+                'data' => $results
+            ]);
+            
         } catch (\Exception $e) {
-            Log::error('Error processing nilai: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memproses nilai.']);
+            // Rollback transaksi jika terjadi error
+            DB::rollBack();
+            
+            Log::error('Error saat menghitung nilai: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghitung nilai: ' . $e->getMessage()
+            ], 500);
         }
     }
 
-    public function hitungNilaiTotal()
+    /**
+     * Menghitung nilai per tipe ujian
+     */
+    private function calculateNilaiKursus($id_kursus, $id_siswa, $id_tipe_ujian)
     {
-        // Ambil semua nilai untuk kuis, UTS, dan UAS terkait dengan kursus ini
-        $tipeNilai = $this->kursus->tipeNilai()->where('id_kursus', $this->id_kursus)->get();
-    
-        $totalKuis = 0;
-        $totalUTS = 0;
-        $totalUAS = 0;
-    
-        // Looping untuk setiap nilai ujian
-        foreach ($tipeNilai as $nilai) {
-            $totalKuis += $nilai->nilai_kuis;
-            $totalUTS += $nilai->nilai_UTS;
-            $totalUAS += $nilai->nilai_UAS;
-        }
-    
-        // Ambil persentase berdasarkan id_kursus dan id_tipe_ujian
-        $persentase = Persentase::where('id_kursus', $this->id_kursus)
-                                ->get()
-                                ->keyBy('id_tipe_ujian');  // Menyusun berdasarkan id_tipe_ujian
-    
-        // Hitung nilai total berdasarkan persentase
-        $nilaiTotal = ($totalKuis * $persentase[1]->persentase / 100) +  // Kuis
-                      ($totalUTS * $persentase[2]->persentase / 100) +   // UTS
-                      ($totalUAS * $persentase[3]->persentase / 100);   // UAS
-    
-        $this->nilai_total = $nilaiTotal;
-        $this->save();
-    }    
+        // Ambil semua nilai untuk tipe ujian ini
+        $nilaiList = TipeNilai::where('id_siswa', $id_siswa)
+            ->where('id_tipe_ujian', $id_tipe_ujian)
+            ->get();
         
-    // Fungsi untuk mengambil nilai ujian, sesuaikan dengan cara pengambilan nilai yang sesungguhnya
-    private function ambilNilaiUjian($id_ujian, $id_siswa)
-    {
-        // Untuk sekarang kita gunakan nilai acak, Anda bisa mengganti ini dengan logika untuk mendapatkan nilai ujian siswa
-        return [
-            'nilai_kuis' => rand(0, 100),  // Nilai acak untuk kuis
-            'nilai_uts' => rand(0, 100),   // Nilai acak untuk ujian tengah semester
-            'nilai_uas' => rand(0, 100),   // Nilai acak untuk ujian akhir semester
-        ];
+        // Hitung rata-rata nilai
+        $totalNilai = 0;
+        $count = $nilaiList->count();
+        
+        if ($count > 0) {
+            $totalNilai = $nilaiList->sum('nilai') / $count;
+        }
+        
+        // Simpan atau update nilai kursus
+        NilaiKursus::updateOrCreate(
+            [
+                'id_kursus' => $id_kursus,
+                'id_siswa' => $id_siswa,
+                'id_tipe_ujian' => $id_tipe_ujian,
+            ],
+            [
+                'nilai_tipe_ujian' => $totalNilai,
+            ]
+        );
+        
+        return $totalNilai;
     }
-    
+
+    /**
+     * Menghitung nilai total dengan persentase
+     */
+    private function calculateNilaiTotal($id_kursus, $id_siswa)
+    {
+        // Ambil semua nilai kursus untuk siswa ini
+        $nilaiKursusList = NilaiKursus::where('id_kursus', $id_kursus)
+            ->where('id_siswa', $id_siswa)
+            ->get();
+        
+        $nilaiTotal = 0;
+        
+        // Hitung nilai total berdasarkan persentase
+        foreach ($nilaiKursusList as $nilaiKursus) {
+            // Ambil persentase untuk tipe ujian ini
+            $persentase = Persentase::where('id_kursus', $id_kursus)
+                ->where('id_tipe_ujian', $nilaiKursus->id_tipe_ujian)
+                ->first();
+            
+            if ($persentase) {
+                // Hitung nilai berdasarkan persentase
+                $nilaiTotal += ($nilaiKursus->nilai_tipe_ujian * $persentase->persentase / 100);
+            }
+        }
+        
+        // Simpan atau update nilai total
+        Nilai::updateOrCreate(
+            [
+                'id_kursus' => $id_kursus,
+                'id_siswa' => $id_siswa,
+            ],
+            [
+                'nilai_total' => $nilaiTotal,
+            ]
+        );
+        
+        return $nilaiTotal;
+    }
 }

@@ -18,16 +18,16 @@ class Persentase extends Model
 
     public function tipePersentase()
     {
-        return $this->belongsTo(tipe_persentase::class, 'id_tipe_persentase', 'id_tipe_persentase');
+        return $this->belongsTo(tipe_persentase::class, 'id_tipe_persentase', 'id_tipe_persentase','id_tipe_persentase','id_tipe_persentase');
     }
 
     public function kursus()
     {
-        return $this->belongsTo(Kursus::class, 'id_kursus');
+        return $this->belongsTo(Kursus::class, 'id_kursus','id_kursus','id_kursus');
     }
 
     public function tipeUjian()
     {
-        return $this->belongsTo(Tipe_Ujian::class, 'id_tipe_ujian');
+        return $this->belongsTo(Tipe_Ujian::class, 'id_tipe_ujian','id_tipe_ujian');
     }
 }

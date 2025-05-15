@@ -60,7 +60,7 @@ class Kursus extends Model
 
     public function persentase()
     {
-        return $this->hasMany(Persentase::class, 'id_kursus', 'id_kursus');
+        return $this->hasMany(Persentase::class, 'id_kursus', 'id_kursus','id_kursus');
     }
 
     public function materi()
@@ -69,8 +69,12 @@ class Kursus extends Model
     }
 
     public function tipeNilai()
-{
-    return $this->hasMany(TipeNilai::class, 'id_kursus', 'id_kursus');
-}
+    {
+        return $this->hasMany(TipeNilai::class, 'id_kursus', 'id_kursus');
+    }
 
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'kursus_siswa', 'id_kursus', 'id_siswa');
+    }
 }

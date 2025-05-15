@@ -17,16 +17,16 @@ class NilaiKursus extends Model
 
     public function kursus()
     {
-        return $this->belongsTo(Kursus::class, 'id_kursus');
+        return $this->belongsTo(Kursus::class, 'id_kursus','id_kursus');
     }
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'id_siswa');
+        return $this->belongsTo(Siswa::class, 'id_siswa','id_siswa');
     }
 
     public function tipeUjian()
     {
-        return $this->belongsTo(tipe_ujian::class, 'id_tipe_ujian');
+        return $this->belongsTo(tipe_ujian::class, 'id_tipe_ujian','id_tipe_ujian');
     }
 }

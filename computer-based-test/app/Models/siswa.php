@@ -29,7 +29,7 @@ class siswa extends Model
     }
 
     public function kelas(){
-        return $this->belongsTo(kelas::class);
+        return $this->belongsTo(kelas::class,'id_kelas','id_kelas');
     }
 
     public function mata_pelajaran_siswa(){
@@ -50,6 +50,6 @@ class siswa extends Model
 
     public function nilai()
     {
-        return $this->hasMany(Nilai::class, 'id_siswa', 'id_siswa');
+        return $this->hasMany(Nilai::class, 'id_siswa', 'id_siswa','id_siswa','id_siswa');
     }
 }

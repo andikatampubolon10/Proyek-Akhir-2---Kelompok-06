@@ -16,6 +16,6 @@ class tipe_persentase extends Model
 
     public function persentase()
     {
-        return $this->hasMany(Persentase::class, 'id_tipe_persentase', 'id_tipe_persentase', 'id_tipe_persentase');
+        return $this->hasMany(Persentase::class, 'id_tipe_persentase', 'id_tipe_persentase', 'id_tipe_persentase','id_tipe_persentase');
     }
 }
