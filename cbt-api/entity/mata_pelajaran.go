@@ -13,3 +13,7 @@ type MataPelajaran struct {
     // Operator   Operator  `gorm:"foreignkey:IdOperator;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"operator"`
     Kurikulum  Kurikulum `gorm:"foreignkey:IdKurikulum;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"kurikulum"`
 }
+
+func (MataPelajaran) TableName() string {
+    return "mata_pelajaran" // Nama tabel di database
+}

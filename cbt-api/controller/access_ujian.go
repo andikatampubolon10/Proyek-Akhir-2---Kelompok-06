@@ -13,7 +13,7 @@ func AccessUjian(c *gin.Context) {
 	// Get the id_ujian and password from the request parameters
 	idUjian := c.Param("id_ujian") // Retrieve exam ID from URL
 	var userInput struct {
-		Password string `json:"password"` // The password input by the user
+		PasswordMasuk string `json:"password_masuk"` // The password input by the user
 	}
 	
 	// Bind the incoming JSON to the userInput struct
@@ -30,7 +30,7 @@ func AccessUjian(c *gin.Context) {
 	}
 
 	// Compare the hashed password stored in the database with the input password
-	err := bcrypt.CompareHashAndPassword([]byte(ujian.Password), []byte(userInput.Password))
+	err := bcrypt.CompareHashAndPassword([]byte(ujian.PasswordMasuk), []byte(userInput.PasswordMasuk))
 	if err != nil {
 		// If the password does not match
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})

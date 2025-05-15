@@ -8,3 +8,7 @@ type TipeSoal struct {
     CreatedAt        time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"created_at"`
     UpdatedAt        time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" json:"updated_at"`
 }
+
+func (TipeSoal) TableName() string {
+    return "tipe_soal" // Nama tabel di database
+}

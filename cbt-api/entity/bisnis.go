@@ -9,3 +9,7 @@ type Bisnis struct {
     CreatedAt        time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"created_at"`
     UpdatedAt        time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" json:"updated_at"`
 }
+
+func (Bisnis) TableName() string {
+    return "bisnis" // Nama tabel di database
+}

@@ -18,3 +18,7 @@ type Siswa struct {
     // Operator Operator `gorm:"foreignkey:IdOperator;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"operator"`
     Kelas    Kelas    `gorm:"foreignkey:IdKelas;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"kelas"`
 }
+
+func (Siswa) TableName() string {
+    return "siswa" // Nama tabel di database
+}

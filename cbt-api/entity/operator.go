@@ -13,3 +13,7 @@ type Operator struct {
 
     Users       Users     `gorm:"foreignkey:id_user;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"user"`
 }
+
+func (Operator) TableName() string {
+    return "operator" // Nama tabel di database
+}
