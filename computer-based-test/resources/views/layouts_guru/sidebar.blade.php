@@ -1,0 +1,58 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4"style="background-color: #2B65EC;">
+  <!-- Brand Logo -->
+  <a href="/" class="brand-link">
+    <img src="{{ asset('storage/img/icons/logo.jpeg') }}" alt="laravel Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">SMK Negeri 2 Balige</span>
+  </a>
+
+  
+  <!-- Sidebar -->
+  <div class="sidebar" style="background-color: #2B65EC;">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{{ asset('storage/img/icons/admin.jpeg') }}" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="" class="d-block"></a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-header">Guru Panel</li>
+        <li class="nav-item">
+          <a href="" class="nav-link {{ Request::segment(2) == 'users' ? 'active' : '' }}">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Kursus
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link {{ Request::segment(2) == 'galeri' ? 'active' : '' }}">
+            <i class="nav-icon far fa-image"></i>
+            <p>
+              Latihan Soal
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-header">PENGATURAN</li>
+        <li class="nav-item">
+          <a href="" class="nav-link {{ Request::is('admin/profile') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-id-card"></i>
+            <p>
+              Profil
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

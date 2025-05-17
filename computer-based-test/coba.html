@@ -1,0 +1,460 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>
+        Guru | List Siswa
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f4f5f7;
+            font-family: 'Arial', sans-serif;
+            padding: 0;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #00bfae, #00796b);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header .logo img {
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .header .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header .user-info img:hover {
+            transform: scale(1.1);
+        }
+
+        .header .user-info span {
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 150px;
+            z-index: 1500;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04040;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            width: 260px;
+            padding: 25px 15px;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            z-index: 900;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 22px;
+        }
+
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a:hover {
+            background-color: #004d40;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button Styles */
+        .btn-add-top-right {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            background-color: #00bfae;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-top-right:hover {
+            background-color: #00796b;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 18px 25px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #14A098;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        table td {
+            vertical-align: middle;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 100px 30px 30px;
+            flex: 1;
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        /* Main Content Box */
+        .main-content-box {
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                padding: 15px 20px;
+                top: 60px;
+                left: 0;
+                height: auto;
+                border-radius: 0;
+                position: fixed;
+                flex-direction: row;
+                justify-content: space-around;
+                gap: 0;
+                z-index: 1000;
+            }
+
+            .sidebar a {
+                font-size: 14px;
+                padding: 10px 8px;
+                border-radius: 8px;
+                justify-content: center;
+            }
+
+            .sidebar a i {
+                margin-right: 0;
+                font-size: 18px;
+            }
+
+            .sidebar a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 130px 20px 20px;
+            }
+
+            .btn-add-top-right {
+                position: fixed;
+                top: 60px;
+                right: 20px;
+                width: auto;
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 14px;
+                min-width: auto;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                z-index: 1100;
+            }
+
+            table th,
+            table td {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
+
+            table th {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
+
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Welcome, Guru</span>
+                    <span class="text-white font-semibold">{{ $user->name }}</span>
+                </div>
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
+            </div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col md:flex-row">
+        <nav aria-label="Sidebar Navigation" class="sidebar">
+            <a aria-current="page" class="active" href="#">
+                <i class="fas fa-book-open">
+                </i>
+                <span class="ml-3">
+                    Course
+                </span>
+            </a>
+            <a href="#">
+                <i class="fas fa-pen">
+                </i>
+                <span class="ml-3">
+                    Latihan Soal
+                </span>
+            </a>
+            <a href="#">
+                <i class="fas fa-chart-line">
+                </i>
+                <span class="ml-3">
+                    Nilai
+                </span>
+            </a>
+        </nav>
+        <main class="main-content" role="main">
+            <div class="w-full bg-white p-6 shadow-md rounded-lg">
+                <div class="border-b border-black pb-1 mb-4">
+                    <h1 class="text-3xl leading-none font-semibold">
+                        Biologi 24/25
+                    </h1>
+                </div>
+                <form class="mb-8 space-y-6">
+                    <div class="flex justify-between items-center text-base font-normal mb-2">
+                        <div>
+                            Persentase Kuis :
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-base font-normal mb-2">
+                        <div>
+                            Persentase Ujian Tengah Semester :
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-base font-normal mb-4">
+                        <div>
+                            Persentase Ujian Akhir Semester :
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                            class="px-4 py-2 text-base font-normal border border-blue-700 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+                            style="font-family: Arial, sans-serif;" type="button">
+                            Export Nilai
+                        </button>
+                    </div>
+                </form>
+                <section class="border-t border-black pt-4 mb-4">
+                    <h2 class="text-2xl mb-4 font-semibold">
+                        List Siswa
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-black rounded-lg">
+                            <thead>
+                                <tr>
+                                    <th class="border border-black px-2 py-1 text-center">
+                                        Nama siswa
+                                    </th>
+                                    <th class="border border-black px-2 py-1 text-center">
+                                        NIS
+                                    </th>
+                                    <th class="border border-black px-2 py-1 text-center">
+                                        Kelas
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        Ahmad Fauzi
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11423038
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        10A
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        Siti Nurhaliza
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11423038
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        10B
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        Budi Santoso
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11423038
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11A
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        Dewi Lestari
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11423038
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11B
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        Rizky Pratama
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        11423038
+                                    </td>
+                                    <td class="border border-black px-2 py-1 text-center">
+                                        12A
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+        function toggleDropdown() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('show');
+        }
+        // Close dropdown if clicked outside
+        window.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.dropdown');
+            const menu = document.getElementById('dropdown-menu');
+            if (!dropdown.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+
+</html>
