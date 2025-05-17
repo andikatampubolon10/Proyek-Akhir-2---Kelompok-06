@@ -16,5 +16,5 @@ type JawabanSoal struct {
 }
 
 func (JawabanSoal) TableName() string {
-    return "jawaban_soal" // Pastikan tabel ini sesuai dengan nama tabel di database
+    return "jawaban_soal" // Nama tabel di database
 }

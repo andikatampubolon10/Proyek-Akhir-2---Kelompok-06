@@ -11,3 +11,7 @@ type Kelas struct {
 
     // Operator  Operator  `gorm:"foreignkey:IdOperator;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"operator"`
 }
+
+func (Kelas) TableName() string {
+    return "kelas" // Nama tabel di database
+}

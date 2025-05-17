@@ -15,3 +15,7 @@ type JawabanSiswa struct {
     Siswa     Siswa     `gorm:"foreignkey:IdSiswa;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"siswa"`
     JawabanSoal JawabanSoal `gorm:"foreignkey:IdJawabanSoal;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"jawaban_soal"`
 }
+
+func (JawabanSiswa) TableName() string {
+    return "jawaban_siswa" // Nama tabel di database
+}

@@ -16,3 +16,7 @@ type Guru struct {
     Users      Users     `gorm:"foreignkey:id_user;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"user"`
     Operator   Operator  `gorm:"foreignkey:id_operator;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"operator"`
 }
+
+func (Guru) TableName() string {
+    return "guru" // Nama tabel di database
+}

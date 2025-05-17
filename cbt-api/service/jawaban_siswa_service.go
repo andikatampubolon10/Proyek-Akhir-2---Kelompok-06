@@ -13,6 +13,7 @@ type JawabanSiswaService interface {
 	GetJawabanSiswaByID(id uint64) (entity.JawabanSiswa, error)
 	GetJawabanSiswaBySiswaID(siswaID uint64) ([]entity.JawabanSiswa, error)
 	GetJawabanSiswaByUjianID(ujianID uint64) ([]entity.JawabanSiswa, error)
+	GetJawabanSiswaByUjianIDAndSiswaID(ujianID uint64, siswaID uint64) ([]entity.JawabanSiswa, error)
 }
 
 type jawabanSiswaService struct {
@@ -44,4 +45,8 @@ func (s *jawabanSiswaService) GetJawabanSiswaBySiswaID(siswaID uint64) ([]entity
 
 func (s *jawabanSiswaService) GetJawabanSiswaByUjianID(ujianID uint64) ([]entity.JawabanSiswa, error) {
 	return s.jawabanSiswaRepository.GetJawabanSiswaByUjianID(ujianID)
+}
+
+func (s *jawabanSiswaService) GetJawabanSiswaByUjianIDAndSiswaID(ujianID uint64, siswaID uint64) ([]entity.JawabanSiswa, error) {
+	return s.jawabanSiswaRepository.GetJawabanSiswaByUjianIDAndSiswaID(ujianID, siswaID)
 }

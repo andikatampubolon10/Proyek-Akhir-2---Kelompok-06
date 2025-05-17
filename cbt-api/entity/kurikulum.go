@@ -11,3 +11,7 @@ type Kurikulum struct {
 
     // Operator  Operator  `gorm:"foreignkey:IdOperator;constraint:onUpdate:CASCADE, onDelete:CASCADE" json:"operator"`
 }
+
+func (Kurikulum) TableName() string {
+    return "kurikulum" // Nama tabel di database
+}
