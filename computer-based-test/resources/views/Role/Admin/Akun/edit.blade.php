@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUIZHUB - Nilai Mahasiswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* General Styles */
         body {
             background-color: #f4f5f7;
             font-family: 'Arial', sans-serif;
+            padding: 0;
             margin: 0;
             color: #333;
-            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -30,6 +31,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+
         }
 
         .header .logo img {
@@ -45,30 +47,29 @@
         }
 
         .header .user-info img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            border: 3px solid #ffffff;
             object-fit: cover;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
         .header .user-info img:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .header .user-info span {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 60px;
-            /* Adjust based on header height */
             right: 0;
             background-color: #ffffff;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
@@ -93,21 +94,6 @@
 
         .logout-btn:hover {
             background-color: #e04040;
-        }
-
-        /* Style for user profile image hover effect */
-        .header .user-info img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 3px solid #ffffff;
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-        }
-
-        .header .user-info img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         /* Sidebar Styles */
@@ -140,14 +126,14 @@
         }
 
         .sidebar a i {
-            font-size: 28px;
             margin-right: 15px;
-            transition: transform 0.3s ease, color 0.3s ease;
+            font-size: 22px;
         }
 
-        .sidebar a.active i {
-            color: #fff;
-            transform: scale(1.2);
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar a:hover {
@@ -165,14 +151,23 @@
             overflow-y: auto;
         }
 
-        /* Form Container */
-        .form-container {
-            background-color: #ffffff;
-            padding: 35px;
+        /* Content Box */
+        .main-content-box {
+            padding: 30px;
+            background-color: white;
             border-radius: 15px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
-            max-width: 100%;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: auto;
             margin: 0 auto;
         }
 
@@ -181,17 +176,16 @@
             font-size: 16px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: inline-block;
         }
 
         .form-container input[type="text"],
         .form-container input[type="email"],
         .form-container input[type="password"],
-        .form-container input[type="number"],
-        .form-container select {
+        .form-container input[type="number"] {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 18px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
@@ -204,21 +198,15 @@
         .form-container input[type="text"]:focus,
         .form-container input[type="email"]:focus,
         .form-container input[type="password"]:focus,
-        .form-container input[type="number"]:focus,
-        .form-container select:focus {
+        .form-container input[type="number"]:focus {
             border-color: #00bfae;
             outline: none;
-        }
-
-        .form-container select {
-            background-color: #f9f9f9;
-            padding: 14px 18px;
         }
 
         /* Submit Button */
         .form-container button[type="submit"] {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             background-color: #00bfae;
             color: white;
             font-size: 16px;
@@ -230,28 +218,6 @@
 
         .form-container button[type="submit"]:hover {
             background-color: #00796b;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                padding: 25px;
-                top: 0;
-                left: 0;
-                height: auto;
-                border-radius: 0;
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 70px 20px 20px;
-            }
-
-            .form-container {
-                padding: 25px;
-                margin: 20px;
-            }
         }
 
         /* Breadcrumb Styling */
@@ -290,37 +256,47 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
-        </div>
-        <div class="user-info">
-            <span>Admin</span>
-            <img alt="Profile picture" class="rounded-full ml-4" height="50"
-                src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
-                width="50" onclick="toggleDropdown()">
-            <!-- Dropdown Menu -->
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
+
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Admin</span>
+
+                </div>
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
+            </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Sidebar and Main Content -->
-    <div class="d-flex">
+    <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="{{ route('Admin.Akun.index') }}">
-                <i class="fa-solid fa-circle-user"></i> Operator
-            </a>
-            <a href="{{ route('Admin.Bisnis.index') }}">
-                <i class="fa-solid fa-money-bill-wave"></i> Bisnis
-            </a>
+            <ul>
+                <li class="mb-4">
+                    <a href="{{ route('Admin.Akun.index') }}"
+                        class="flex items-center text-black shadow p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-calendar-alt text-black mr-2"></i> Operator
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Admin.Bisnis.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-book text-white mr-2"></i> Bisnis
+                    </a>
+                </li>
+            </ul>
         </div>
 
         <!-- Main Content -->
@@ -385,10 +361,11 @@
                             @enderror
                         </div>
 
-                        <div class="form-group text-right">
+                        <div class="flex justify-end">
                             <button type="submit"
-                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                                 <span>Simpan</span>
+                                <i class="fas fa-check ml-2"></i>
                             </button>
                         </div>
                     </form>

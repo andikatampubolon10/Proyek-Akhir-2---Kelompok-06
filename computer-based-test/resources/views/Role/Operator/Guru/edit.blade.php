@@ -1,14 +1,16 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Operator | Edit Guru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator | Guru</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* General Styles */
         body {
             background-color: #f4f5f7;
             font-family: 'Arial', sans-serif;
@@ -17,6 +19,7 @@
             color: #333;
         }
 
+        /* Header Styles */
         .header {
             background: linear-gradient(to right, #00bfae, #00796b);
             color: white;
@@ -29,13 +32,12 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+
         }
 
         .header .logo img {
             max-width: 120px;
             border-radius: 8px;
-            height: 40px;
-            object-fit: contain;
         }
 
         .header .user-info {
@@ -63,7 +65,6 @@
             font-size: 16px;
             font-weight: 600;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            line-height: 1.2;
         }
 
         .dropdown-menu {
@@ -73,10 +74,9 @@
             right: 0;
             background-color: #ffffff;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-            padding: 10px 0;
+            padding: 10px;
             border-radius: 8px;
-            width: 160px;
-            z-index: 1100;
+            width: 150px;
         }
 
         .dropdown-menu.show {
@@ -91,17 +91,15 @@
             width: 100%;
             border-radius: 6px;
             text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
         .logout-btn:hover {
             background-color: #e04040;
         }
 
+        /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -113,13 +111,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-            overflow-y: auto;
-        }
-
-        .sidebar ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
+       
         }
 
         .sidebar a {
@@ -137,8 +129,6 @@
         .sidebar a i {
             margin-right: 15px;
             font-size: 22px;
-            min-width: 22px;
-            text-align: center;
         }
 
         .sidebar a.active {
@@ -153,9 +143,10 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
+        /* Button Styles */
         .btn-add-top-right {
-            position: absolute;
-            top: 100px;
+                position: absolute;
+                top: 100px;
             right: 30px;
             background-color: #00bfae;
             color: white;
@@ -173,6 +164,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -191,7 +183,7 @@
         }
 
         table th {
-            background-color: #14a098;
+            background-color: #14A098;
             color: white;
             font-weight: 700;
             text-transform: uppercase;
@@ -207,15 +199,16 @@
             vertical-align: middle;
         }
 
+        /* Main Content */
         .main-content {
             margin-left: 280px;
             padding: 100px 30px 30px;
             flex: 1;
             transition: all 0.3s ease-in-out;
             overflow-y: auto;
-            min-height: 100vh;
         }
 
+        /* Main Content Box */
         .main-content-box {
             padding: 30px;
             background-color: white;
@@ -224,6 +217,7 @@
             margin-bottom: 30px;
         }
 
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -232,165 +226,76 @@
                 left: 0;
                 height: auto;
                 border-radius: 0;
-                position: relative;
-                flex-direction: row;
-                overflow-x: auto;
-                gap: 10px;
-            }
-
-            .sidebar ul {
-                display: flex;
-                gap: 10px;
-                width: 100%;
-            }
-
-            .sidebar li {
-                flex: 1 0 auto;
-            }
-
-            .sidebar a {
-                font-size: 14px;
-                padding: 10px 12px;
-                border-radius: 8px;
-                justify-content: center;
-            }
-
-            .sidebar a i {
-                margin-right: 0;
-                font-size: 18px;
-            }
-
-            .sidebar a span {
-                display: none;
             }
 
             .main-content {
                 margin-left: 0;
-                padding: 90px 20px 20px;
+                padding: 70px 20px 20px;
             }
 
             .btn-add-top-right {
                 width: 100%;
                 padding: 15px 0;
-                position: static;
-                margin-bottom: 20px;
-                border-radius: 12px;
-                min-width: auto;
             }
-        }
-
-        .breadcrumb {
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .breadcrumb-item a {
-            color: #00bfae;
-            text-decoration: none;
-        }
-
-        .breadcrumb-item a:hover {
-            color: #004d40;
-            text-decoration: underline;
-        }
-
-        .breadcrumb-item.active {
-            color: #00796b;
-        }
-
-        .alert-danger {
-            color: #e74c3c;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 5px;
-            display: block;
-        }
-
-        select#status {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 0.25rem;
-            margin-bottom: 0.5rem;
-            color: #374151;
-            background-color: white;
-            transition: border-color 0.3s ease;
-        }
-
-        select#status:focus {
-            outline: none;
-            border-color: #14a098;
-            box-shadow: 0 0 0 3px rgba(20, 160, 152, 0.3);
         }
     </style>
 </head>
 
 <body>
     <!-- Header -->
-    <header class="header" role="banner">
-        <h1 class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo of the application with green and teal colors" />
+    <div class="header">
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
         </h1>
-
-        <div class="relative dropdown user-info" aria-haspopup="true" aria-expanded="false">
-            <div class="flex items-center cursor-pointer select-none" onclick="toggleDropdown()" tabindex="0" role="button" aria-label="User menu toggle">
-                <div class="flex flex-col items-center leading-tight">
-                    <span class="text-white text-sm md:text-base">Welcome, Operator</span>
-                    <span class="text-white font-semibold text-base md:text-lg">{{ $user->name }}</span>
+        
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Welcome, Operator</span>
+                    <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture of the logged in operator, showing a smiling person with short hair" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" />
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
             </div>
-            <div id="dropdown-menu" class="dropdown-menu" role="menu" aria-label="User dropdown menu">
-                <form action="{{ route('logout') }}" method="POST" class="m-0">
+            <div id="dropdown-menu" class="dropdown-menu">
+                <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="logout-btn" role="menuitem" tabindex="0">Logout</button>
+                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
-    </header>
+    </div>
 
-    <div class="flex flex-col md:flex-row min-h-screen">
+    <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
-        <nav class="sidebar" aria-label="Primary Navigation">
+        <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500" tabindex="0">
-                        <i class="fas fa-calendar-alt text-white mr-2" aria-hidden="true"></i><span>Kurikulum</span>
+                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500" tabindex="0">
-                        <i class="fas fa-book text-white mr-2" aria-hidden="true"></i><span>Mata Pelajaran</span>
+                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500" tabindex="0">
-                        <i class="fas fa-home text-white mr-2" aria-hidden="true"></i><span>Kelas</span>
+                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500 active" tabindex="0" aria-current="page">
-                        <i class="fas fa-chalkboard-teacher text-white mr-2" aria-hidden="true"></i><span>Daftar Guru</span>
+                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-black p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-chalkboard-teacher text-black mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500" tabindex="0">
-                        <i class="fas fa-user-graduate text-white mr-2" aria-hidden="true"></i><span>Daftar Siswa</span>
+                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>
             </ul>
-        </nav>
+        </div>
 
         <!-- Main Content -->
         <main class="main-content" role="main">

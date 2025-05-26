@@ -5,6 +5,8 @@
     <title>QuizHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* General Styles */
@@ -261,6 +263,40 @@
                 padding: 15px 0;
             }
         }
+
+        .breadcrumb {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            /* Ensure the items are displayed in a row */
+        }
+
+        .breadcrumb-item {
+            display: inline-block;
+            /* Ensures the items are side by side */
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: "/";
+            /* Use "/" as the separator */
+            padding: 0 8px;
+            color: #00796b;
+            /* Match the active color */
+        }
+
+        .breadcrumb-item a {
+            color: #00bfae;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #004d40;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-item.active {
+            color: #00796b;
+        }
     </style>
 </head>
 
@@ -313,7 +349,6 @@
         </div>
 
         <div class="main-content">
-
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Soal</h2>
                 <div class="flex justify-end mb-4">
@@ -411,8 +446,8 @@
                                     </div>
 
                                     <div class="flex space-x-5 justify-end flex-wrap">
-                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}" method="GET"
-                                            class="inline">
+                                        <form action="{{ route('Guru.Soal.preview', $soal->id_soal) }}"
+                                            method="GET" class="inline">
                                             <button type="submit"
                                                 class="text-yellow-500 flex items-center hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded">
                                                 <i class="fas fa-eye mr-1"></i> Preview
@@ -451,6 +486,48 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Berhasil Menambahkan Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (session('success'))
+                            {{ session('success') }}
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript to show modal if success message exists and auto-close after 3 seconds -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Menampilkan modal otomatis jika session success ada
+            @if (session('success'))
+                var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+                myModal.show();
+
+                // Menutup modal setelah 3 detik
+                setTimeout(function() {
+                    myModal.hide();
+                }, 3000); // 3000ms = 3 detik
+            @endif
+
+
+            // Function to toggle dropdown visibility
+            function toggleDropdown() {
+                const dropdown = document.getElementById("dropdown-menu");
+                dropdown.classList.toggle("show");
+            }
+        </script>
         <script>
             // Dropdown toggle script
             const dropdownButton = document.getElementById('dropdownButton');

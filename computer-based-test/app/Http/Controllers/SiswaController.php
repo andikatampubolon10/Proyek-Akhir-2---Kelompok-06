@@ -32,18 +32,18 @@ class SiswaController extends Controller
     public function import(Request $request)
     {
         \Log::info('Import method called.');
-    
+
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
         ]);
-    
+
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             try {
                 \Log::info('File is valid, starting import.');
-    
+
                 // Mengimpor data siswa
                 Excel::import(new SiswaImport($request->kelas), $request->file('file'));
-    
+
                 \Log::info('Data siswa berhasil diupload.');
                 return redirect()->route('Operator.Siswa.index')->with('success', 'Data siswa berhasil diupload.');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
@@ -72,13 +72,13 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         Log::info('Store method called', ['request' => $request->all()]);
-    
+
         // Validation with custom messages
         $request->validate([
             'name' => 'required|string|max:255',
-            'nis' => 'required|numeric|digits:8|min:8|unique:siswa',
+            'nis' => 'required|numeric|digits:10|min:10|unique:siswa',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
             'kelas' => 'required|exists:kelas,id_kelas',
             'status' => 'in:Aktif,Tidak Aktif',
         ], [
@@ -86,40 +86,40 @@ class SiswaController extends Controller
             'nis.required' => 'NIS harus diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
             'nis.numeric' => 'NIS harus berupa angka.',
-            'nis.digits' => 'NIS harus terdiri dari 8 digit.',
-            'nis.min' => 'NIS harus terdiri dari minimal 8 digit.',
+            'nis.digits' => 'NIS harus terdiri dari 10 digit.',
+            'nis.min' => 'NIS harus terdiri dari minimal 10 digit.',
             'email.required' => 'Email harus diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password harus diisi.',
-            'password.min' => 'Password minimal terdiri dari 6 karakter.',
+            'password.min' => 'Password minimal terdiri dari 8 karakter.',
             'kelas.required' => 'Kelas harus dipilih.',
             'kelas.exists' => 'Kelas yang dipilih tidak valid.',
             'status.in' => 'Status harus bernilai "Aktif" atau "Tidak Aktif".',
         ]);
-    
+
         Log::info('Validation passed', ['data' => $request->all()]);
-    
+
         try {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-    
+
             Log::info('User created', ['user_id' => $user->id]);
-    
+
             $user->assignRole('Siswa');
             Log::info('Role assigned to user', ['user_id' => $user->id, 'role' => 'Siswa']);
-    
+
             $idUser   = auth()->user()->id;
             $operator = Operator::where('id_user', $idUser)->first();
-    
+
             if (!$operator) {
-                Log::warning('Operator not found', ['user_id' => $idUser ]);
+                Log::warning('Operator not found', ['user_id' => $idUser]);
                 return redirect()->back()->with('error', 'Operator tidak ditemukan.');
             }
-    
+
             $siswa = Siswa::create([
                 'nama_siswa' => $request->name,
                 'nis' => $request->nis,
@@ -128,9 +128,9 @@ class SiswaController extends Controller
                 'id_operator' => $operator->id_operator,
                 'status' => $request->status ?? 'Aktif',
             ]);
-    
+
             Log::info('Siswa created', ['siswa_id' => $siswa->id]);
-    
+
             return redirect()->route('Operator.Siswa.index')->with('success', 'Siswa berhasil ditambahkan.');
         } catch (\Exception $e) {
             Log::error('Error during storing siswa', [
@@ -159,12 +159,12 @@ class SiswaController extends Controller
     {
         // Log masuk untuk melihat data request
         Log::debug('Update Request Data:', $request->all());
-        
+
         // Validasi request
         $request->validate([
             'name' => 'required|string|max:255',
-            'nis' => 'required|numeric|digits:8|min:8|unique:siswa,nis,' . $id_siswa . ',id_siswa', // Validasi nis
-            'password' => 'nullable|string|min:6|confirmed',
+            'nis' => 'required|numeric|digits:10|min:10|unique:siswa,nis,' . $id_siswa . ',id_siswa', // Validasi nis
+            'password' => 'nullable|string|min:8|confirmed',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'kelas' => 'nullable|exists:kelas,id_kelas',
         ], [
@@ -172,53 +172,60 @@ class SiswaController extends Controller
             'nis.required' => 'NIS harus diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
             'nis.numeric' => 'NIS harus berupa angka.',
-            'nis.digits' => 'NIS harus terdiri dari 8 digit.',
-            'nis.min' => 'NIS harus terdiri dari minimal 8 digit.',
-            'password.min' => 'Password minimal terdiri dari 6 karakter.',
+            'nis.digits' => 'NIS harus terdiri dari 10 digit.',
+            'nis.min' => 'NIS harus terdiri dari minimal 10 digit.',
+            'password.min' => 'Password minimal terdiri dari 10 karakter.',
             'password.confirmed' => 'Password dan konfirmasi password tidak cocok.',
             'status.required' => 'Status harus diisi.',
             'status.in' => 'Status harus bernilai "Aktif" atau "Tidak Aktif".',
             'kelas.exists' => 'Kelas yang dipilih tidak valid.',
         ]);
-        
+
         // Temukan siswa berdasarkan ID
         $siswa = Siswa::findOrFail($id_siswa);
-        
+
         // Update data siswa
         $siswa->nama_siswa = $request->name;
         $siswa->nis = $request->nis;
         $siswa->status = $request->status;
-        
+
         // Jika password ada perubahan, update password
         if ($request->filled('password')) {
             Log::debug('Password is being updated');
             $siswa->password = bcrypt($request->password); // Update password di tabel siswa
         }
-        
+
         // Simpan perubahan pada tabel siswa
         Log::debug('Saving Siswa Data...');
         $siswa->save();
-        
+
         // Jika siswa terkait dengan user (untuk nama dan password)
         if ($siswa->user) {
             Log::debug('Updating User Data:', ['old_name' => $siswa->user->name, 'new_name' => $request->name]);
             $siswa->user->name = $request->name; // Update nama pada tabel 'users'
-            
+
             if ($request->filled('password')) {
                 Log::debug('Updating User Password');
                 $siswa->user->password = bcrypt($request->password); // Update password pada tabel 'users'
             }
             $siswa->user->save(); // Simpan perubahan pada tabel users
         }
-        
+
         // Kembali ke halaman index dengan pesan sukses
         return redirect()->route('Operator.Siswa.index')->with('success', 'Siswa berhasil diperbarui.');
     }
-    
-    
+
+
     public function destroy(string $id)
     {
         $siswa = Siswa::findOrFail($id);
+
+        // Cek apakah status siswa aktif
+        if ($siswa->status === 'Aktif') {
+            return redirect()->route('Operator.Siswa.index')->with('error', 'Siswa dengan status "Aktif" tidak dapat dihapus.');
+        }
+
+        // Jika status siswa tidak aktif, hapus data siswa
         $siswa->delete();
         return redirect()->route('Operator.Siswa.index')->with('success', 'Siswa berhasil dihapus.');
     }

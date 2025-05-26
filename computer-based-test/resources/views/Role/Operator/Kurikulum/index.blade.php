@@ -274,8 +274,8 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
-                        <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
+                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-black p-2 rounded-lg shadow  hover:bg--500">
+                        <i class="fas fa-calendar-alt text-black mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
@@ -310,13 +310,13 @@
                     <i class="fas fa-plus mr-2"></i> Tambahkan
                 </a>
             </div>
-            <h2 class="text-lg font-bold mb-4 text-blue-600">Kurikulum Information</h2>
+            <h2 class="text-lg font-bold mb-4 text-blue-600">Informasi Kurikulum</h2>
             <div class="space-y-4">
                 @foreach($kurikulums as $kurikulum)
                     <div class="bg-white p-4 rounded flex justify-between items-center shadow">
                         <span class="text-lg text-blue-600">{{ $kurikulum->nama_kurikulum }}</span>
                         <a href="{{ route('Operator.Kurikulum.edit', $kurikulum->id_kurikulum) }}" class="text-gray-500 flex items-center hover:text-gray-700">
-                            <i class="fas fa-pen mr-1"></i> EDIT
+                            <i class="fas fa-pen mr-1"></i> Edit
                         </a>
                     </div>
                 @endforeach

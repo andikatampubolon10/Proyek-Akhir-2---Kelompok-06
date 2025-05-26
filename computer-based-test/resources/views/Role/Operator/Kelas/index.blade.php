@@ -283,8 +283,8 @@
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
-                        <i class="fas fa-home text-white mr-2"></i> Kelas
+                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-black p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-home text-black mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
@@ -308,14 +308,14 @@
                     <i class="fas fa-plus mr-2"></i> Tambahkan
                 </a>
             </div>
-            <h1 class="text-lg font-bold mb-4 text-blue-600">Class Information</h1>
+            <h1 class="text-lg font-bold mb-4 text-blue-600">Informasi Kelas</h1>
             <div class="space-y-4">
                 @foreach ($kelas as $kelases)
                     <div class="bg-white p-6 rounded-lg flex justify-between items-center shadow-lg hover:shadow-xl transition duration-300">
                         <h4 class="text-lg text-blue-600">{{ $kelases->nama_kelas }}</h4>
                         <a href="{{ route('Operator.Kelas.edit', $kelases->id_kelas) }}"
                             class="text-gray-500 flex items-center hover:text-gray-700">
-                            <i class="fas fa-pen mr-1"></i> EDIT
+                            <i class="fas fa-pen mr-1"></i> Edit
                         </a>
                     </div>
                 @endforeach

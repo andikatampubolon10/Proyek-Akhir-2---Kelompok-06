@@ -276,8 +276,8 @@
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
-                        <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
+                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-black p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-book text-black mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
@@ -307,7 +307,7 @@
                 </a>
             </div>
             <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                <h1 class="text-lg font-bold mb-4 text-blue-600">Subject Information</h1>
+                <h1 class="text-lg font-bold mb-4 text-blue-600">Informasi Mata Pelajaran </h1>
                 <div class="space-y-4">
                     <div class="mb-4">
                         <label for="kurikulum" class="block text-sm font-medium text-gray-700">Pilih Kurikulum</label>
@@ -326,7 +326,7 @@
                                 <span class="text-lg text-blue-600">{{ $mapel->nama_mata_pelajaran }}</span>
                                 <a href="{{ route('Operator.MataPelajaran.edit', $mapel->id_mata_pelajaran) }}"
                                     class="text-gray-500 flex items-center hover:text-gray-700">
-                                    <i class="fas fa-pen mr-1"></i> EDIT
+                                    <i class="fas fa-pen mr-1"></i> Edit
                                 </a>
                             </div>
                         @endforeach

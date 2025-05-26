@@ -1,15 +1,17 @@
-<!DOCTYPE html>
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUIZHUB - Admin</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>
+        QUIZHUB - Admin
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        /* General Styles */
-        body {
+        <style>
+          body {
             background-color: #f4f5f7;
             font-family: 'Arial', sans-serif;
             padding: 0;
@@ -30,6 +32,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+
         }
 
         .header .logo img {
@@ -45,23 +48,23 @@
         }
 
         .header .user-info img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            border: 3px solid #ffffff;
             object-fit: cover;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
         .header .user-info img:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .header .user-info span {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown-menu {
@@ -96,7 +99,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -108,6 +111,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
+       
         }
 
         .sidebar a {
@@ -123,14 +127,14 @@
         }
 
         .sidebar a i {
-            font-size: 28px;
             margin-right: 15px;
-            transition: transform 0.3s ease, color 0.3s ease;
+            font-size: 22px;
         }
 
-        .sidebar a.active i {
-            color: #fff;
-            transform: scale(1.2);
+        .sidebar a.active {
+            background-color: #00796b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar a:hover {
@@ -138,8 +142,7 @@
             color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-
-        /* Main Content */
+              /* Main Content */
         .main-content {
             margin-left: 280px;
             padding: 100px 30px 30px;
@@ -148,6 +151,7 @@
             overflow-y: auto;
         }
 
+        /* Main Content Box */
         .main-content-box {
             padding: 30px;
             background-color: white;
@@ -155,228 +159,193 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
-
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            background-color: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        table th,
-        table td {
-            padding: 18px 25px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table th {
-            background-color: #14A098;
-            color: white;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        table tr:hover {
-            background-color: #e2f2f2;
-            transform: scale(1.01);
-            transition: all 0.3s ease;
-        }
-
-        table td {
-            vertical-align: middle;
-        }
-
-        /* Action Icons */
-        .actions-btns {
-            display: flex;
-            gap: 15px;
-        }
-
-        .actions-btns i {
-            font-size: 22px;
-            cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .actions-btns .edit-btn {
-            color: #00796b;
-        }
-
-        .actions-btns .delete-btn {
-            color: #ff4d4d;
-        }
-
-        .actions-btns .edit-btn:hover {
-            color: #00bfae;
-            transform: scale(1.2);
-        }
-
-        .actions-btns .delete-btn:hover {
-            color: #e04040;
-            transform: scale(1.2);
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                padding: 20px;
-                top: 0;
-                left: 0;
-                height: auto;
-                border-radius: 0;
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 70px 20px 20px;
-            }
-
-            .btn-add-top-right {
-                width: 100%;
-                padding: 15px 0;
-            }
-        }
-    </style>
+        </style>
 </head>
 
-<body>
-    <!-- Header -->
+
+   <!-- Header -->
     <div class="header">
-        <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="QuizHub Logo" class="w-32 mx-auto">
-        </div>
-        <div class="user-info">
-            <span>Admin</span>
-            <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50" onclick="toggleDropdown()">
-            <!-- Dropdown Menu -->
+        <h1 class="text-2xl font-bold text-white">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+        </h1>
+        
+        <div class="relative dropdown">
+            <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                <div class="flex flex-col items-center">
+                    <span class="text-white">Admin</span>
+              
+                </div>
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+            </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="logout-btn">
-                        <span>Logout</span>
-                    </button>
+                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Sidebar and Main Content -->
-    <div class="d-flex">
+ 
+
+
+        <div class="flex flex-col md:flex-row">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="{{ route('Admin.Akun.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg shadow hover:bg-gray-300">
-                <i class="fa-solid fa-circle-user mr-4"></i>
-                Operator
-            </a>
-
-            <a href="{{ route('Admin.Bisnis.index') }}" class="d-flex align-items-center text-gray-700 p-2 rounded-lg hover:bg-gray-300">
-                <i class="fa-solid fa-money-bill-wave mr-4"></i>
-                Bisnis
-            </a>
+            <ul>
+                <li class="mb-4">
+                    <a href="{{ route('Admin.Akun.index') }}" class="flex items-center text-black shadow p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-calendar-alt text-black mr-2"></i> Operator
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('Admin.Bisnis.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                        <i class="fas fa-book text-white mr-2"></i> Bisnis
+                    </a>
+                </li>
+            </ul>
         </div>
-
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="d-flex justify-content-end mb-4">
-                <a href="{{ route('Admin.Akun.create') }}" class="btn btn-success d-flex align-items-center">
+          <div class="main-content">
+ 
+                <div class="flex justify-end mb-4">
+                <a href="{{ route('Admin.Akun.create') }}"
+                     class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                     <i class="fas fa-plus mr-2"></i> Tambahkan
                 </a>
             </div>
-
-            <div class="table-responsive">
-                <h1 class="text-xl font-bold mb-4">Operator Information</h1>
-                <div class="main-content-box">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nama Sekolah</th>
-                                <th>Email</th>
-                                <th>Durasi</th>
-                                <th>Status Aktif</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($operators as $operator)
-                                <tr>
-                                    <td>{{ $operator['nama_sekolah'] }}</td>
-                                    <td>{{ $operator->user['email'] }}</td>
-                                    <td>{{ $operator['durasi'] }}</td>
-                                    <td>{{ $operator['status'] }}</td>
-                                    <td class="actions-btns">
-                                        <form action="{{ route('Admin.Akun.destroy', $operator->id_operator) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="delete-btn">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('Admin.Akun.edit', $operator->user->id) }}" method="GET">
-                                            <button type="submit" class="edit-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+            <h2 class="text-xl font-bold mb-4 text-blue-600">Informasi Operator</h2>
+            @foreach ($operators as $operator)
+                <section
+                    class="bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <div class="flex flex-col space-y-2 max-w-xl">
+                        <h2 class="text-2xl font-bold text-teal-700">
+                            {{ $operator['nama_sekolah'] }}
+                        </h2>
+                        <p class="text-gray-700 text-base">
+                            Email:
+                            <span class="font-semibold text-black">
+                                {{ $operator->user['email'] }}
+                            </span>
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            Durasi:
+                            <span class="font-semibold text-black">
+                                {{ $operator['durasi'] }}
+                            </span>
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            Status:
+                            <span class="font-semibold text-black">
+                                {{ $operator['status'] }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex space-x-6">
+                        <form action="{{ route('Admin.Akun.destroy', $operator->id_operator) }}"
+                            class="flex items-center" method="POST"
+                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                                class="flex items-center space-x-2 text-red-600 hover:text-red-500 font-semibold transition-transform duration-300 transform hover:scale-110"
+                                type="submit">
+                                <i class="fas fa-trash-alt text-lg">
+                                </i>
+                                <span>
+                                    Hapus
+                                </span>
+                            </button>
+                        </form>
+                        <form action="{{ route('Admin.Akun.edit', $operator->user->id) }}" class="flex items-center"
+                            method="GET">
+                            <button
+                                class="flex items-center space-x-2 text-teal-700 hover:text-teal-500 font-semibold transition-transform duration-300 transform hover:scale-110"
+                                type="submit">
+                                <i class="fas fa-edit text-lg">
+                                </i>
+                                <span>
+                                    Edit
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            @endforeach
+        </main>
     </div>
-
     <!-- Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Berhasil Menambahkan Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if(session('success'))
-                        {{ session('success') }}
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="successModal"
+        tabindex="-1">
+        <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-teal-700">
+                    Berhasil Menambahkan Data
+                </h3>
+                <button aria-label="Close modal" class="text-gray-600 hover:text-gray-900 text-2xl font-bold"
+                    id="closeModalBtn">
+                    ×
+                </button>
+            </div>
+            <div class="text-gray-800 text-base">
+                @if (session('success'))
+                    {{ session('success') }}
+                @endif
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button
+                    class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-5 rounded-md transition-colors duration-300"
+                    id="closeModalBtnFooter">
+                    Tutup
+                </button>
             </div>
         </div>
     </div>
+    <script>
+        // Dropdown toggle
+        const userBtn = document.getElementById('userBtn');
+        const dropdownMenu = document.getElementById('dropdown-menu');
 
-       <!-- JavaScript to show modal if success message exists and auto-close after 3 seconds -->
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-       <script>
-           // Menampilkan modal otomatis jika session success ada
-           @if(session('success'))
-               var myModal = new bootstrap.Modal(document.getElementById('successModal'));
-               myModal.show();
-   
-               // Menutup modal setelah 3 detik
-               setTimeout(function() {
-                   myModal.hide();
-               }, 3000); // 3000ms = 3 detik
-           @endif
+        userBtn.addEventListener('click', () => {
+            const isExpanded = userBtn.getAttribute('aria-expanded') === 'true';
+            userBtn.setAttribute('aria-expanded', !isExpanded);
+            dropdownMenu.classList.toggle('hidden');
+        });
 
+        // Close dropdown if clicked outside
+        window.addEventListener('click', (e) => {
+            if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+                userBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
 
-        // Function to toggle dropdown visibility
+        // Modal logic
+        const successModal = document.getElementById('successModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeModalBtnFooter = document.getElementById('closeModalBtnFooter');
+
+        function closeModal() {
+            successModal.classList.add('hidden');
+        }
+
+        closeModalBtn?.addEventListener('click', closeModal);
+        closeModalBtnFooter?.addEventListener('click', closeModal);
+
+        // Show modal if session success exists
+        @if (session('success'))
+            successModal.classList.remove('hidden');
+            setTimeout(() => {
+                closeModal();
+            }, 3000);
+        @endif
+
+            // Function to toggle dropdown visibility
         function toggleDropdown() {
            const dropdown = document.getElementById("dropdown-menu");
            dropdown.classList.toggle("show");
        }
-       </script>
+    </script>
 </body>
 
 </html>

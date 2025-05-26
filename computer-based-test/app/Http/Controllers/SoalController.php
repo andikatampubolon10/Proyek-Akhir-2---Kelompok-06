@@ -68,7 +68,7 @@ class SoalController extends Controller
             'soal' => 'required|string|max:40',
             'id_tipe_soal' => 'required|exists:tipe_soal,id_tipe_soal',
             'id_latihan' => 'nullable|exists:latihan,id_latihan', // Untuk latihan
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'jawaban_1' => 'nullable|string|max:30',
             'jawaban_2' => 'nullable|string|max:30',
             'jawaban_3' => 'nullable|string|max:30',

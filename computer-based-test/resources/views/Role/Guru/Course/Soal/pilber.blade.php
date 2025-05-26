@@ -261,6 +261,13 @@
                 padding: 15px 0;
             }
         }
+
+        .alert-danger {
+            color: #e74c3c;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -322,72 +329,68 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             <option value="1">Pilihan Berganda</option>
                         </select>
+                        @error('id_tipe_soal')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <!-- Soal -->
                     <label class="block text-gray-700 text-sm font-bold mb-2">Soal</label>
                     <div class="border p-2">
                         <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
+                            <button type="button" class="border p-1" id="list-button-soal"><i
+                                    class="fas fa-list"></i></button>
+                            <button type="button" class="border p-1" id="bold-button-soal"><i
+                                    class="fas fa-bold"></i></button>
+                            <button type="button" class="border p-1" id="image-button-soal"><i
+                                    class="fas fa-image"></i></button>
                         </div>
-                        <textarea name="soal" class="w-full border p-2" rows="4" required></textarea>
-                        <div id="image-preview" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <textarea id="soal-textarea" name="soal" class="w-full border p-2" rows="4"></textarea>
+                        <div id="image-preview-soal" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <input type="file" id="image-input-soal" name="image" class="hidden" accept="image/*" />
+                        @error('soal')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jawaban 1 -->
-                    <div class="border p-2 mb-4">
-                        <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                        </div>
-                        <textarea name="jawaban_1" placeholder="Jawaban 1" class="w-full border p-2" rows="2" required></textarea>
-                        <div id="image-preview-1" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                    <div class="border p-2 mb-4 mt-4">
+                        <textarea id="jawaban-1-textarea" name="jawaban_1" placeholder="Jawaban 1" class="w-full border p-2" rows="2"></textarea>
+                        @error('jawaban_1')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jawaban 2 -->
                     <div class="border p-2 mb-4">
-                        <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                        </div>
-                        <textarea name="jawaban_2" placeholder="Jawaban 2" class="w-full border p-2" rows="2" required></textarea>
-                        <div id="image-preview-2" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <textarea id="jawaban-2-textarea" name="jawaban_2" placeholder="Jawaban 2" class="w-full border p-2" rows="2"></textarea>
+                        @error('jawaban_2')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jawaban 3 -->
                     <div class="border p-2 mb-4">
-                        <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                        </div>
-                        <textarea name="jawaban_3" placeholder="Jawaban 3" class="w-full border p-2" rows="2" required></textarea>
-                        <div id="image-preview-3" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <textarea id="jawaban-3-textarea" name="jawaban_3" placeholder="Jawaban 3" class="w-full border p-2" rows="2"></textarea>
+                        @error('jawaban_3')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jawaban 4 -->
                     <div class="border p-2 mb-4">
-                        <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                        </div>
-                        <textarea name="jawaban_4" placeholder="Jawaban 4" class="w-full border p-2" rows="2" required></textarea>
-                        <div id="image-preview-4" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <textarea id="jawaban-4-textarea" name="jawaban_4" placeholder="Jawaban 4" class="w-full border p-2" rows="2"></textarea>
+                        @error('jawaban_4')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jawaban 5 -->
                     <div class="border p-2 mb-4">
-                        <div class="flex space-x-2 mb-2">
-                            <button class="border p-1"><i class="fas fa-list"></i></button>
-                            <button class="border p-1"><i class="fas fa-bold"></i></button>
-
-                        </div>
-                        <textarea name="jawaban_5" placeholder="Jawaban 5" class="w-full border p-2" rows="2" required></textarea>
-                        <div id="image-preview-5" class="mt-2"></div> <!-- Tempat untuk menampilkan gambar -->
+                        <textarea id="jawaban-5-textarea" name="jawaban_5" placeholder="Jawaban 5" class="w-full border p-2"
+                            rows="2"></textarea>
+                        @error('jawaban_5')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Correct Answer Selection -->
@@ -402,10 +405,14 @@
                             <option value="jawaban_4">Jawaban 4</option>
                             <option value="jawaban_5">Jawaban 5</option>
                         </select>
+                        @error('correct_answer')
+                            <span class="alert-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_latihan">Latihan (Untuk Pembuatan Soal Latihan)</label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_latihan">Latihan (Untuk
+                            Pembuatan Soal Latihan)</label>
                         <select name="id_latihan" id="id_latihan"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             <option value="">Pilih Latihan (Opsional)</option>
@@ -417,7 +424,7 @@
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <div class="flex justify-end">
                         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center">
                             <span>Simpan</span>
@@ -427,116 +434,117 @@
                 </form>
             </div>
         </div>
-</body>
+    </div>
 
-<script>
-    // Dropdown toggle script
-    const dropdownButton = document.getElementById('dropdownButton');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    const dropdownIcon = document.getElementById('dropdownIcon');
-
-    dropdownButton.addEventListener('click', () => {
-        const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
-        dropdownButton.setAttribute('aria-expanded', !isExpanded);
-
-        if (dropdownMenu.style.maxHeight && dropdownMenu.style.maxHeight !== '0px') {
-            dropdownMenu.style.maxHeight = '0px';
-            dropdownMenu.style.paddingTop = '0';
-            dropdownMenu.style.paddingBottom = '0';
-            dropdownIcon.style.transform = 'rotate(0deg)';
-        } else {
-            dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
-            dropdownMenu.style.paddingTop = '0.5rem';
-            dropdownMenu.style.paddingBottom = '0.5rem';
-            dropdownIcon.style.transform = 'rotate(180deg)';
+    <script>
+        // Dropdown toggle script
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
         }
-    });
 
-    // Close dropdown if clicked outside
-    window.addEventListener('click', (e) => {
-        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            dropdownMenu.style.maxHeight = '0px';
-            dropdownMenu.style.paddingTop = '0';
-            dropdownMenu.style.paddingBottom = '0';
-            dropdownButton.setAttribute('aria-expanded', 'false');
-            dropdownIcon.style.transform = 'rotate(0deg)';
-        }
-    });
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById("dropdown-menu");
+            if (!e.target.closest('.dropdown') && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
 
-    // Initialize dropdown closed
-    dropdownMenu.style.maxHeight = '0px';
-    dropdownMenu.style.overflow = 'hidden';
-    dropdownMenu.style.transition = 'max-height 0.3s ease, padding 0.3s ease';
+        // Question type change handler
+        document.getElementById('question_type').addEventListener('change', function() {
+            var selectedValue = this.value;
+            if (selectedValue) {
+                window.location.href = '/Guru/Soal/create/' + selectedValue;
+            }
+        });
 
-    function toggleDropdown() {
-        const dropdown = document.getElementById("dropdown-menu");
-        dropdown.classList.toggle("show");
-    }
-
-
-    document.getElementById('profileDropdown').addEventListener('click', function() {
-        document.getElementById('logoutDropdown').classList.toggle('hidden');
-    });
-
-
-    document.querySelectorAll('.fa-list').forEach(button => {
-        button.addEventListener('click', function(e) {
+        // Setup for soal section
+        // List button handler for soal
+        document.getElementById('list-button-soal').addEventListener('click', function(e) {
             e.preventDefault();
-            const textarea = this.closest('.flex').nextElementSibling;
+            const textarea = document.getElementById('soal-textarea');
             textarea.value += '\n- ';
+            textarea.focus();
         });
-    });
 
-    document.getElementById('question_type').addEventListener('change', function() {
-        var selectedValue = this.value;
-        if (selectedValue) {
-            window.location.href = '/Guru/Soal/create/' + selectedValue;
-        }
-    });
-
-    document.querySelectorAll('.fa-bold').forEach(button => {
-        button.addEventListener('click', function(e) {
+        // Bold button handler for soal
+        document.getElementById('bold-button-soal').addEventListener('click', function(e) {
             e.preventDefault();
-            const textarea = this.closest('.flex').nextElementSibling;
-            const selectedText = textarea.value.substring(textarea.selectionStart, textarea
-                .selectionEnd);
+            const textarea = document.getElementById('soal-textarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
             const newText = `<strong>${selectedText}</strong>`;
-            textarea.value = textarea.value.substring(0, textarea.selectionStart) + newText + textarea
-                .value.substring(textarea.selectionEnd);
+
+            textarea.value = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+            textarea.focus();
+            // Position cursor after the inserted text
+            textarea.selectionStart = start + newText.length;
+            textarea.selectionEnd = start + newText.length;
         });
-    });
 
-    // Fungsi untuk menangani gambar
-    function handleImageInput(imageInput, previewElement) {
-        const file = imageInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Menampilkan gambar di elemen preview
-                const imgTag = `<img src="${e.target.result}" alt="Gambar" style="max-width: 100%; height: auto;">`;
-                previewElement.innerHTML = imgTag; // Menampilkan gambar
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Menangani gambar untuk semua input
-    document.querySelectorAll('button[id^="image-button"]').forEach(button => {
-        button.addEventListener('click', function(e) {
+        // Image button handler for soal
+        document.getElementById('image-button-soal').addEventListener('click', function(e) {
             e.preventDefault();
-            const inputId = this.id.replace('image-button', 'image-input');
-            document.getElementById(inputId).click();
+            document.getElementById('image-input-soal').click();
         });
-    });
 
-    // Menangani perubahan pada semua input gambar
-    document.querySelectorAll('input[type="file"]').forEach(input => {
-        input.addEventListener('change', function() {
-            const previewId = this.id.replace('image-input', 'image-preview');
-            const previewElement = document.getElementById(previewId);
-            handleImageInput(this, previewElement);
+        // Image input change handler for soal
+        document.getElementById('image-input-soal').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgPreview = document.getElementById('image-preview-soal');
+                    imgPreview.innerHTML = `
+                        <div class="relative mt-2 inline-block">
+                            <img src="${e.target.result}" alt="Preview" class="max-w-full h-auto max-h-40 border rounded">
+                            <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer" 
+                                  onclick="removeImage('soal')">×</span>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
         });
-    });
-</script>
+
+        // Setup for answer sections (jawaban 1-5)
+        const answerSections = ['1', '2', '3', '4', '5'];
+
+        answerSections.forEach(section => {
+            // List button handler
+            document.getElementById(`list-button-${section}`).addEventListener('click', function(e) {
+                e.preventDefault();
+                const textarea = document.getElementById(`jawaban-${section}-textarea`);
+                textarea.value += '\n- ';
+                textarea.focus();
+            });
+
+            // Bold button handler
+            document.getElementById(`bold-button-${section}`).addEventListener('click', function(e) {
+                e.preventDefault();
+                const textarea = document.getElementById(`jawaban-${section}-textarea`);
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const selectedText = textarea.value.substring(start, end);
+                const newText = `<strong>${selectedText}</strong>`;
+
+                textarea.value = textarea.value.substring(0, start) + newText + textarea.value.substring(
+                    end);
+                textarea.focus();
+                // Position cursor after the inserted text
+                textarea.selectionStart = start + newText.length;
+                textarea.selectionEnd = start + newText.length;
+            });
+        });
+
+        // Function to remove image
+        function removeImage(section) {
+            document.getElementById(`image-preview-${section}`).innerHTML = '';
+            document.getElementById(`image-input-${section}`).value = '';
+        }
+    </script>
+</body>
 
 </html>

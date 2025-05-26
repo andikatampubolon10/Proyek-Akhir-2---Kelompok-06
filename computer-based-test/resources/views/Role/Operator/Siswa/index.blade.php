@@ -100,7 +100,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -254,7 +254,9 @@
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
@@ -272,28 +274,33 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kurikulum.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Guru.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
-                        <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-black p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-user-graduate text-black mr-2"></i> Daftar Siswa
                     </a>
                 </li>
             </ul>
@@ -303,13 +310,15 @@
         <div class="main-content">
             <div class="main-content-box">
                 <div class="flex justify-end mb-4">
-                    <a href="{{ route('Operator.Siswa.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                    <a href="{{ route('Operator.Siswa.create') }}"
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
                         <i class="fas fa-plus mr-2"></i> Tambahkan
                     </a>
                 </div>
                 <div class="mb-4">
                     <label for="kelas" class="block text-sm font-medium text-gray-700">Pilih Kelas</label>
-                    <select id="kelas" name="kelas" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    <select id="kelas" name="kelas"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                         <option value="">Kelas</option>
                         @foreach ($kelas as $k)
                             <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
@@ -318,31 +327,42 @@
                 </div>
 
                 <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold mb-4 text-blue-600">Student Information</h2>
+                    <h2 class="text-xl font-bold mb-4 text-blue-600">Informasi Siswa</h2>
                     <div class="space-y-4">
                         @foreach ($siswa as $student)
-                            <div class="student-item bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center" data-kelas="{{ $student->id_kelas }}">
+                            <div class="student-item bg-gray-300 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center"
+                                data-kelas="{{ $student->id_kelas }}">
                                 <div class="mb-4 md:mb-0">
                                     <h4 class="font-bold text-blue-600">{{ $student->name }}</h4>
                                     <h5 class="text-gray-600">Nama: {{ $student->nama_siswa }}</h5>
-                                    <h5 class="text-gray-600">NIS: {{ $student->nis }}</h5>
+                                    <h5 class="text-gray-600">NISN: {{ $student->nis }}</h5>
                                     <h5 class="text-gray-600">Email: {{ $student->user->email }}</h5>
                                     <h5 class="text-gray-600">Status: {{ $student->status }}</h5>
                                 </div>
                                 <div class="flex space-x-5">
+                                    @if (session('error'))
+                                        <div class="text-red-500 mb-2">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     <div>
-                                        <form action="{{ route('Operator.Siswa.destroy', $student->id_siswa) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+                                        <form action="{{ route('Operator.Siswa.destroy', $student->id_siswa) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500 flex items-center hover:text-red-700">
-                                                <i class="fas fa-trash-alt mr-1"></i> DELETE
+                                            <button type="submit"
+                                                class="text-red-500 flex items-center hover:text-red-700">
+                                                <i class="fas fa-trash-alt mr-1"></i> Delete
                                             </button>
                                         </form>
                                     </div>
                                     <div>
-                                        <form action="{{ route('Operator.Siswa.edit', $student->id_siswa) }}" method="GET">
-                                            <button type="submit" class="text-blue-500 flex items-center hover:text-blue-700">
-                                                <i class="fas fa-edit mr-1"></i> EDIT
+                                        <form action="{{ route('Operator.Siswa.edit', $student->id_siswa) }}"
+                                            method="GET">
+                                            <button type="submit"
+                                                class="text-blue-500 flex items-center hover:text-blue-700">
+                                                <i class="fas fa-edit mr-1"></i> Edit
                                             </button>
                                         </form>
                                     </div>
@@ -364,7 +384,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if(session('success'))
+                    @if (session('success'))
                         {{ session('success') }}
                     @endif
                 </div>
@@ -379,7 +399,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Menampilkan modal otomatis jika session success ada
-        @if(session('success'))
+        @if (session('success'))
             var myModal = new bootstrap.Modal(document.getElementById('successModal'));
             myModal.show();
 

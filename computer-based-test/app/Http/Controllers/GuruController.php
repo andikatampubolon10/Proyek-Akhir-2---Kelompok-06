@@ -145,7 +145,7 @@ class GuruController extends Controller
     {
         // Log masuk untuk melihat data request
         Log::debug('Update Request Data:', $request->all());
-        
+
         // Validasi request
         $request->validate([
             'name' => 'required|string|max:255',
@@ -164,50 +164,55 @@ class GuruController extends Controller
             'status.required' => 'Status harus diisi.',
             'status.in' => 'Status harus bernilai "Aktif" atau "Tidak Aktif".',
         ]);
-    
+
         // Temukan guru berdasarkan ID
         $guru = Guru::findOrFail($id_guru);
-    
+
         // Update data guru
         $guru->nama_guru = $request->name;
         $guru->nip = $request->nip;
         $guru->status = $request->status;
-    
+
         // Jika user ada, update nama guru di tabel user
         if ($guru->user) {
             Log::debug('Updating User Name:', ['old_name' => $guru->user->name, 'new_name' => $request->name]);
             $guru->user->name = $request->name; // Update kolom 'name' di tabel 'users'
         }
-    
+
         // Update password jika ada perubahan
         if ($request->filled('password')) {
             Log::debug('Password is being updated');
             $guru->password = bcrypt($request->password); // Update password di tabel guru
-    
+
             if ($guru->user) {
                 Log::debug('Updating User Password');
                 $guru->user->password = bcrypt($request->password); // Update password di tabel users
                 $guru->user->save(); // Simpan perubahan pada user
             }
         }
-    
+
         // Simpan perubahan pada tabel guru
         Log::debug('Saving Guru Data...');
         $guru->save();
-    
+
         // Simpan perubahan pada tabel user jika nama diupdate
         if ($guru->user) {
             Log::debug('Saving User Data...');
             $guru->user->save(); // Simpan perubahan nama dan password pada user
         }
-    
+
         // Return ke halaman index dengan pesan sukses
         return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil diperbarui.');
     }
-    
+
     public function destroy(string $id)
     {
         $guru = Guru::findOrFail($id);
+
+        if ($guru->status === 'Aktif') {
+            return redirect()->route('Operator.Guru.index')->with('error', 'Guru dengan status "Aktif" tidak dapat dihapus.');
+        }
+
         $guru->delete();
         return redirect()->route('Operator.Guru.index')->with('success', 'Guru berhasil dihapus.');
     }

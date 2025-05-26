@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator | Create Kurikulum</title>
+    <title>Operator | Kurikulum</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         /* General Styles */
@@ -238,56 +240,23 @@
                 padding: 15px 0;
             }
         }
-
-        /* Breadcrumb Styling */
-        .breadcrumb {
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .breadcrumb-item a {
-            color: #00bfae;
-            text-decoration: none;
-        }
-
-        .breadcrumb-item a:hover {
-            color: #004d40;
-            text-decoration: underline;
-        }
-
-        .breadcrumb-item.active {
-            color: #00796b;
-        }
-
-        .alert-danger {
-            color: #e74c3c;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 5px;
-        }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="header">
+     <!-- Header -->
+     <div class="header">
         <h1 class="text-2xl font-bold text-white">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
         </h1>
-
+        
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
                 <div class="flex flex-col items-center">
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50"
-                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
-                    width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
@@ -305,32 +274,27 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}"
-                        class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
-                        <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
+                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-black p-2 rounded-lg shadow  hover:bg--500">
+                        <i class="fas fa-calendar-alt text-black mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}"
-                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}"
-                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}"
-                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}"
-                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>

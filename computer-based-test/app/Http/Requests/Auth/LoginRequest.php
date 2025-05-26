@@ -91,7 +91,7 @@ class LoginRequest extends FormRequest
         }
 
         // Cek status untuk siswa, guru, dan operator
-        $siswa = Siswa::where('id_user', $user->id)->first();
+        $siswa = siswa::where('id_user', $user->id)->first();
         if ($siswa && $siswa->status === 'Tidak Aktif') {
             throw ValidationException::withMessages([
                 'identifier' => 'Akun siswa Anda tidak aktif.',

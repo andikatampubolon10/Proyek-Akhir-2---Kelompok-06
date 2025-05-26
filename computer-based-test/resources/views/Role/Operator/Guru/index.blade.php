@@ -99,7 +99,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            background: linear-gradient(to bottom,#00796b, #00bfae, #00796b);
+            background: linear-gradient(to bottom, #00796b, #00bfae, #00796b);
             width: 260px;
             padding: 25px 15px;
             position: fixed;
@@ -111,7 +111,7 @@
             gap: 20px;
             transition: all 0.3s ease;
             z-index: 900;
-       
+
         }
 
         .sidebar a {
@@ -145,8 +145,8 @@
 
         /* Button Styles */
         .btn-add-top-right {
-                position: absolute;
-                top: 100px;
+            position: absolute;
+            top: 100px;
             right: 30px;
             background-color: #00bfae;
             color: white;
@@ -247,19 +247,22 @@
         <h1 class="text-2xl font-bold text-white">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
         </h1>
-        
+
         <div class="relative dropdown">
             <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
                 <div class="flex flex-col items-center">
                     <span class="text-white">Welcome, Operator</span>
                     <span class="text-white font-semibold">{{ $user->name }}</span>
                 </div>
-                <img alt="Profile picture" class="rounded-full ml-4" height="50" src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg" width="50">
+                <img alt="Profile picture" class="rounded-full ml-4" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/sG3g-w8cayIo0nXWyycQx8dmzPb0_0-Zc6iv6Fls36s.jpg"
+                    width="50">
             </div>
             <div id="dropdown-menu" class="dropdown-menu">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    <button type="submit"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
                 </form>
             </div>
         </div>
@@ -270,27 +273,32 @@
         <div class="sidebar">
             <ul>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kurikulum.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kurikulum.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-calendar-alt text-white mr-2"></i> Kurikulum
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.MataPelajaran.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.MataPelajaran.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-book text-white mr-2"></i> Mata Pelajaran
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Kelas.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Kelas.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-home text-white mr-2"></i> Kelas
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Guru.index') }}" class="flex items-center text-white p-2 rounded-lg shadow hover:bg-blue-500">
-                        <i class="fas fa-chalkboard-teacher text-white mr-2"></i> Daftar Guru
+                    <a href="{{ route('Operator.Guru.index') }}"
+                        class="flex items-center text-black p-2 rounded-lg shadow hover:bg-blue-500">
+                        <i class="fas fa-chalkboard-teacher text-black mr-2"></i> Daftar Guru
                     </a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('Operator.Siswa.index') }}" class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
+                    <a href="{{ route('Operator.Siswa.index') }}"
+                        class="flex items-center text-white p-2 rounded-lg hover:bg-blue-500">
                         <i class="fas fa-user-graduate text-white mr-2"></i> Daftar Siswa
                     </a>
                 </li>
@@ -299,48 +307,62 @@
 
         <!-- Main Content -->
         <div class="main-content">
- 
-                <div class="flex justify-end mb-4">
-                    <a href="{{ route('Operator.Guru.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
-                        <i class="fas fa-plus mr-2"></i> Tambahkan
-                    </a>
-                </div>
-                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold mb-4 text-blue-600">Teacher Information</h2>
-                    <div class="space-y-4">
-                        @foreach ($gurus as $teacher)
-                            <div class="bg-gray-100 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
-                                <div class="mb-4 md:mb-0">
-                                    <h2 class="text-xl font-semibold text-blue-600 mb-2">{{ $teacher->nama_guru }}</h2>
-                                    <p class="text-base text-gray-700">NIP: <span class="text-black text-lg">{{ $teacher->nip }}</span></p>
-                                    <p class="text-base text-gray-700">Email: <span class="text-black text-lg">{{ $teacher->user->email }}</span></p>
-                                    <p class="text-base text-gray-700">Status Akun: <span class="text-black text-lg">{{ $teacher->status }}</span></p>
-                                </div>                            
 
-                                <div class="flex space-x-5">
-                                    <div>
-                                        <form action="{{ route('Operator.Guru.destroy', $teacher->id_guru) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 flex items-center hover:text-red-400">
-                                                <i class="fas fa-trash-alt mr-1"></i> DELETE
-                                            </button>
-                                        </form>
+            <div class="flex justify-end mb-4">
+                <a href="{{ route('Operator.Guru.create') }}"
+                    class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                    <i class="fas fa-plus mr-2"></i> Tambahkan
+                </a>
+            </div>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4 text-blue-600">Informasi Guru</h2>
+                <div class="space-y-4">
+                    @foreach ($gurus as $teacher)
+                        <div
+                            class="bg-gray-100 p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div class="mb-4 md:mb-0">
+                                <h2 class="text-xl font-semibold text-blue-600 mb-2">{{ $teacher->nama_guru }}</h2>
+                                <p class="text-base text-gray-700">NIP: <span
+                                        class="text-black text-lg">{{ $teacher->nip }}</span></p>
+                                <p class="text-base text-gray-700">Email: <span
+                                        class="text-black text-lg">{{ $teacher->user->email }}</span></p>
+                                <p class="text-base text-gray-700">Status Akun: <span
+                                        class="text-black text-lg">{{ $teacher->status }}</span></p>
+                            </div>
+
+                            <div class="flex space-x-5">
+                                @if (session('error'))
+                                    <div class="text-red-500 mb-2">
+                                        {{ session('error') }}
                                     </div>
-                                    <div>
-                                        <form action="{{ route('Operator.Guru.edit', $teacher->id_guru) }}" method="GET">
-                                            <button type="submit" class="text-blue-500 flex items-center hover:text-blue-400">
-                                                <i class="fas fa-edit mr-1"></i> EDIT
-                                            </button>
-                                        </form>
-                                    </div>
+                                @endif
+                                <div>
+                                    <form action="{{ route('Operator.Guru.destroy', $teacher->id_guru) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="text-red-500 flex items-center hover:text-red-400">
+                                            <i class="fas fa-trash-alt mr-1"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="{{ route('Operator.Guru.edit', $teacher->id_guru) }}" method="GET">
+                                        <button type="submit"
+                                            class="text-blue-500 flex items-center hover:text-blue-400">
+                                            <i class="fas fa-edit mr-1"></i> Edit
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Modal -->
@@ -352,7 +374,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if(session('success'))
+                    @if (session('success'))
                         {{ session('success') }}
                     @endif
                 </div>
@@ -363,27 +385,27 @@
         </div>
     </div>
 
-       <!-- JavaScript to show modal if success message exists and auto-close after 3 seconds -->
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-       <script>
-           // Menampilkan modal otomatis jika session success ada
-           @if(session('success'))
-               var myModal = new bootstrap.Modal(document.getElementById('successModal'));
-               myModal.show();
-   
-               // Menutup modal setelah 3 detik
-               setTimeout(function() {
-                   myModal.hide();
-               }, 3000); // 3000ms = 3 detik
-           @endif
+    <!-- JavaScript to show modal if success message exists and auto-close after 3 seconds -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Menampilkan modal otomatis jika session success ada
+        @if (session('success'))
+            var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+            myModal.show();
+
+            // Menutup modal setelah 3 detik
+            setTimeout(function() {
+                myModal.hide();
+            }, 3000); // 3000ms = 3 detik
+        @endif
 
 
         // Function to toggle dropdown visibility
         function toggleDropdown() {
-           const dropdown = document.getElementById("dropdown-menu");
-           dropdown.classList.toggle("show");
-       }
-       </script>
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+    </script>
 </body>
 
 </html>

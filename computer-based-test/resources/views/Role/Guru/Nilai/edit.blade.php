@@ -363,10 +363,13 @@
                     Jumlah persentase tidak boleh lebih dari 100%.
                 </div>
 
-                <button type="submit"
-                    class="mt-6 w-full px-4 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition flex justify-center items-center font-semibold text-lg">
-                    <i class="fa fa-save mr-2"></i> Simpan
-                </button>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-400">
+                        <span>Simpan</span>
+                        <i class="fas fa-check ml-2"></i>
+                    </button>
+                </div>
             </form>
 
         </div>
